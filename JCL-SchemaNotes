@@ -1,0 +1,33 @@
+Company
+
+_Id (assigned by db)
+DateCrated (assigned by db)
+Company Name: String
+Contact: String
+PhoneNumber: String
+E-mail: String
+AddressLine01: String
+AddressLine02: String
+AddressLine03: String
+AddressCity: String
+AddressState: String
+AddressZip: String
+CompanyNotes: String
+DevicesInShop: [Array of DeviceIds.]
+
+Device
+
+_id (assigned by db)
+_companyId (assigned by db) - foreign key
+DateCreated
+type : from dropdown?
+model
+vin
+serial
+descriptionOfProblem
+repairNotes
+
+
+
+
+
