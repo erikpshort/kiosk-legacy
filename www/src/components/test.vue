@@ -9,10 +9,11 @@
 
     <!-- Dropdown Structure -->
     <ul id='dropdown1' class='dropdown-content'>
-      <li><span @click="A_Clicked('1')">one</span></li>
-      <li><span @click="A_Clicked('2')">two</span></li>
-      <li><span @click="A_Clicked('3')">three</span></li>
+      <li><span @click="A_Clicked('1')">Chainsaw</span></li>
+      <li><span @click="A_Clicked('2')">Two-Stroke</span></li>
+      <li><span @click="A_Clicked('3')">Four-Stroke</span></li>
     </ul>
+
 
     <a id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Make</a>
 
