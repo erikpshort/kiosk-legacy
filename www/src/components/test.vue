@@ -5,7 +5,7 @@
 
 
     <!-- Dropdown Trigger -->
-    <a id='btn01' class='dropdown-button btn red' href='#' data-activates='dropdown1'>Button A</a>
+    <a id='btn01' class='dropdown-button btn red' href='#' data-activates='dropdown1'>Equipment Type</a>
 
     <!-- Dropdown Structure -->
     <ul id='dropdown1' class='dropdown-content'>
@@ -14,8 +14,7 @@
       <li><span @click="A_Clicked('3')">three</span></li>
     </ul>
 
-     Dropdown Trigger 
-    <a id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Button B</a>
+    <a id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Make</a>
 
     <!-- Dropdown Structure -->
     <ul id='dropdown2' class='dropdown-content'>
@@ -24,7 +23,32 @@
       <li><span @click="B_Clicked('3')">three</span></li>
     </ul>
 
+    <a id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Model</a>
 
+    <!-- Dropdown Structure -->
+    <ul id='dropdown2' class='dropdown-content'>
+      <li><span @click="B_Clicked('1')">one</span></li>
+      <li><span @click="B_Clicked('2')">two</span></li>
+      <li><span @click="B_Clicked('3')">three</span></li>
+    </ul>
+
+        <a id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Tune / Repair</a>
+
+    <!-- Dropdown Structure -->
+    <ul id='dropdown2' class='dropdown-content'>
+      <li><span @click="B_Clicked('1')">one</span></li>
+      <li><span @click="B_Clicked('2')">two</span></li>
+      <li><span @click="B_Clicked('3')">three</span></li>
+    </ul>
+
+        <a id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Regular / Rush</a>
+
+    <!-- Dropdown Structure -->
+    <ul id='dropdown2' class='dropdown-content'>
+      <li><span @click="B_Clicked('1')">one</span></li>
+      <li><span @click="B_Clicked('2')">two</span></li>
+      <li><span @click="B_Clicked('3')">three</span></li>
+    </ul>
 
 
   </div>
@@ -38,7 +62,7 @@
     name: 'test',
     data() {
       return {
-        msg: 'This is a test component.'
+        msg: 'This is a test component for button fields'
       }
     },
     methods: {
