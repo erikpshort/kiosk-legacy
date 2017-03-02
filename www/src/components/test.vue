@@ -14,7 +14,7 @@
       <li><span @click="A_Clicked('3')">three</span></li>
     </ul>
 
-    <!-- Dropdown Trigger -->
+     Dropdown Trigger 
     <a id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Button B</a>
 
     <!-- Dropdown Structure -->
@@ -59,25 +59,9 @@
           dom_but01.setAttribute('class', 'dropdown-button btn green')
         }
         //console.log(dom_but01)
-      },
+      }
 
-      B_Clicked: function (code) {
-        console.log("Button B has been clicked with code: ", code)
-        var dom_but02 = document.getElementById("btn02")
-
-        if (code == '1') {
-          dom_but02.innerText = "Option One"
-          dom_but02.setAttribute('class', 'dropdown-button btn green')
-        }
-        else if (code == '2') {
-          dom_but02.innerText = "Option Two"
-          dom_but02.setAttribute('class', 'dropdown-button btn green')
-        }
-        else if (code == '3') {
-          dom_but02.innerText = "Option Three"
-          dom_but02.setAttribute('class', 'dropdown-button btn green')
-        }
-    }
+  }
   }
 
 </script>

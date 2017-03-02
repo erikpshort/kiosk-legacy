@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import CompanyDirectory from '@/components/CompanyDirectory'
 import EnterInfo from '@/components/EnterInfo'
+import CompanyInfo from '@/components/CompanyInfo'
+import test from '@/components/test'
 
 Vue.use(Router)
 
@@ -22,6 +24,16 @@ export default new Router({
       path: '/EnterInfo',
       name: 'EnterInfo',
       component: EnterInfo
+    },
+      {
+      path: '/CompanyInfo',
+      name: 'CompanyInfo',
+      component: CompanyInfo
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: test
     }
   ]
 })
