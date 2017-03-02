@@ -5,6 +5,7 @@
       <div class="row">
         <div class="input-field col s12">
           <!--<i class="material-icons prefix">phone</i>-->
+           <input type="tel" name="number" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$">
           <input id="telephone" type="tel" class="validate">
           <label for="telephone"><span class="placeholder"></span></label>
         </div>

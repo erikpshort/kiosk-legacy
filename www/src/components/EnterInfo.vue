@@ -13,36 +13,41 @@
       </div>
       <div class="row">
         <div class="input-field col s6 offset-s3">
+          
+  <label for="phonenum">Phone Number (format: xxx-xxx-xxxx):</label><br/><br/>
+  <input id="phonenum" type="tel" class=" validate" placeholder=" xxx-xxx-xxxx" pattern="^\d{3}-\d{3}-\d{4}$"  >
+
+    <!--      <input type="tel" name="number" placeholder="XXX-XXX-XXXX" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$">
           <input id="icon_telephone" type="tel" class="validate">
-          <label for="icon_telephone">Telephone</label>
+          <label for="icon_telephone"></label> -->
         </div>
       </div>
 
       <div class="row">
         <div class="input-field col s6 offset-s3">
-          <input id="icon_prefix" type="text" class="validate">
-          <label for="icon_prefix">Street Address</label>
+          <input id="icon_prefix" type="text" placeholder="Street Address" class="validate">
+          <label for="icon_prefix"></label>
         </div>
       </div>
 
       <div class="row">
         <div class="input-field col s6 offset-s3">
-          <input id="icon_prefix" type="text" class="validate">
-          <label for="icon_prefix">City</label>
+          <input id="icon_prefix" type="text" placeholder="City" class="validate">
+          <label for="icon_prefix"></label>
         </div>
       </div>
 
       <div class="row">
         <div class="input-field col s6 offset-s3">
-          <input id="icon_prefix" type="text" class="validate">
-          <label for="icon_prefix">State</label>
+          <input id="icon_prefix" type="text" placeholder="State" class="validate">
+          <label for="icon_prefix"></label>
         </div>
       </div>
 
       <div class="row">
         <div class="input-field col s6 offset-s3">
-          <input id="icon_prefix" type="text" class="validate">
-          <label for="icon_prefix">Zip</label>
+          <input id="icon_prefix" type="text" placeholder="Zip" class="validate">
+          <label for="icon_prefix"></label>
         </div>
       </div>
 
@@ -70,7 +75,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .placeholder {
+  .validate {
     font-size: 36px
   }
   
@@ -80,7 +85,7 @@
   }
 
 ::-webkit-input-placeholder {
- font-size: 14px;
+ font-size: 36px;
  color: #d0cdfa;
  text-transform: uppercase;
  text-transform: uppercase;
