@@ -5,6 +5,7 @@ import CompanyDirectory from '@/components/CompanyDirectory'
 import EnterInfo from '@/components/EnterInfo'
 import CompanyInfo from '@/components/CompanyInfo'
 import test from '@/components/test'
+import backlog from '@/components/backlog'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/test',
       name: 'test',
       component: test
+    },
+    {
+      path: '/backlog',
+      name: 'backlog',
+      component: backlog
     }
   ]
 })
