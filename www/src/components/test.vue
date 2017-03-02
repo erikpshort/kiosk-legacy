@@ -14,43 +14,6 @@
       <li><span @click="A_Clicked('3')">Four-Stroke</span></li>
     </ul>
 
-    <a id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Make</a>
-
-    <!-- Dropdown Structure -->
-    <ul id='dropdown2' class='dropdown-content'>
-      <li><span @click="B_Clicked('1')">one</span></li>
-      <li><span @click="B_Clicked('2')">two</span></li>
-      <li><span @click="B_Clicked('3')">three</span></li>
-    </ul>
-
-    <a id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Model</a>
-
-    <!-- Dropdown Structure -->
-    <ul id='dropdown2' class='dropdown-content'>
-      <li><span @click="B_Clicked('1')">one</span></li>
-      <li><span @click="B_Clicked('2')">two</span></li>
-      <li><span @click="B_Clicked('3')">three</span></li>
-    </ul>
-
-        <a id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Tune / Repair</a>
-
-    <!-- Dropdown Structure -->
-    <ul id='dropdown2' class='dropdown-content'>
-      <li><span @click="B_Clicked('1')">one</span></li>
-      <li><span @click="B_Clicked('2')">two</span></li>
-      <li><span @click="B_Clicked('3')">three</span></li>
-    </ul>
-
-        <a id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Regular / Rush</a>
-
-    <!-- Dropdown Structure -->
-    <ul id='dropdown2' class='dropdown-content'>
-      <li><span @click="B_Clicked('1')">one</span></li>
-      <li><span @click="B_Clicked('2')">two</span></li>
-      <li><span @click="B_Clicked('3')">three</span></li>
-    </ul>
-
-
   </div>
 
   </div>
