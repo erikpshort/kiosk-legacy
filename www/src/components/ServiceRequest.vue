@@ -1,5 +1,5 @@
 <template>
-  <div class="root">
+  <div class="service-request">
     <h1>{{msg}}</h1>
     <div class="row">
       <div class="col s1">
@@ -55,13 +55,25 @@
 </template>
 
 <script>
+
+  let equipment = {
+    Chainsaw:{
+      models: ['Remmington', 'Makita', 'Polan']
+    },
+    TwoStroke:{
+      models: ['twoStrokeA', 'twoStrokeB', 'twoStrokeC']
+    },
+    FourStroke:{
+      models: ['fourStrokeA', 'fourStrokeB', 'fourStrokeC']
+    },
+  }
+
   export default {
     name: 'test',
     data() {
       return {
         msg: 'Enter Your Service Request',
         showSubmitButton: false,
-
         equipmentTypeGreen: false,
         MakeGreen: false,
         TuneGreen: false,
@@ -74,6 +86,9 @@
         RegularValue: '',
 
       }
+    },
+    mounted(){
+      $('.service-request .dropdown-button').dropdown()
     },
     methods: {
       makeLi: function (dropText) {
@@ -92,7 +107,6 @@
       A_Clicked: function (code) {
         //Set the value of the selection in the local data section.
         this.equipmentTypeValue = code;
-
         //Indicate a selection has been made on this button and check if we should show the submit button.
         this.equipmentTypeGreen = true;
         this.checkShowSubmit()
@@ -100,13 +114,20 @@
         var dom_but01 = document.getElementById("btn01")
         if (code == 'Chainsaw') {
           dom_but01.innerText = code;
-          //populate the make dropdown menu based upon the fact that we have selected chainsaw.
+          //populate the MAKE dropdown menu based upon the fact that we have selected chainsaw.
           var ul02 = document.getElementById('dropdown2')
-          ul02.appendChild(this.makeLi("Remmington"))
-          ul02.appendChild(this.makeLi("Makita"))
-          ul02.appendChild(this.makeLi("Polan"))
 
-          //change the color of the button to green to indicate a choice.
+          //Clear any old li elements from dropdown (will be present if a previous selection was made)
+          while (ul02.childElementCount > 0)
+          {ul02.removeChild(ul02.childNodes[0])}
+          
+          //loop over the equipment chainsaw models object to create the li elements for the second button.
+          for (var i = 0; i < equipment.Chainsaw.models.length; i++)
+          {
+            //populate the choices avaiable on the second button.
+            ul02.appendChild(this.makeLi(equipment.Chainsaw.models[i]))
+          }
+          //change the color of the button to green to indicate a selection has been made.
           dom_but01.setAttribute('class', 'dropdown-button btn green')
         }
         else if (code == '2') {
@@ -159,7 +180,7 @@
         console.log("Tune Value:",this.TuneValue)
         console.log("Regular Value:",this.RegularValue)
       }
-    }
+    },
   }
 </script>
 
