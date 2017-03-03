@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import CompanyDirectory from '@/components/CompanyDirectory'
 import EnterInfo from '@/components/EnterInfo'
-import CompanyInfo from '@/components/CompanyInfo'
+import ConfirmCompanyInfo from '@/components/ConfirmCompanyInfo'
 import ServiceRequest from '@/components/ServiceRequest'
 import backlog from '@/components/backlog'
 import assigned from '@/components/assigned'
@@ -11,6 +11,7 @@ import job from '@/components/job'
 import bluejobs from '@/components/Bluejobs'
 import orangejobs from '@/components/Orangejobs'
 import greenjobs from '@/components/Greenjobs'
+import EditInfo from '@/components/EditInfo'
 
 
 
@@ -34,9 +35,9 @@ export default new Router({
       component: EnterInfo
     },
       {
-      path: '/CompanyInfo',
-      name: 'CompanyInfo',
-      component: CompanyInfo
+      path: '/ConfirmCompanyInfo',
+      name: 'ConfirmCompanyInfo',
+      component: ConfirmCompanyInfo
     },
     {
       path: '/ServiceRequest',
@@ -72,6 +73,11 @@ export default new Router({
       path: '/greenjobs',
       name: 'greenjobs',
       component: greenjobs
-    }
+    },
+    {
+      path: '/EditInfo',
+      name: 'EditInfo',
+      component: EditInfo
+    },
   ]
 })

@@ -5,15 +5,6 @@
     <div class="container">
 
     <form class="col s12">
-<div class="row">
-        <div class="input-field col s6 offset-s3 offset-s3">
-          <input type="text" name="Name" placeholder="Name" class="validate">
-          <!--<label for="icon_prefix">Company name</label>-->
-        </div>
-      </div>
-
-
-
       <div class="row">
         <div class="input-field col s6 offset-s3 offset-s3">
           <input v-model="companyName" type="text" name="CompanyName" placeholder="Company Name" class="validate">
@@ -64,10 +55,6 @@
       <button @click="returnCompanyInfo()" class="waves-effect waves-light btn ">Submit</button>
       </div>
 
-      <div class="row">
-      <button @click="returnCompanyInfo()" class="waves-effect waves-light btn "><router-link :to="'/'">Test Button</router-link></button>
-      </div>
-
     </form>
     </div>
 
@@ -75,18 +62,17 @@
 </template>
 
 <script>
-  import router from '../router/index.js'
   export default {
     name: 'EnterInfo',
     data() {
       return {
-        companyName: '',
-        phoneNumber: '',
-        streetAddress: '',
-        city: '',
-        state: '',
-        zip: '',
-        msg: 'Please Enter Your Information'
+        msg: 'Please Edit Your Company Information',
+        companyName: 'default-CompanyName',
+        phoneNumber: 'default-PhoneNumber',
+        streetAddress: 'default-streetAddress',
+        city: 'default-city',
+        state: 'default-state',
+        zip: 'default-zip'
       }
     },
     methods: {
