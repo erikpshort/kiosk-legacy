@@ -22,7 +22,7 @@
         </ul>
       </div>
       <div class="col s2">
-        <input placeholder="Model" id="Model" type="text">
+        <input v-model="ModelValue" placeholder="Model" id="Model" type="text">
       </div>
       <div class="col s2">
         <a id='btn03' class='dropdown-button btn red' href='#' data-activates='dropdown3'>Tune / Repair</a>
@@ -44,7 +44,7 @@
         <div class="col s12">
           <!--<button>Submit</button>-->
           <div v-show="showSubmitButton" class="submitButton">
-            <a class="waves-effect waves-light btn ">Submit</a>
+            <button @click="returnSelection()" class="waves-effect waves-light btn ">Submit</button>
           </div>
         </div>
       </div>
@@ -61,15 +61,25 @@
       return {
         msg: 'Enter Your Service Request',
         showSubmitButton: false,
+
         equipmentTypeGreen: false,
         MakeGreen: false,
         TuneGreen: false,
         Regular: false,
+
+        equipmentTypeValue: '',
+        MakeValue: '',
+        ModelValue: '',
+        TuneValue: '',
+        RegularValue: '',
+
       }
     },
     methods: {
       makeLi: function (dropText) {
-        //Create the new list and span elements.
+        //This function creates the elements to be used in the dropdown for the second, "B" button.
+        //dropText is the text to be shown in the dropdown menu.
+        //It returns an li element that needs to be added to the ul tag in the calling function.
         var new_li = document.createElement("li")
         var new_span = document.createElement("span")
         new_span.innerText = dropText
@@ -78,23 +88,25 @@
         return new_li
       },
 
+      //This function called when a selection is made in the dropdown for the first, "A" button.
       A_Clicked: function (code) {
+        //Set the value of the selection in the local data section.
+        this.equipmentTypeValue = code;
+
+        //Indicate a selection has been made on this button and check if we should show the submit button.
         this.equipmentTypeGreen = true;
         this.checkShowSubmit()
+
         var dom_but01 = document.getElementById("btn01")
-        var dom_but02 = document.getElementById("btn02")
-        var dom_but03 = document.getElementById("btn03")
-        var dom_but04 = document.getElementById("btn04")
-        var dom_but05 = document.getElementById("btn05")
         if (code == 'Chainsaw') {
           dom_but01.innerText = code;
-          //set the options for the make dropdown based upon the fact that we have selected chainsaw.
+          //populate the make dropdown menu based upon the fact that we have selected chainsaw.
           var ul02 = document.getElementById('dropdown2')
-          //we can add makes in this section.
           ul02.appendChild(this.makeLi("Remmington"))
           ul02.appendChild(this.makeLi("Makita"))
           ul02.appendChild(this.makeLi("Polan"))
-          //change the color of the button to green to indicated a successful choice.
+
+          //change the color of the button to green to indicate a choice.
           dom_but01.setAttribute('class', 'dropdown-button btn green')
         }
         else if (code == '2') {
@@ -106,41 +118,51 @@
           dom_but01.setAttribute('class', 'dropdown-button btn green')
         }
       },
+      //This function called when a selection is made in the dropdown for the second, "B" button.
       B_Clicked: function (code) {
+        this.MakeValue = code;
         this.MakeGreen = true;
         this.checkShowSubmit()
         var dom_but02 = document.getElementById("btn02")
-        console.log("Button B has been clicked to indicate make: ", code)
         dom_but02.setAttribute('class', 'dropdown-button btn green')
         dom_but02.innerText = code;
-        //console.log(dom_but02)
       },
+      //This function called when a selection is made in the dropdown for the third, "C" button.
       C_Clicked: function (code) {
+        this.TuneValue = code;
         this.TuneGreen = true;
         this.checkShowSubmit()
         var dom_but03 = document.getElementById("btn03")
-        console.log("Button C has been clicked to indicate tune up or repair: ", code)
         dom_but03.setAttribute('class', 'dropdown-button btn green')
         dom_but03.innerText = code;
-        //console.log(dom_but02)
       },
+      //This function called when a selection is made in the dropdown for the fourth, "D" button.
       D_Clicked: function (code) {
+        this.RegularValue = code;
         this.Regular = true;
         this.checkShowSubmit()
         var dom_but04 = document.getElementById("btn04")
-        console.log("Button D has been clicked to indicate expediate or regular service: ", code)
         dom_but04.setAttribute('class', 'dropdown-button btn green')
         dom_but04.innerText = code;
-        //console.log(dom_but02)
       },
       checkShowSubmit: function () {
         if (this.Regular && this.TuneGreen && this.MakeGreen && this.equipmentTypeGreen) {
           this.showSubmitButton = true;
         }
       },
+      //this is a placeholder function to report out the values that are to be sent on submit.
+      returnSelection: function(){
+        console.log("---submit has been pressed---")
+        console.log("Equipment Type:",this.equipmentTypeValue)
+        console.log("Make Value:",this.MakeValue)
+        console.log("Model Value:",this.ModelValue)
+        console.log("Tune Value:",this.TuneValue)
+        console.log("Regular Value:",this.RegularValue)
+      }
     }
   }
 </script>
 
 <style>
 </style>
+
