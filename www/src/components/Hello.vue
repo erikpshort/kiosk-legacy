@@ -43,7 +43,7 @@
     },
     methods: {
       phoneNum(phone) {
-        console.log(phone)
+        console.log("Phone number entered: ",phone)
         this.activeCustomers.forEach(customer => {
           customer.cellPhone.forEach(num => {
             if (num == phone) {
