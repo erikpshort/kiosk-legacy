@@ -98,7 +98,9 @@ export default {
                 state.activeCustomers = res.data.data
             }).catch(handleError)
         },
+
         getArchivedCustomers() {
+
             api('archivedcustomers').then(res => {
                 state.archivedCustomers = res.data.data
             }).catch(handleError)
