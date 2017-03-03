@@ -40,7 +40,7 @@
 </template>
 
 <script>
-    import job from './Job'
+  
 
 
     export default {
