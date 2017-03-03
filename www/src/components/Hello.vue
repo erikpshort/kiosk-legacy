@@ -17,12 +17,9 @@
 
     <div class="row">
       <a class="waves-effect waves-light btn" @click="phoneNum(phone)">ENTER</a>
-      <div class="row">
-        <a class="waves-effect waves-light btn">
-          <router-link :to="'/ConfirmCompanyInfo'">ENTER</router-link>
-        </a>
       </div>
-
+      <div class="row">
+  
       <div class="row">
         <h4>or</h4>
       </div>
