@@ -17,25 +17,30 @@
 
     <div class="row">
       <a class="waves-effect waves-light btn" @click="phoneNum(phone)">ENTER</a>
- <div class="row">
-    <a class="waves-effect waves-light btn"><router-link :to="'/ConfirmCompanyInfo'">ENTER</router-link></a>
-    </div>
-    <div class="row">
-      <h4>or</h4>
-    </div>
-    <div class="row">
-      <a class="waves-effect waves-light btn">
-        <router-link :to="'/companyDirectory'">Find By Company Name</router-link>
-      </a>
-    </div>
+      <div class="row">
+        <a class="waves-effect waves-light btn">
+          <router-link :to="'/ConfirmCompanyInfo'">ENTER</router-link>
+        </a>
+      </div>
 
-    <div class="row">
-      <a class="waves-effect waves-light btn">
-        <router-link :to="'/EnterInfo'">Register as a New Customer</router-link>
-      </a>
-    </div>
+      <div class="row">
+        <h4>or</h4>
+      </div>
 
-  </div>
+      <div class="row">
+        <a class="waves-effect waves-light btn">
+          <router-link :to="'/companyDirectory'">Find By Company Name</router-link>
+        </a>
+      </div>
+
+      <div class="row">
+        <a class="waves-effect waves-light btn">
+          <router-link :to="'/EnterInfo'">Register as a New Customer</router-link>
+        </a>
+      </div>
+
+    </div>
+    </div>
 </template>
 
 <script>
@@ -62,11 +67,11 @@
                   return this.$router.push('companyDirectory')
                 }
               })
-            })){}
-            else{
+            })) { }
+            else {
               this.$root.$data.store.state.activePhone = phone
               return this.$router.push('EnterInfo')
-            }        
+            }
           })
         })
       }
@@ -96,24 +101,29 @@
   .placeholder {
     font-size: 36px
   }
+
   #telephone {
     font-size: 36px;
     text-align: center;
   }
+
   .validate {
     font-size: 36px
   }
+
   #telephone {
     font-size: 36px;
     text-align: center;
   }
+
    ::-webkit-input-placeholder {
     font-size: 36px;
     color: #d0cdfa;
     text-transform: uppercase;
     text-transform: uppercase;
     text-align: center;
-   }
+  }
+
   input {
     text-align: center;
   }
