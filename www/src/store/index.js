@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 let api = axios.create({
-    baseURL: 'http://localhost/api/',
+    baseURL: 'http://localhost:3000/api/',
     timeout: 20000,
     withCredentials: true
 
@@ -27,6 +27,7 @@ let state = {
     archivedJob: [],
     archivedJobs: [],
     customerJobs: [],
+    activePhone: [],
     error: {}
 
 }
@@ -39,7 +40,7 @@ export default {
 
     //ALL DATA LIVES IN THE STATE
     state,
-    //ACTIONS ARE RESPONSIBLE FOR MAKING ALL ASYNC CALLS
+    //ACTIONS ARE RESPONSIBLE FOR MAKING ALL ASYNC CALLSf
     actions: {
         //REGISTER - LOGIN - LOGOUT - AUTHENTICATION
         register(user) {
@@ -97,7 +98,9 @@ export default {
                 state.activeCustomers = res.data.data
             }).catch(handleError)
         },
-        getActiveCustomers() {
+
+        getArchivedCustomers() {
+
             api('archivedcustomers').then(res => {
                 state.archivedCustomers = res.data.data
             }).catch(handleError)
