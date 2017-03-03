@@ -17,8 +17,8 @@
               <h4>msmith@aol.com</h4>
             </div>
             <div class="card-action">
-              <a href="#">Is Correct</a>
-              <a href="#">Is Not Correct</a>
+              <a href="#"><router-link :to="'/ServiceRequest'">Is Correct</router-link></a>
+              <a href="#"><router-link :to="'/EditInfo'">Is Not Correct</router-link></a>
             </div>
           </div>
         </div>

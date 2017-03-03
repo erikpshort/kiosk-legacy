@@ -55,10 +55,6 @@
       <button @click="returnCompanyInfo()" class="waves-effect waves-light btn ">Submit</button>
       </div>
 
-      <div class="row">
-      <button @click="returnCompanyInfo()" class="waves-effect waves-light btn "><router-link :to="'/'">Test Button</router-link></button>
-      </div>
-
     </form>
     </div>
 
@@ -66,18 +62,17 @@
 </template>
 
 <script>
-  import router from '../router/index.js'
   export default {
     name: 'EnterInfo',
     data() {
       return {
-        msg: 'Please Enter Your Company Information',
-        companyName: '',
-        phoneNumber: '',
-        streetAddress: '',
-        city: '',
-        state: '',
-        zip: ''
+        msg: 'Please Edit Your Company Information',
+        companyName: 'default-CompanyName',
+        phoneNumber: 'default-PhoneNumber',
+        streetAddress: 'default-streetAddress',
+        city: 'default-city',
+        state: 'default-state',
+        zip: 'default-zip'
       }
     },
     methods: {
