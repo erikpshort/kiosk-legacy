@@ -29,36 +29,39 @@
 
           </div>
         </div>
-      <div class="row">
-        <div class="input-field col s6 offset-s3">
-          <input v-model="streetAddress" id="icon_prefix" type="text" placeholder="Street Address" class="validate">
-          <label for="icon_prefix"></label>
+        <div class="row">
+          <div class="input-field col s6 offset-s3">
+            <input v-model="streetAddress" id="icon_prefix" type="text" placeholder="Street Address" class="validate">
+            <label for="icon_prefix"></label>
+          </div>
         </div>
 
-      <div class="row">
-        <div class="input-field col s6 offset-s3">
-          <input v-model="city" id="icon_prefix" type="text" placeholder="City" class="validate">
-          <label for="icon_prefix"></label>
+        <div class="row">
+          <div class="input-field col s6 offset-s3">
+            <input v-model="city" id="icon_prefix" type="text" placeholder="City" class="validate">
+            <label for="icon_prefix"></label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6 offset-s3">
+            <input v-model="state" id="icon_prefix" type="text" placeholder="State" class="validate">
+            <label for="icon_prefix"></label>
+          </div>
         </div>
 
-      <div class="row">
-        <div class="input-field col s6 offset-s3">
-          <input v-model="state" id="icon_prefix" type="text" placeholder="State" class="validate">
-          <label for="icon_prefix"></label>
+        <div class="row">
+          <div class="input-field col s6 offset-s3">
+            <input v-model="zip" id="icon_prefix" type="text" placeholder="Zip" class="validate">
+            <label for="icon_prefix"></label>
+          </div>
+          <div class="row">
+            <button @click="returnCompanyInfo()" class="waves-effect waves-light btn ">Submit</button>
+          </div>
         </div>
 
-      <div class="row">
-        <div class="input-field col s6 offset-s3">
-          <input v-model="zip" id="icon_prefix" type="text" placeholder="Zip" class="validate">
-          <label for="icon_prefix"></label>
+        <div class="row">
+          <button @click="returnCompanyInfo()" class="waves-effect waves-light btn "><router-link :to="'/'">Test Button</router-link></button>
         </div>
-      <div class="row">
-      <button @click="returnCompanyInfo()" class="waves-effect waves-light btn ">Submit</button>
-      </div>
-
-      <div class="row">
-      <button @click="returnCompanyInfo()" class="waves-effect waves-light btn "><router-link :to="'/'">Test Button</router-link></button>
-      </div>
 
       </form>
     </div>
@@ -88,18 +91,18 @@
         return this.$root.$data.store.state.activePhone
       }
     },
-     methods: {
-      returnCompanyInfo : function(){
-      console.log("--------------------------------")
-      console.log("Company Name:", this.companyName)
-      console.log("Phone Number:", this.phoneNumber)
-      console.log("Street Address:", this.streetAddress)
-      console.log("City", this.city)
-      console.log("State:", this.state)
-      console.log("Zip:", this.companyName)
-      console.log("--------------------------------")
-      this.$router.push('ConfirmCompanyInfo')
-      } 
+    methods: {
+      returnCompanyInfo: function () {
+        console.log("--------------------------------")
+        console.log("Company Name:", this.companyName)
+        console.log("Phone Number:", this.phoneNumber)
+        console.log("Street Address:", this.streetAddress)
+        console.log("City", this.city)
+        console.log("State:", this.state)
+        console.log("Zip:", this.companyName)
+        console.log("--------------------------------")
+        this.$router.push('ConfirmCompanyInfo')
+      }
     }
   }
 
@@ -112,18 +115,20 @@
   }
 
 
+
   #telephone {
     font-size: 36px;
     text-align: center;
   }
 
-  ::-webkit-input-placeholder {
+   ::-webkit-input-placeholder {
     font-size: 36px;
     color: #d0cdfa;
     text-transform: uppercase;
     text-transform: uppercase;
     text-align: center;
   }
+
 
 
   input {

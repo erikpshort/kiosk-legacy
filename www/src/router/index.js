@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import CompanyDirectory from '@/components/CompanyDirectory'
 import EnterInfo from '@/components/EnterInfo'
-import ConfirmCompanyInfo from '@/components/ConfirmCompanyInfo'
+import CompanyInfo from '@/components/CompanyInfo'
 import ServiceRequest from '@/components/ServiceRequest'
 import backlog from '@/components/backlog'
 import assigned from '@/components/assigned'
@@ -35,9 +35,9 @@ export default new Router({
       component: EnterInfo
     },
       {
-      path: '/ConfirmCompanyInfo',
-      name: 'ConfirmCompanyInfo',
-      component: ConfirmCompanyInfo
+      path: '/CompanyInfo',
+      name: 'CompanyInfo',
+      component: CompanyInfo
     },
     {
       path: '/ServiceRequest',
