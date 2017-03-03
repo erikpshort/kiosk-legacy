@@ -8,9 +8,9 @@ import test from '@/components/test'
 import backlog from '@/components/backlog'
 import assigned from '@/components/assigned'
 import job from '@/components/job'
-import bluejob from '@/components/Bluejobs'
-import orangejob from '@/components/Orangejobs'
-import greenjob from '@/components/Greenjobs'
+import bluejobs from '@/components/Bluejobs'
+import orangejobs from '@/components/Orangejobs'
+import greenjobs from '@/components/Greenjobs'
 
 
 
