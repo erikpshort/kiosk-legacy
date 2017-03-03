@@ -29,6 +29,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -91,21 +92,30 @@
     font-size: 36px
   }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> e89e7e09ddbf1a39452fb38221535e00def5b953
   #telephone {
     font-size: 36px;
     text-align: center;
   }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> e89e7e09ddbf1a39452fb38221535e00def5b953
   .validate {
     font-size: 36px
   }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> e89e7e09ddbf1a39452fb38221535e00def5b953
   #telephone {
     font-size: 36px;
     text-align: center;
@@ -119,8 +129,11 @@
     text-align: center;
   }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> e89e7e09ddbf1a39452fb38221535e00def5b953
   input {
     text-align: center;
   }
