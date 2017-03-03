@@ -41,6 +41,7 @@ export default {
     state,
     //ACTIONS ARE RESPONSIBLE FOR MAKING ALL ASYNC CALLS
     actions: {
+        //REGISTER - LOGIN - LOGOUT - AUTHENTICATION
         register(user) {
             api.post('register', user)
                 .then(res => {
@@ -70,6 +71,7 @@ export default {
                 state.activeUser = res.data.data
             }).catch(handleError)
         },
+        //GETS
         getActiveJobs() {
             api('activejobs').then(res => {
                 state.activeJobs = res.data.data
@@ -80,143 +82,55 @@ export default {
                 state.archivedJobs = res.data.data
             }).catch(handleError)
         },
-        getActiveAdmins(){
+        getActiveAdmins() {
             api('activeadmins').then(res => {
                 state.activeAdmins = res.data.data
             }).catch(handleError)
         },
-        getArchivedAdmins(){
+        getArchivedAdmins() {
             api('archivedadmins').then(res => {
                 state.archivedAdmins = res.data.data
             }).catch(handleError)
         },
-        getActiveCustomers(){
+        getActiveCustomers() {
             api('activecustomers').then(res => {
                 state.activeCustomers = res.data.data
             }).catch(handleError)
         },
-        getActiveCustomers(){
-            api('archivedcustomers').then(res =>{
+        getActiveCustomers() {
+            api('archivedcustomers').then(res => {
                 state.archivedCustomers = res.data.data
             }).catch(handleError)
         },
-        getCustomerJobs(custId){
+        getCustomerJobs(custId) {
             api('users/' + custId + '/jobs').then(res => {
                 state.customerJobs = res.data.data
             }).catch(handleError)
+        },
+        //POST
+        postUser(body) {
+            api.post('users', body).then(res => {
+                this.activeCustomer = res.data.data
+                this.getActiveJobs()
+            }).catch(handleError)
+        },
+        postJob(body) {
+            api.post('jobs', body).then(res => {
+                this.activeJob = res.data.data
+                this.getActiveJobs()
+            }).catch(handleError)
+        },
+        //PUTS
+        changeUser(userId, body) {
+            api.put('users/' + userId, body).then(res => {
+                this.activeAdmin()
+                this.activeCustomers()
+            }).catch(handleError)
+        },
+        changeJob(jobId, body) {
+            api.put('job' + jobId, body).then(res => {
+                this.activeJobs()
+            }).catch(handleError)
         }
-
-        // getCollabBoards(){
-        //     api('sharedBoards').then(res => {
-        //         state.collabBoards = res.data.data
-        //     }).catch(handleError)
-        // },
-        // getUserBoards() {
-        //     api('userboards').then(res => {
-        //         state.userBoards = res.data.data
-        //     }).catch(handleError)
-        // },
-        // getBoards() {
-        //     api('boards').then(res => {
-        //         state.boards = res.data.data
-        //     }).catch(handleError)
-        // },
-        //COPY ALL BELOW
-        // getBoard(id) {
-        //     api('boards/' + id)
-        //         .then(res => {
-        //             state.activeBoard = res.data.data
-        //         })
-        //         .catch(handleError)
-        // },
-        // setBoard(board) {
-        //     state.activeBoard = board
-        // },
-        // createBoard(board) {
-        //     api.post('boards', board)
-        //         .then(res => {
-        //             this.getUserBoards()
-        //         })
-        //         .catch(handleError)
-        // },
-        // changeBoard(id, board) {
-        //     api.put('boards/' + id, board)
-        //         .then(res => {
-        //             this.getUserBoards()
-        //         })
-        // },
-        // deleteBoard(id) {
-        //     api.delete('boards/' + id)
-        //         .then(res => {
-        //             this.getUserBoards()
-        //         })
-        // },
-        //TO HERE
-        // getLists() {
-        //     api('lists').then(res => {
-        //         state.lists = res.data.data
-        //     }).catch(handleError)
-        // },
-        //     getLists(id) {
-        //         api('boards/' + id + '/lists')
-        //             .then(res => {
-        //                 state.lists = res.data.data
-        //             })
-        //             .catch(handleError)
-        //     },
-        //     createList(list) {
-        //         api.post('lists', list)
-        //             .then(res => {
-        //                 this.getLists(list.boardId)
-        //             })
-        //             .catch(handleError)
-        //     },
-        //     changeList(id, obj, boardId){
-        //         api.put('lists/' + id, obj)
-        //         .then(res => {
-        //             this.getLists(boardId)
-        //         }).catch(handleError)
-        //     },
-        //     deleteList(id, boardId){
-        //         api.delete('lists/' + id)
-        //         .then(res=>{
-        //             this.getLists(boardId)
-        //         })
-        //         .catch(handleError)
-        //     },
-        //     // getTasks() {
-        //     //     api('tasks').then(res => {
-        //     //         state.tasks = res.data.data
-        //     //     }).catch(handleError)
-        //     // },
-        //     getTasks(id) {
-        //         api('boards/' + id + '/tasks' )
-        //             .then(res => {
-        //                 state.tasks = res.data.data
-        //             })
-        //             .catch(handleError)
-        //     },
-        //     createTask(task) {
-        //         api.post('tasks/', task)
-        //             .then(res => {
-        //                 this.getTasks(task.boardId)
-        //             })
-        //             .catch(handleError)
-        //     },
-        //     changeTask(boardId, object, id){
-        //         api.put('tasks/' + id, object)
-        //         .then(res => {
-        //             this.getTasks(boardId)
-        //         }).catch(handleError)
-        //     },
-        //     deleteTask(x, y, task){
-
-        //         api.delete('tasks/' + x, task)
-        //         .then(res=>{
-        //             this.getTasks(y)
-        //         })
-        //         .catch(handleError)
-
-        // }
     }
 }
