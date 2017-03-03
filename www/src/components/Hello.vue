@@ -3,11 +3,17 @@
     <h1>{{ msg }}</h1>
         <form class="col s12">
       <div class="row">
-        <div class="input-field col s12">
+    
+        <div class="input-field col s6 offset-s3">
           <!--<i class="material-icons prefix">phone</i>-->
-           <input type="tel" name="number" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$">
+<label for="phonenum">Phone Number (format: xxx-xxx-xxxx):</label><br/><br/>
+  <input id="phonenum" type="tel" class=" validate" placeholder=" xxx-xxx-xxxx" pattern="^\d{3}-\d{3}-\d{4}$"  >
+
+
+
+     <!--      <input type="tel" name="number" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$">
           <input id="telephone" type="tel" class="validate">
-          <label for="telephone"><span class="placeholder"></span></label>
+          <label for="telephone"><span class="placeholder"></span></label>  -->
         </div>
       </div>
     </form>
@@ -46,4 +52,25 @@
 .placeholder {font-size: 36px}
 #telephone {font-size: 36px; text-align: center;}
 a {color: white}
+
+  .validate {
+    font-size: 36px
+  }
+  
+  #telephone {
+    font-size: 36px;
+    text-align: center;
+  }
+
+::-webkit-input-placeholder {
+ font-size: 36px;
+ color: #d0cdfa;
+ text-transform: uppercase;
+ text-transform: uppercase;
+ text-align: center;
+}
+
+input {text-align: center;}
+
+
 </style>
