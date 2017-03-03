@@ -48,12 +48,14 @@
           customer.cellPhone.forEach(num => {
             if (num == phone) {
               this.$root.$data.store.state.activeCustomer = customer
-              return this.$router.push('CompanyInfo')
+              this.$root.$data.store.state.activePhone = phone
+              return this.$router.push('ConfirmCompanyInfo')
             } else if (this.activeAdmins.forEach(admin => {
               admin.cellPhone.forEach(num => {
                 if (num == phone) {
                   console.log("else if")
                   this.$root.$data.store.state.activeAdmin = admin
+                  this.$root.$data.store.state.activePhone = phone
                   return this.$router.push('CompanyDirectory')
                 } else {
                   console.log("else")
@@ -92,30 +94,14 @@
     font-size: 36px
   }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> e89e7e09ddbf1a39452fb38221535e00def5b953
   #telephone {
     font-size: 36px;
     text-align: center;
   }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> e89e7e09ddbf1a39452fb38221535e00def5b953
   .validate {
     font-size: 36px
   }
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> e89e7e09ddbf1a39452fb38221535e00def5b953
   #telephone {
     font-size: 36px;
     text-align: center;
@@ -129,11 +115,6 @@
     text-align: center;
   }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> e89e7e09ddbf1a39452fb38221535e00def5b953
   input {
     text-align: center;
   }

@@ -7,10 +7,11 @@ let api = axios.create({
 
 })
 
-// api.post('http://localhost:3000/api/login', {
-//     email: 'erik@erik.com',
-//     password: 'pw123'
-// })
+api.post('http://localhost:3000/api/login', {
+    email: 'erik@erik.com',
+    password: 'erik'
+})
+
 
 //REGISTER ALL DATA HERE
 let state = {
@@ -28,6 +29,7 @@ let state = {
     archivedJobs: [],
     customerJobs: [],
     activePhone: [],
+    loggedInUser: [],
     error: {}
 
 }
@@ -43,27 +45,21 @@ export default {
     //ACTIONS ARE RESPONSIBLE FOR MAKING ALL ASYNC CALLSf
     actions: {
         //REGISTER - LOGIN - LOGOUT - AUTHENTICATION
-        register(user) {
-            api.post('register', user)
+        register(body) {
+            api.post('register', body)
                 .then(res => {
                     state.activeUser = res.data.data
-                    state.loggedOut = false
+                    this.logIn(body)
                 }).catch(handleError)
         },
         logIn(user) {
             api.post('login', user)
                 .then(res => {
-                    state.activeUser = res.data.data
-                    state.loggedOut = false
-                    this.getCollabBoards()
-                    this.getUserBoards()
-                    console.log('Logged In')
-                    console.log(state.loggedOut)
+                    state.loggedInUser = res.data.data
                 }).catch(handleError)
         },
         logOut() {
             api.delete('logOut').then(res => {
-                state.loggedOut = true
             }).catch(handleError)
         },
         authenticate() {
@@ -115,6 +111,7 @@ export default {
             api.post('users', body).then(res => {
                 this.activeCustomer = res.data.data
                 this.getActiveJobs()
+                console.log(this.activeCustomer)
             }).catch(handleError)
         },
         postJob(body) {
