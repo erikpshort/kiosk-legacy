@@ -1,20 +1,19 @@
 <template>
   <div class="companyInfo">
-    <!--<h1>{{ msg }}</h1>-->
 
-  
-<div class="container">
+
+    <div class="container">
       <div class="row">
         <div class="col s12">
           <div class="card blue-grey darken-1">
             <div class="card-content white-text">
-              <!--<span class="card-title">Company/Person Name</span>-->
               <p>Please verify that the information below is correct.</p>
-              <h4>Mary Smith</h4>
-              <h4>123 Main St.</h4>
-              <h4>Appleton, ID 83002</h4>
-              <h4>1-847-263-5500</h4>
-              <h4>msmith@aol.com</h4>
+              <h4>{{customer.company}}</h4>
+              <h4>{{customer.name}}</h4>
+              <h4>{{customer.adress}}</h4>
+              <h4>{{customer.city}}, {{customer.state}} {{customer.zip}}</h4>
+              <h4>{{activePhone}}</h4>
+              <h4>{{customer.email}}</h4>
             </div>
             <div class="card-action">
               <a href="#">Is Correct</a>
@@ -22,8 +21,8 @@
             </div>
           </div>
         </div>
+      </div>
     </div>
-</div>
 
 
   </div>
@@ -36,6 +35,14 @@
       return {
         msg: 'This page shows company information for confirmation.'
       }
+    },
+    computed: {
+      customer() {
+        return this.$root.$data.store.state.activeCustomer
+      },
+      activePhone() {
+        return this.$root.$data.store.state.activePhone
+      }
     }
   }
 
@@ -46,21 +53,24 @@
   .placeholder {
     font-size: 36px
   }
-  
+
+
+
   #telephone {
     font-size: 36px;
     text-align: center;
   }
-  
-  a {
+
+  {
     color: white;
   }
 
-.container {
-  /*display: flex;*/
-/*position: absolute;*/
-  /*height: 100%;
-  width: 100%;*/
-}
 
+
+  .container {
+    /*display: flex;*/
+    /*position: absolute;*/
+    /*height: 100%;
+  width: 100%;*/
+  }
 </style>

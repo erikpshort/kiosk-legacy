@@ -34,41 +34,40 @@
             <input v-model="streetAddress" id="icon_prefix" type="text" placeholder="Street Address" class="validate">
             <label for="icon_prefix"></label>
           </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s6 offset-s3">
+            <input v-model="city" id="icon_prefix" type="text" placeholder="City" class="validate">
+            <label for="icon_prefix"></label>
           </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6 offset-s3">
+            <input v-model="state" id="icon_prefix" type="text" placeholder="State" class="validate">
+            <label for="icon_prefix"></label>
+          </div>
+        </div>
 
+        <div class="row">
+          <div class="input-field col s6 offset-s3">
+            <input v-model="zip" id="icon_prefix" type="text" placeholder="Zip" class="validate">
+            <label for="icon_prefix"></label>
+          </div>
           <div class="row">
-            <div class="input-field col s6 offset-s3">
-              <input v-model="city" id="icon_prefix" type="text" placeholder="City" class="validate">
-              <label for="icon_prefix"></label>
-            </div>
-            </div>
+            <button @click="returnCompanyInfo()" class="waves-effect waves-light btn ">Submit</button>
+          </div>
+        </div>
 
-            <div class="row">
-              <div class="input-field col s6 offset-s3">
-                <input v-model="state" id="icon_prefix" type="text" placeholder="State" class="validate">
-                <label for="icon_prefix"></label>
-              </div>
-              </div>
-
-              <div class="row">
-                <div class="input-field col s6 offset-s3">
-                  <input v-model="zip" id="icon_prefix" type="text" placeholder="Zip" class="validate">
-                  <label for="icon_prefix"></label>
-                </div>
-                </div>
-
-                <div class="row">
-                  <button @click="returnCompanyInfo()" class="waves-effect waves-light btn ">Submit</button>
-                </div>
-
-                <div class="row">
-                  <button @click="returnCompanyInfo()" class="waves-effect waves-light btn "><router-link :to="'/'">Test Button</router-link></button>
-                </div>
+        <div class="row">
+          <button @click="returnCompanyInfo()" class="waves-effect waves-light btn "><router-link :to="'/'">Test Button</router-link></button>
+        </div>
 
       </form>
-      </div>
+    </div>
 
-      </div>
+  </div>
+
 </template>
 
 <script>
