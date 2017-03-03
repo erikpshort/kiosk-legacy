@@ -7,7 +7,7 @@
       <form class="col s12">
         <div class="row">
           <div class="input-field col s6 offset-s3 offset-s3">
-            <input type="text" name="Name" placeholder="Name" class="validate">
+            <input v-model="name" type="text" name="Name" placeholder="Name" class="validate">
             <!--<label for="icon_prefix">Company name</label>-->
           </div>
         </div>
@@ -16,7 +16,7 @@
 
         <div class="row">
           <div class="input-field col s6 offset-s3 offset-s3">
-            <input type="text" name="CompanyName" placeholder="Company Name" class="validate">
+            <input v-model="companyName" type="text" name="CompanyName" placeholder="Company Name" class="validate">
             <!--<label for="icon_prefix">Company name</label>-->
           </div>
         </div>
@@ -24,8 +24,8 @@
           <div class="input-field col s6 offset-s3">
 
             <label for="phonenum">Phone Number (format: xxx-xxx-xxxx):</label><br/><br/>
-            <input v-if="!phone[0]" id="phonenum" type="tel" class=" validate" placeholder=" xxx-xxx-xxxx" pattern="^\d{3}-\d{3}-\d{4}$">
-            <input v-if="phone[0]" id="phonenum" type="tel" class=" validate" :value="phone" pattern="^\d{3}-\d{3}-\d{4}$">
+            <input v-model="phoneNumber" v-if="!phone[0]" id="phonenum" type="tel" class=" validate" placeholder=" xxx-xxx-xxxx" pattern="^\d{3}-\d{3}-\d{4}$">
+            <input v-model="phoneNumber" v-if="phone[0]" id="phonenum" type="tel" class=" validate" :value="phone" pattern="^\d{3}-\d{3}-\d{4}$">
 
           </div>
         </div>
@@ -54,13 +54,21 @@
             <input v-model="zip" id="icon_prefix" type="text" placeholder="Zip" class="validate">
             <label for="icon_prefix"></label>
           </div>
-          <div class="row">
-            <button @click="returnCompanyInfo()" class="waves-effect waves-light btn ">Submit</button>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s6 offset-s3">
+            <input v-model="email" id="icon_prefix" type="email" placeholder="email@email.com" class="validate">
+            <label for="icon_prefix"></label>
           </div>
         </div>
 
         <div class="row">
-          <button @click="returnCompanyInfo()" class="waves-effect waves-light btn "><router-link :to="'/'">Test Button</router-link></button>
+          <button @click="returnCompanyInfo(name, companyName, phoneNumber, streetAddress, city, state, zip, email)" type="submit" class="waves-effect waves-light btn ">Submit</button>
+        </div>
+
+        <div class="row">
+          <button @click="returnCompanyInfo(name, companyName, phoneNumber, streetAddress, city, state, zip, email)" class="waves-effect waves-light btn "><router-link :to="'/'">Test Button</router-link></button>
         </div>
 
       </form>
@@ -76,15 +84,15 @@
     name: 'EnterInfo',
     data() {
       return {
-
+        name: '',
         companyName: '',
-        phoneNumber: '',
+        phoneNumber: this.$root.$data.store.state.activePhone,
         streetAddress: '',
         city: '',
         state: '',
         zip: '',
+        email: '',
         msg: 'Please Enter Your Information'
-
       }
     },
     computed: {
@@ -93,19 +101,23 @@
       }
     },
     methods: {
-      returnCompanyInfo: function () {
-        console.log("--------------------------------")
-        console.log("Company Name:", this.companyName)
-        console.log("Phone Number:", this.phoneNumber)
-        console.log("Street Address:", this.streetAddress)
-        console.log("City", this.city)
-        console.log("State:", this.state)
-        console.log("Zip:", this.companyName)
-        console.log("--------------------------------")
-        this.$router.push('ConfirmCompanyInfo')
+      returnCompanyInfo(name, companyName, phoneNumber, streetAddress, city, state, zip, email) {
+        var body = {
+          name: name,
+          company: companyName,
+          cellPhone: phoneNumber,
+          address: streetAddress,
+          password: "pw123",
+          city: city,
+          state: state,
+          zip: zip,
+          email:email }
+          this.$root.$data.store.actions.register(body)
+          // this.$root.$data.store.actions.postUser(body)
+          this.$router.push('ConfirmCompanyInfo')
+        }
       }
     }
-  }
 
 </script>
 
@@ -114,6 +126,9 @@
   .validate {
     font-size: 36px
   }
+
+
+
 
 
 
@@ -129,6 +144,9 @@
     text-transform: uppercase;
     text-align: center;
   }
+
+
+
 
 
 
