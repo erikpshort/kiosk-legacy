@@ -4,7 +4,7 @@ import Hello from '@/components/Hello'
 import CompanyDirectory from '@/components/CompanyDirectory'
 import EnterInfo from '@/components/EnterInfo'
 import CompanyInfo from '@/components/CompanyInfo'
-import test from '@/components/test'
+import ServiceRequest from '@/components/ServiceRequest'
 import backlog from '@/components/backlog'
 import assigned from '@/components/assigned'
 import job from '@/components/job'
@@ -39,9 +39,9 @@ export default new Router({
       component: CompanyInfo
     },
     {
-      path: '/test',
-      name: 'test',
-      component: test
+      path: '/ServiceRequest',
+      name: 'ServiceRequest',
+      component: ServiceRequest
     },
     {
       path: '/backlog',

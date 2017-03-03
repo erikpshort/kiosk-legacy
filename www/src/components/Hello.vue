@@ -13,7 +13,7 @@
     </form>
 
  <div class="row">
-    <a class="waves-effect waves-light btn">ENTER</a>
+    <a class="waves-effect waves-light btn"><router-link :to="'/ServiceRequest'">ENTER</router-link></a>
     </div>
      <div class="row">
        <h4>or</h4>
@@ -45,5 +45,5 @@
 <style scoped>
 .placeholder {font-size: 36px}
 #telephone {font-size: 36px; text-align: center;}
-
+a {color: white}
 </style>
