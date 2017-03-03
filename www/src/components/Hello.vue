@@ -18,8 +18,13 @@
       </div>
     </form>
 
+<<<<<<< HEAD
     <div class="row">
       <a class="waves-effect waves-light btn" @click="phoneNum(phone)">ENTER</a>
+=======
+ <div class="row">
+    <a class="waves-effect waves-light btn"><router-link :to="'/ConfirmCompanyInfo'">ENTER</router-link></a>
+>>>>>>> f80ec1e01abf24a55956b1ea8c870de755775733
     </div>
     <div class="row">
       <h4>or</h4>
