@@ -43,7 +43,7 @@
     },
     methods: {
       phoneNum(phone) {
-        console.log(phone)
+        console.log("Phone number entered: ",phone)
         this.activeCustomers.forEach(customer => {
           customer.cellPhone.forEach(num => {
             if (num == phone) {
@@ -102,6 +102,7 @@
   .validate {
     font-size: 36px
   }
+
   #telephone {
     font-size: 36px;
     text-align: center;
@@ -118,4 +119,6 @@
   input {
     text-align: center;
   }
+
+  a {color: white;}
 </style>

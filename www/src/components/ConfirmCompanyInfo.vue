@@ -54,8 +54,6 @@
     font-size: 36px
   }
 
-
-
   #telephone {
     font-size: 36px;
     text-align: center;
@@ -66,11 +64,4 @@
   }
 
 
-
-  .container {
-    /*display: flex;*/
-    /*position: absolute;*/
-    /*height: 100%;
-  width: 100%;*/
-  }
 </style>
