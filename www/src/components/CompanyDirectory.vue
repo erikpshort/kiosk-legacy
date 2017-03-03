@@ -5,6 +5,7 @@
       <li class="collection-item">Some Company From The Database</li>
       <li class="collection-item">Some Company From The Database</li>
       <li class="collection-item">Some Company From The Database</li>
+      </ul>
   </div>
 </template>
 
