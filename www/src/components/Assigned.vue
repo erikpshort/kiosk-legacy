@@ -1,0 +1,64 @@
+<template>
+  <div class="Assigned">
+    <h1>{{ msg }}</h1>
+    <!--This is where the v-for goes for the activeJobs-->
+    <!--This is raw data: {{this.$root.store.state.activeJobs}}-->
+  <!--  <h4><router-link :to="'/addJob'">Create new activeJob</router-link></h4>
+
+    <h3>All activeJobs shown here for debugging purposes.</h3>
+    <div class="activeJob" v-for="activeJob in this.$root.store.state.activeJobs">
+      <router-link :to="'/activeJob/'+activeJob._id">{{activeJob.name}}</router-link>
+      <span @click="$root.store.actions.removeJob(activeJob)">  x</span></li>
+    </div>
+    <hr>
+
+    <h3>User Id: {{this.$root.store.state.user._id}}</h3>
+    <div class="userJob" v-for="activeJob in this.$root.store.state.userJobs">
+      <router-link :to="'/activeJob/'+activeJob._id">{{activeJob.name}}</router-link>
+      <span @click="$root.store.actions.removeJob(activeJob)">  x</span></li>  -->
+    </div>
+
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'assigned',
+    data() {
+      return {
+        msg: 'Welcome to The Assigned List for the Day'
+      }
+    },
+    // mounted: function () {
+    //   // this.$root.$data.store.actions.checkAuth()
+    //   this.$root.$data.store.actions.getJobs()
+    //   this.$root.$data.store.actions.getUserJobs(this.$root.store.state.user._id)
+    // }
+  }
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+  h1,
+  h2 {
+    font-weight: normal;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  
+  a {
+    color: #42b983;
+  }
+  
+  .Job {
+    border: 1px solid black;
+  }
+</style>

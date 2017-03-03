@@ -1,5 +1,5 @@
 <template>
-    <div class="Backlog">
+    <div class="Orangejobs">
         <h1>{{ msg }}</h1>
         <!--This is where the v-for goes for the activeJobs-->
         <!--This is raw data: {{this.$root.store.state.activeJobs}}-->
@@ -44,7 +44,7 @@
 
 
     export default {
-        name: 'backlog',
+        name: 'orangejobs',
         data() {
             return {
                 msg: 'Welcome to The Backlog'

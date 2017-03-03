@@ -6,6 +6,13 @@ import EnterInfo from '@/components/EnterInfo'
 import CompanyInfo from '@/components/CompanyInfo'
 import test from '@/components/test'
 import backlog from '@/components/backlog'
+import assigned from '@/components/assigned'
+import job from '@/components/job'
+import bluejob from '@/components/Bluejobs'
+import orangejob from '@/components/Orangejobs'
+import greenjob from '@/components/Greenjobs'
+
+
 
 Vue.use(Router)
 
@@ -40,6 +47,31 @@ export default new Router({
       path: '/backlog',
       name: 'backlog',
       component: backlog
+    },
+    {
+      path: '/assigned',
+      name: 'assigned',
+      component: assigned
+    },
+    {
+      path: '/job',
+      name: 'job',
+      component: job
+    },
+    {
+      path: '/bluejobs',
+      name: 'bluejobs',
+      component: bluejobs
+    },
+    {
+      path: '/orangejobs',
+      name: 'orangejobs',
+      component: orangejobs
+    },
+    {
+      path: '/greenjobs',
+      name: 'greenjobs',
+      component: greenjobs
     }
   ]
 })
