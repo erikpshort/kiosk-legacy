@@ -5,6 +5,15 @@
     <div class="container">
 
     <form class="col s12">
+<div class="row">
+        <div class="input-field col s6 offset-s3 offset-s3">
+          <input type="text" name="Name" placeholder="Name" class="validate">
+          <!--<label for="icon_prefix">Company name</label>-->
+        </div>
+      </div>
+
+
+
       <div class="row">
         <div class="input-field col s6 offset-s3 offset-s3">
           <input v-model="companyName" type="text" name="CompanyName" placeholder="Company Name" class="validate">
@@ -66,13 +75,13 @@
     name: 'EnterInfo',
     data() {
       return {
-        msg: 'Please Enter Your Company Information',
         companyName: '',
         phoneNumber: '',
         streetAddress: '',
         city: '',
         state: '',
-        zip: ''
+        zip: '',
+        msg: 'Please Enter Your Information'
       }
     },
     methods: {
