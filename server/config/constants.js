@@ -10,13 +10,12 @@ const models = {
   user: {
     name: 'User',
     endpoint: 'user',
-    preventDefaultApi: true,
     useCustomRoutes: true
   },
-  customer: {
-    name: 'Customer',
-    endpoint: 'customer'
-  },
+  // customer: {
+  //   name: 'Customer',
+  //   endpoint: 'customer'
+  // },
   job: {
     name: 'Job',
     endpoint: 'job'

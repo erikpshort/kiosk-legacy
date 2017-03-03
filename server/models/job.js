@@ -15,9 +15,19 @@ var schema = new Schema({
     // OPTIONAL\
     notes: { type: String },
     // Relations REQUIRED
+    archive:{type: Boolean, required: true, default: false},
     customerId: { type: ObjectId, ref: models.customer, required: true },
-    creatorId: { type: ObjectId, ref: models.user.name, required: true }
-    // SHOULD THIS GET THE CUSTOMER PHONE #
+    creatorId: { type: ObjectId, ref: models.user.name, required: true },
+    cellPhone: {
+        type: String,
+        validate: {
+            validator: function (v) {
+                return /\d{3}-\d{3}-\d{4}/.test(v);
+            },
+            message: '{VALUE} is not a valid phone number!'
+        },
+        required: [true, 'User phone number required']
+    },
 });
 
 module.exports = mongoose.model(models.job.name, schema);
