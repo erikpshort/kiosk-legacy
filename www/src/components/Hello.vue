@@ -8,9 +8,6 @@
           <!--<i class="material-icons prefix">phone</i>-->
           <label for="phonenum">Phone Number (format: xxx-xxx-xxxx):</label><br/><br/>
           <form @submit.prevent="phoneNum(phone)"><input id="phonenum" type="tel" class=" validate" placeholder="XXX-XXX-XXXX" pattern="^\d{3}-\d{3}-\d{4}$" v-model="phone"></form>
-
-
-
           <!--      <input type="tel" name="number" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$">
           <input id="telephone" type="tel" class="validate">
           <label for="telephone"><span class="placeholder"></span></label>  -->
@@ -18,13 +15,10 @@
       </div>
     </form>
 
-<<<<<<< HEAD
     <div class="row">
       <a class="waves-effect waves-light btn" @click="phoneNum(phone)">ENTER</a>
-=======
  <div class="row">
     <a class="waves-effect waves-light btn"><router-link :to="'/ConfirmCompanyInfo'">ENTER</router-link></a>
->>>>>>> f80ec1e01abf24a55956b1ea8c870de755775733
     </div>
     <div class="row">
       <h4>or</h4>

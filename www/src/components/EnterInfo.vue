@@ -14,7 +14,6 @@
 
 
 
-<<<<<<< HEAD
         <div class="row">
           <div class="input-field col s6 offset-s3 offset-s3">
             <input type="text" name="CompanyName" placeholder="Company Name" class="validate">
@@ -28,88 +27,31 @@
             <input v-if="!phone[0]" id="phonenum" type="tel" class=" validate" placeholder=" xxx-xxx-xxxx" pattern="^\d{3}-\d{3}-\d{4}$">
             <input v-if="phone[0]" id="phonenum" type="tel" class=" validate" :value="phone" pattern="^\d{3}-\d{3}-\d{4}$">
 
-            <!--      <input type="tel" name="number" placeholder="XXX-XXX-XXXX" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$">
-=======
-      <div class="row">
-        <div class="input-field col s6 offset-s3 offset-s3">
-          <input v-model="companyName" type="text" name="CompanyName" placeholder="Company Name" class="validate">
-          <!--<label for="icon_prefix">Company name</label>-->
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s6 offset-s3">
-          
-  <label for="phonenum">Phone Number (format: xxx-xxx-xxxx):</label><br/><br/>
-  <input v-model="phoneNumber" id="phonenum" type="tel" class=" validate" placeholder=" xxx-xxx-xxxx" pattern="^\d{3}-\d{3}-\d{4}$"  >
-
-    <!--      <input type="tel" name="number" placeholder="XXX-XXX-XXXX" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$">
->>>>>>> f80ec1e01abf24a55956b1ea8c870de755775733
-          <input id="icon_telephone" type="tel" class="validate">
-          <label for="icon_telephone"></label> -->
           </div>
         </div>
-
-<<<<<<< HEAD
-        <div class="row">
-          <div class="input-field col s6 offset-s3">
-            <input id="icon_prefix" type="text" placeholder="Street Address" class="validate">
-            <label for="icon_prefix"></label>
-          </div>
-=======
       <div class="row">
         <div class="input-field col s6 offset-s3">
           <input v-model="streetAddress" id="icon_prefix" type="text" placeholder="Street Address" class="validate">
           <label for="icon_prefix"></label>
->>>>>>> f80ec1e01abf24a55956b1ea8c870de755775733
         </div>
 
-<<<<<<< HEAD
-        <div class="row">
-          <div class="input-field col s6 offset-s3">
-            <input id="icon_prefix" type="text" placeholder="City" class="validate">
-            <label for="icon_prefix"></label>
-          </div>
-=======
       <div class="row">
         <div class="input-field col s6 offset-s3">
           <input v-model="city" id="icon_prefix" type="text" placeholder="City" class="validate">
           <label for="icon_prefix"></label>
->>>>>>> f80ec1e01abf24a55956b1ea8c870de755775733
         </div>
 
-<<<<<<< HEAD
-        <div class="row">
-          <div class="input-field col s6 offset-s3">
-            <input id="icon_prefix" type="text" placeholder="State" class="validate">
-            <label for="icon_prefix"></label>
-          </div>
-=======
       <div class="row">
         <div class="input-field col s6 offset-s3">
           <input v-model="state" id="icon_prefix" type="text" placeholder="State" class="validate">
           <label for="icon_prefix"></label>
->>>>>>> f80ec1e01abf24a55956b1ea8c870de755775733
         </div>
 
-<<<<<<< HEAD
-        <div class="row">
-          <div class="input-field col s6 offset-s3">
-            <input id="icon_prefix" type="text" placeholder="Zip" class="validate">
-            <label for="icon_prefix"></label>
-          </div>
-=======
       <div class="row">
         <div class="input-field col s6 offset-s3">
           <input v-model="zip" id="icon_prefix" type="text" placeholder="Zip" class="validate">
           <label for="icon_prefix"></label>
->>>>>>> f80ec1e01abf24a55956b1ea8c870de755775733
         </div>
-
-<<<<<<< HEAD
-        <div class="row">
-          <button type="submit">Submit</button>
-        </div>
-=======
       <div class="row">
       <button @click="returnCompanyInfo()" class="waves-effect waves-light btn ">Submit</button>
       </div>
@@ -117,7 +59,6 @@
       <div class="row">
       <button @click="returnCompanyInfo()" class="waves-effect waves-light btn "><router-link :to="'/'">Test Button</router-link></button>
       </div>
->>>>>>> f80ec1e01abf24a55956b1ea8c870de755775733
 
       </form>
     </div>
@@ -131,10 +72,7 @@
     name: 'EnterInfo',
     data() {
       return {
-<<<<<<< HEAD
-        msg: 'Please Enter Your Information',
-=======
->>>>>>> f80ec1e01abf24a55956b1ea8c870de755775733
+
         companyName: '',
         phoneNumber: '',
         streetAddress: '',
@@ -150,11 +88,7 @@
         return this.$root.$data.store.state.activePhone
       }
     },
-<<<<<<< HEAD
      methods: {
-=======
-    methods: {
->>>>>>> f80ec1e01abf24a55956b1ea8c870de755775733
       returnCompanyInfo : function(){
       console.log("--------------------------------")
       console.log("Company Name:", this.companyName)
