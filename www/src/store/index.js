@@ -1,3 +1,4 @@
+import router from '../router'
 import axios from 'axios'
 
 let api = axios.create({
@@ -7,10 +8,10 @@ let api = axios.create({
 
 })
 
-api.post('http://localhost:3000/api/login', {
-    email: 'erik@erik.com',
-    password: 'erik'
-})
+// api.post('http://localhost:3000/api/login', {
+//     email: 'erik@erik.com',
+//     password: 'erik'
+// })
 
 
 //REGISTER ALL DATA HERE
@@ -18,6 +19,16 @@ let state = {
     activeAdmin: [],
     activeAdmins: [],
     activeCustomer: [],
+    // { company: 'company',
+    //   name: 'name',
+    //   email: 'email',
+    //   phone: 'phone',
+    //   address: 'address',
+    //   state: 'state',
+    //   city: 'city',
+    //   zip: 'zip',
+    //   userId: 'this.customer._id'},
+
     activeCustomers: [],
     activeJob: [],
     activeJobs: [],
@@ -28,8 +39,8 @@ let state = {
     archivedJob: [],
     archivedJobs: [],
     customerJobs: [],
-    activePhone: [],
-    loggedInUser: [],
+    activePhone: "208-250-1154",
+    loggedInUser: {},
     error: {}
 
 }
@@ -49,14 +60,25 @@ export default {
             api.post('register', body)
                 .then(res => {
                     state.activeUser = res.data.data
-                    this.logIn(body)
+                    state.activeCustomer = res.data.data
                 }).catch(handleError)
         },
         logIn(user) {
-            api.post('login', user)
-                .then(res => {
+            api.post('login', user).then(res => {
+                debugger 
+                if (res.data.data.admin) {
+                    console.log("respons first ", res)
                     state.loggedInUser = res.data.data
-                }).catch(handleError)
+                    return router.push('/backlog')
+                } else if (!res.data.data.admin) {
+                    console.log("else if", res.data.data.admin)
+                    Materialize.toast('Hello', 4000)
+                }
+            })
+                .catch(err => {
+                    console.log("its catching...   ", err)
+                    // router.push('Reject')
+                })
         },
         logOut() {
             api.delete('logOut').then(res => {
@@ -122,9 +144,11 @@ export default {
         },
         //PUTS
         changeUser(userId, body) {
-            api.put('users/' + userId, body).then(res => {
+            api.put('user/' + userId, body).then(res => {
+                state.activeCustomer = body
                 this.activeAdmin()
                 this.activeCustomers()
+
             }).catch(handleError)
         },
         changeJob(jobId, body) {

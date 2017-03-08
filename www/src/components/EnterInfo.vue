@@ -7,7 +7,7 @@
       <form class="col s12">
         <div class="row">
           <div class="input-field col s6 offset-s3 offset-s3">
-            <input v-model="name" type="text" name="Name" placeholder="Name" class="validate">
+            <input id="name" required="required" aria-required="true" v-model="name" type="text" placeholder="Name" class="validate" >
             <!--<label for="icon_prefix">Company name</label>-->
           </div>
         </div>
@@ -24,8 +24,8 @@
           <div class="input-field col s6 offset-s3">
 
             <label for="phonenum">Phone Number (format: xxx-xxx-xxxx):</label><br/><br/>
-            <input v-model="phoneNumber" v-if="!phone[0]" id="phonenum" type="tel" class=" validate" placeholder=" xxx-xxx-xxxx" pattern="^\d{3}-\d{3}-\d{4}$">
-            <input v-model="phoneNumber" v-if="phone[0]" id="phonenum" type="tel" class=" validate" :value="phone" pattern="^\d{3}-\d{3}-\d{4}$">
+            <input v-model="phoneNumber" v-if="!phone[0]" id="phonenum" type="tel" class=" validate" placeholder=" xxx-xxx-xxxx" pattern="^\d{3}-\d{3}-\d{4}$" required>
+            <input v-model="phoneNumber" v-if="phone[0]" id="phonenum" type="tel" class=" validate" :value="phone" pattern="^\d{3}-\d{3}-\d{4}$" required>
 
           </div>
         </div>
@@ -58,19 +58,14 @@
 
         <div class="row">
           <div class="input-field col s6 offset-s3">
-            <input v-model="email" id="icon_prefix" type="email" placeholder="email@email.com" class="validate">
+            <input v-model="email" id="icon_prefix" type="email" placeholder="email@email.com" class="validate" required>
             <label for="icon_prefix"></label>
           </div>
         </div>
 
         <div class="row">
-          <button @click="returnCompanyInfo(name, companyName, phoneNumber, streetAddress, city, state, zip, email)" type="submit" class="waves-effect waves-light btn ">Submit</button>
+          <button @click.prevent="returnCompanyInfo(name, companyName, phoneNumber, streetAddress, city, state, zip, email)" type="submit" class="waves-effect waves-light btn ">Submit</button>
         </div>
-
-        <div class="row">
-          <button @click="returnCompanyInfo(name, companyName, phoneNumber, streetAddress, city, state, zip, email)" class="waves-effect waves-light btn "><router-link :to="'/'">Test Button</router-link></button>
-        </div>
-
       </form>
     </div>
 
@@ -112,12 +107,14 @@
           state: state,
           zip: zip,
           email:email }
-          this.$root.$data.store.actions.register(body)
+          this.$root.$data.store.state.activeCustomer = body
+          // this.$root.$data.store.actions.register(body)
           // this.$root.$data.store.actions.postUser(body)
-          this.$router.push('ConfirmCompanyInfo')
+          this.$router.push('/ConfirmCompanyInfo')
         }
       }
     }
+    
 
 </script>
 
@@ -132,10 +129,10 @@
 
 
 
-  #telephone {
+  /*#telephone {
     font-size: 36px;
     text-align: center;
-  }
+  }*/
 
    ::-webkit-input-placeholder {
     font-size: 36px;
