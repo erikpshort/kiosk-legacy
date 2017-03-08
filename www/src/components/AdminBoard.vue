@@ -13,7 +13,7 @@
     </div>
     <div class="row">
       <div class="col s12 grey jobText">Jobs Being Worked On
-        <div v-for="job in working(this.$root.store.state.activeJobs)" @click=removeFromWorking(job._id)>{{job.created}} {{job.make}} {{job.model}} {{job.notes}}</div>
+        <div v-for="job in working(this.$root.store.state.activeJobs)" @click=removeFromWorking(job._id)><span v-bind:class="{ fourStroke: job.type=='four Stroke', twoStroke: job.type=='two Stroke'}">{{job.created}} {{job.make}} {{job.model}} {{job.notes}}</span></div>
       </div>
     </div>
   </div>
@@ -70,7 +70,7 @@
         var arr_activeJobs = this.$root.store.state.activeJobs
         for (var i = 0; i < arr_activeJobs.length; i++) {
           var job = arr_activeJobs[i];
-          if (job._id == data) {
+          if (job._id == jobId) {
             job.archive = false
           }
         }
@@ -88,4 +88,11 @@
     color: black;
     height: 350px;
   }
+
+.fourStroke { background-color: orange; }
+.twoStroke { background-color: green; }
+.blue { background-color: blue;}
+
+
+
 </style>
