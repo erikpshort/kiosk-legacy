@@ -6,12 +6,13 @@ let Schema = mongoose.Schema
 
 var schema = new Schema({
     // REQUIRED
-    type: { type: String, required: true },
+    type: { type: String, required: true }, //type of job 'four-stroke', 'two-strok' ect. 
     make: { type: String, required: true },
     model: { type: String, required: true },
-    tUpRepExp: { type: String, required: true },
+    tUpRepExp: { type: String, required: true }, //nature of job tune up or repair.
     created: { type: Number, required: true, default: Date.now() },
     createdDate: { type: String, required: true, default: new Date()},
+    jobStatus: { type: String, required: true, default: 'pending'},  //pending, working, parts on order, ready for pickup etc.
     // OPTIONAL\
     notes: { type: String },
     // Relations REQUIRED
