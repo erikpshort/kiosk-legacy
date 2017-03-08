@@ -1,34 +1,26 @@
 <template>
     <div class="Greenjobs">
-        <h1>{{ msg }}</h1>
         <!--This is where the v-for goes for the activeJobs-->
         <!--This is raw data: {{this.$root.store.state.activeJobs}}-->
-        <h4>
+
+
+        <!--<h4>
             <router-link :to="'/addJob'">Create new activeJob</router-link>
-        </h4>
+        </h4>-->
 
-        <h3>All activeJobs shown here.</h3>
-
-        <Job></Job>
-
-
-        <!--
-    <div class="activeJob" v-for="activeJob in this.$root.store.state.activeJobs">
-      <router-link :to="'/activeJob/'+activeJob._id">{{activeJob.name}}</router-link>
-      <span @click="$root.store.actions.removeJob(activeJob)">  x</span></li>
-    </div>
-    <hr>
-
-    <h3>User Id: {{this.$root.store.state.user._id}}</h3>
-    <div class="userJob" v-for="activeJob in this.$root.store.state.userJobs">
-      <router-link :to="'/activeJob/'+activeJob._id">{{activeJob.name}}</router-link>
-      <span @click="$root.store.actions.removeJob(activeJob)">  x</span></li>
-    </div>-->
+        <!--<h5>All Orange (Four-Stroke) shown here.</h5>-->
+        <div v-for="job in twoStroke(this.$root.store.state.activeJobs)">{{job.created}} {{job.make}} {{job.model}} {{job.notes}}</div>
+        <h3>JWTO</h3>
+        <hr>
+        <!--<h5>Debug: All activeJobs shown here.</h5>-->
+        <!--Uncomment the line below to show ALL active jobs for debugging.-->
+        <!--<div> {{this.$root.store.state.activeJobs}}</div>-->
+        <!--<div v-for="job in this.$root.store.state.activeJobs">{{job}}</div>-->
 
         <div class="row">
             <div class="col-md-3">
                 <span><button type = "submit">Assign Job</button></span>
-            <!--</div>
+                <!--</div>
             <div class="col-md-6"></div>
             <div class="col-md-3">-->
                 <span><button type = "submit">Delete Job</button></span>
@@ -40,21 +32,30 @@
 </template>
 
 <script>
-    
-
-
     export default {
-        name: 'Greenjobs',
+        name: 'orangejobs',
         data() {
             return {
-                msg: 'Welcome to The Backlog'
+                msg: 'Welcome to The Backlog',
+                jobTypeMessage: 'These are orange jobs'
             }
         },
-        // mounted: function () {
-        //   // this.$root.$data.store.actions.checkAuth()
-        //   this.$root.$data.store.actions.getJobs()
-        //   this.$root.$data.store.actions.getUserJobs(this.$root.store.state.user._id)
-        // },
+        mounted() {
+            //   this.$root.$data.store.actions.getActiveAdmins()
+            //   this.$root.$data.store.actions.getActiveCustomers()
+            this.$root.$data.store.actions.getActiveJobs()
+        },
+        methods: {
+            //takes in an array of job objects, and returns those where the type is four-stroke.
+            twoStroke: function (arr_jobs) {
+                console.log(arr_jobs)
+                this.out_array = arr_jobs.filter(function (element) {
+                    if (element.type == "two Stroke") { return true }
+                    else { return false }
+                })
+                return this.out_array;
+            }
+        }
 
     }
 
@@ -68,20 +69,17 @@
     }
 
 
+
     ul {
         list-style-type: none;
         padding: 0;
     }
 
 
+
     li {
         display: inline-block;
         margin: 0 10px;
-    }
-
-
-     {
-        color: #42b983;
     }
 
 

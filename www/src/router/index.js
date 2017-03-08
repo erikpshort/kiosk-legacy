@@ -12,6 +12,7 @@ import bluejobs from '@/components/Bluejobs'
 import orangejobs from '@/components/Orangejobs'
 import greenjobs from '@/components/Greenjobs'
 import EditInfo from '@/components/EditInfo'
+import AdminBoard from '@/components/AdminBoard'
 
 
 
@@ -78,6 +79,11 @@ export default new Router({
       path: '/EditInfo',
       name: 'EditInfo',
       component: EditInfo
+    },
+      {
+      path: '/AdminBoard',
+      name: 'AdminBoard',
+      component: AdminBoard,
     },
   ]
 })
