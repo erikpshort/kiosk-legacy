@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import CompanyDirectory from '@/components/CompanyDirectory'
 import EnterInfo from '@/components/EnterInfo'
-import CompanyInfo from '@/components/CompanyInfo'
+import ConfirmCompanyInfo from '@/components/ConfirmCompanyInfo'
 import ServiceRequest from '@/components/ServiceRequest'
 import backlog from '@/components/backlog'
 import assigned from '@/components/assigned'
@@ -12,6 +12,12 @@ import bluejobs from '@/components/Bluejobs'
 import orangejobs from '@/components/Orangejobs'
 import greenjobs from '@/components/Greenjobs'
 import EditInfo from '@/components/EditInfo'
+<<<<<<< HEAD
+import AdminLogin from '@/components/AdminLogin'
+import Reject from '@/components/Reject'
+=======
+import AdminBoard from '@/components/AdminBoard'
+>>>>>>> 04dff0fba964c24e1e92773f0320347a287abf8e
 
 
 
@@ -35,9 +41,9 @@ export default new Router({
       component: EnterInfo
     },
       {
-      path: '/CompanyInfo',
-      name: 'CompanyInfo',
-      component: CompanyInfo
+      path: '/ConfirmCompanyInfo',
+      name: 'ConfirmCompanyInfo',
+      component: ConfirmCompanyInfo
     },
     {
       path: '/ServiceRequest',
@@ -79,5 +85,23 @@ export default new Router({
       name: 'EditInfo',
       component: EditInfo
     },
+<<<<<<< HEAD
+    {
+      path: '/AdminLogin',
+      name: 'AdminLogin',
+      component: AdminLogin
+    },
+    {
+      path: '/Reject',
+      name: 'Reject',
+      component: Reject
+    }
+=======
+      {
+      path: '/AdminBoard',
+      name: 'AdminBoard',
+      component: AdminBoard,
+    },
+>>>>>>> 04dff0fba964c24e1e92773f0320347a287abf8e
   ]
 })

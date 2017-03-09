@@ -1,3 +1,4 @@
+import router from '../router'
 import axios from 'axios'
 
 let api = axios.create({
@@ -9,14 +10,25 @@ let api = axios.create({
 
 // api.post('http://localhost:3000/api/login', {
 //     email: 'erik@erik.com',
-//     password: 'pw123'
+//     password: 'erik'
 // })
+
 
 //REGISTER ALL DATA HERE
 let state = {
     activeAdmin: [],
     activeAdmins: [],
     activeCustomer: [],
+    // { company: 'company',
+    //   name: 'name',
+    //   email: 'email',
+    //   phone: 'phone',
+    //   address: 'address',
+    //   state: 'state',
+    //   city: 'city',
+    //   zip: 'zip',
+    //   userId: 'this.customer._id'},
+
     activeCustomers: [],
     activeJob: [],
     activeJobs: [],
@@ -27,7 +39,8 @@ let state = {
     archivedJob: [],
     archivedJobs: [],
     customerJobs: [],
-    activePhone: [],
+    activePhone: "208-250-1154",
+    loggedInUser: {},
     error: {}
 
 }
@@ -43,27 +56,32 @@ export default {
     //ACTIONS ARE RESPONSIBLE FOR MAKING ALL ASYNC CALLSf
     actions: {
         //REGISTER - LOGIN - LOGOUT - AUTHENTICATION
-        register(user) {
-            api.post('register', user)
+        register(body) {
+            api.post('register', body)
                 .then(res => {
                     state.activeUser = res.data.data
-                    state.loggedOut = false
+                    state.activeCustomer = res.data.data
                 }).catch(handleError)
         },
         logIn(user) {
-            api.post('login', user)
-                .then(res => {
-                    state.activeUser = res.data.data
-                    state.loggedOut = false
-                    this.getCollabBoards()
-                    this.getUserBoards()
-                    console.log('Logged In')
-                    console.log(state.loggedOut)
-                }).catch(handleError)
+            api.post('login', user).then(res => {
+                debugger 
+                if (res.data.data.admin) {
+                    console.log("respons first ", res)
+                    state.loggedInUser = res.data.data
+                    return router.push('/backlog')
+                } else if (!res.data.data.admin) {
+                    console.log("else if", res.data.data.admin)
+                    Materialize.toast('Hello', 4000)
+                }
+            })
+                .catch(err => {
+                    console.log("its catching...   ", err)
+                    // router.push('Reject')
+                })
         },
         logOut() {
             api.delete('logOut').then(res => {
-                state.loggedOut = true
             }).catch(handleError)
         },
         authenticate() {
@@ -115,6 +133,7 @@ export default {
             api.post('users', body).then(res => {
                 this.activeCustomer = res.data.data
                 this.getActiveJobs()
+                console.log(this.activeCustomer)
             }).catch(handleError)
         },
         postJob(body) {
@@ -125,9 +144,11 @@ export default {
         },
         //PUTS
         changeUser(userId, body) {
-            api.put('users/' + userId, body).then(res => {
+            api.put('user/' + userId, body).then(res => {
+                state.activeCustomer = body
                 this.activeAdmin()
                 this.activeCustomers()
+
             }).catch(handleError)
         },
         changeJob(jobId, body) {

@@ -5,15 +5,22 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+// import $ from 'jquery'
+// import materialize from  'materialize-css'
+
 Vue.config.productionTip = false
+// Vue.use(Materialize)
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
+
   components: { App },
   data:{
-      store
+      store,
+
   }
 })
+
