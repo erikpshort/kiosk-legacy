@@ -16,31 +16,22 @@ let api = axios.create({
 
 //REGISTER ALL DATA HERE
 let state = {
-    activeAdmin: [],
+    activeAdmin: {},
     activeAdmins: [],
-    activeCustomer: [],
-    // { company: 'company',
-    //   name: 'name',
-    //   email: 'email',
-    //   phone: 'phone',
-    //   address: 'address',
-    //   state: 'state',
-    //   city: 'city',
-    //   zip: 'zip',
-    //   userId: 'this.customer._id'},
-
+    activeCustomer: {},
     activeCustomers: [],
-    activeJob: [],
+    activeJob: {},
     activeJobs: [],
-    archivedAdmin: [],
+    archivedAdmin: {},
     archivedAdmins: [],
-    archivedCustomer: [],
+    archivedCustomer: {},
     archivedCustomers: [],
-    archivedJob: [],
+    archivedJob: {},
     archivedJobs: [],
     customerJobs: [],
-    activePhone: "208-250-1154",
+    activePhone: '',
     loggedInUser: {},
+    loggedInData: {},
     error: {}
 
 }
@@ -63,22 +54,35 @@ export default {
                     state.activeCustomer = res.data.data
                 }).catch(handleError)
         },
+        // logInMethod(res) {
+        //     if (res.data.data.admin) {
+        //         console.log("respons first ", res)
+        //         state.loggedInUser = res.data.data
+        //         return router.push('/backlog')
+        //     } else if (!res.data.data.admin) {
+        //         console.log("else if", res.data.data.admin)
+        //         Materialize.toast('Hello', 4000)
+        //     } else {
+        //         console.log(res.data.error)
+        //     }
+        // },
         logIn(user) {
             api.post('login', user).then(res => {
-                debugger 
+                state.loggedInData = res.data
                 if (res.data.data.admin) {
-                    console.log("respons first ", res)
                     state.loggedInUser = res.data.data
                     return router.push('/backlog')
                 } else if (!res.data.data.admin) {
-                    console.log("else if", res.data.data.admin)
-                    Materialize.toast('Hello', 4000)
+                    Materialize.toast('You do not have Administrative Permissions', 6000)
                 }
-            })
-                .catch(err => {
-                    console.log("its catching...   ", err)
-                    // router.push('Reject')
-                })
+            }).catch(err => {
+                        if(state.loggedInData.error == "Invalid Email or Password"){
+                            Materialize.toast(state.loggedInData.error, 6000)
+                        }else{Materialize.toast("Must Provide Email and Password", 6000)
+                                Materialize.toast("You may need to Register", 4000)}
+                        // If you need to call a function from a component use below method
+                    // router.getMatchedComponents('/AdminLogin')[0].methods.afterLogIn(state.loggedInData)
+                },handleError)
         },
         logOut() {
             api.delete('logOut').then(res => {
@@ -148,7 +152,6 @@ export default {
                 state.activeCustomer = body
                 this.activeAdmin()
                 this.activeCustomers()
-
             }).catch(handleError)
         },
         changeJob(jobId, body) {

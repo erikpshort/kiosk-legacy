@@ -1,11 +1,9 @@
 <template>
   <div class="companyDirectory">
     <h1>{{ msg }}</h1>
-    <ul class="collection">
-      <li class="collection-item">Some Company From The Database</li>
-      <li class="collection-item">Some Company From The Database</li>
-      <li class="collection-item">Some Company From The Database</li>
-      </ul>
+    <ul class="collection" >
+      <li class="collection-item" v-for="company in customers" @click.prevent="compPicked(company)">{{company.company}}</li>
+    </ul>
   </div>
 </template>
 
@@ -14,7 +12,23 @@
     name: 'companyDirectory',
     data() {
       return {
-        msg: 'Please Select Your Company'
+        msg: 'Please Select Your Company',
+      }
+    },methods:{
+      compPicked(company){
+        this.$root.$data.store.state.activeCustomer = company
+        return this.$router.push('/ConfirmCompanyInfo')
+      }
+    },
+    computed: {
+      customers() {
+        return this.$root.$data.store.state.activeCustomers.filter(cus => {
+          console.log(cus.company)
+          if(cus.company === '' || cus.company === null){
+            return
+          }else{return cus}
+        })
+        
       }
     }
   }
