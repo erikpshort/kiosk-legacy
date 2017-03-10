@@ -15,36 +15,46 @@ import EditInfo from '@/components/EditInfo'
 import AdminLogin from '@/components/AdminLogin'
 import Reject from '@/components/Reject'
 import AdminBoard from '@/components/AdminBoard'
-
+import Home from '@/components/Home'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'Hello',
-      component: Hello
-    },
-      {
-      path: '/CompanyDirectory',
-      name: 'CompanyDirectory',
-      component: CompanyDirectory
-    },
-      {
-      path: '/EnterInfo',
-      name: 'EnterInfo',
-      component: EnterInfo
-    },
-      {
-      path: '/ConfirmCompanyInfo',
-      name: 'ConfirmCompanyInfo',
-      component: ConfirmCompanyInfo
-    },
-    {
-      path: '/ServiceRequest',
-      name: 'ServiceRequest',
-      component: ServiceRequest
+      path: '/home',
+      name: 'Home',
+      component: Home,
+      children:[
+                {
+                  path: '/',
+                  name: 'Hello',
+                  component: Hello
+
+                },
+                
+                  {
+                  path: '/CompanyDirectory',
+                  name: 'CompanyDirectory',
+                  component: CompanyDirectory
+                },
+                  {
+                  path: '/EnterInfo',
+                  name: 'EnterInfo',
+                  component: EnterInfo
+                },
+                  {
+                  path: '/ConfirmCompanyInfo',
+                  name: 'ConfirmCompanyInfo',
+                  component: ConfirmCompanyInfo
+                },
+                {
+                  path: '/ServiceRequest',
+                  name: 'ServiceRequest',
+                  component: ServiceRequest
+                },
+
+      ]
     },
     {
       path: '/backlog',
@@ -96,5 +106,6 @@ export default new Router({
       name: 'AdminBoard',
       component: AdminBoard,
     },
+    
   ]
 })
