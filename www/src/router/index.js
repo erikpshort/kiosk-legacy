@@ -12,10 +12,16 @@ import bluejobs from '@/components/Bluejobs'
 import orangejobs from '@/components/Orangejobs'
 import greenjobs from '@/components/Greenjobs'
 import EditInfo from '@/components/EditInfo'
+<<<<<<< HEAD
 import AdminLogin from '@/components/AdminLogin'
 import Reject from '@/components/Reject'
 import AdminBoard from '@/components/AdminBoard'
 
+=======
+import AdminBoard from '@/components/AdminBoard'
+import AdminLogin from '@/components/AdminLogin'
+import Reject from '@/components/Reject'
+>>>>>>> 246abcba8b5076852a9d11731f6cfeeffda92006
 
 
 Vue.use(Router)
@@ -82,6 +88,10 @@ export default new Router({
       name: 'EditInfo',
       component: EditInfo
     },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 246abcba8b5076852a9d11731f6cfeeffda92006
     {
       path: '/AdminLogin',
       name: 'AdminLogin',
@@ -97,5 +107,9 @@ export default new Router({
       name: 'AdminBoard',
       component: AdminBoard,
     },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 246abcba8b5076852a9d11731f6cfeeffda92006
   ]
 })

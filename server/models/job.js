@@ -14,11 +14,13 @@ var schema = new Schema({
     createdDate: { type: String, required: true, default: new Date()},
     email: {type: String, required: true},
     whereAmI: {type: String, required: true, default: 'Work log'},
+
     tUpRepExp: { type: String, required: true }, //nature of job tune up or repair.
     created: { type: Number, required: true, default: Date.now() },
     createdDate: { type: String, required: true, default: new Date()},
     jobStatus: { type: String, required: true, default: 'pending'},  //pending, working, parts on order, ready for pickup etc.
     jobNumber:{type:Number, required: true},
+
     // OPTIONAL\
     customerNotes:{type: String},
     mechanicNotes: {type: String},
