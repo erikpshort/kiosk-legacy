@@ -149,12 +149,17 @@
 
       //This function called when a selection is made in the dropdown for the first, "A" button.
       A_Clicked: function (model) {
-        console.log("The" + model + " has been selected.")
+        console.log("The" + model.name + " has been selected.")
         //Set the value of the selection in the local data section.
         this.equipmentTypeValue = model.name;
         //Indicate a selection has been made on this button and check if we should show the submit button.
         this.equipmentTypeGreen = true;
         this.checkShowSubmit()
+
+        if (model.argument != 'ChainBlade')
+        {
+        this.showButtons()
+        } 
 
         var dom_but01 = document.getElementById("btn01")
         if (model.argument == 'ChainBlade') 
@@ -172,19 +177,10 @@
           }
           //change the color of the button to green to indicate a selection has been made.
           dom_but01.setAttribute('class', 'dropdown-button btn green')
-
-          //Per business logic if the Chain / Blade Sharpen has been selected by the 
-          //customer, there is no need for them to use the other three buttons so we 
-          //hide them here.
-          this.showTypeButton = true
-          this.showMakeButton = false;
-          this.showModelButton = false
-          this.showTuneButton = false
-          this.showExpressButton = false 
-          this.showSubmitButton = true 
-
+          
+          //Per buseiness logic hide the buttons. 
+          this.hideButtonsForSharp()
         } else if (model.argument == 'HandheldPower') {
-
           dom_but01.innerText = model.name;
           //populate the MAKE dropdown menu based upon the fact that we have selected HandheldPower.
           var ul02 = document.getElementById('dropdown2')
@@ -200,6 +196,13 @@
           }
           //change the color of the button to green to indicate a selection has been made.
           dom_but01.setAttribute('class', 'dropdown-button btn green')
+
+          this.showTypeButton = true
+          this.showMakeButton = true
+          this.showModelButton = true
+          this.showTuneButton = true
+          this.showExpressButton = false 
+          this.showSubmitButton = false 
         }
         else if (model.argument == 'HomeOwnerWalkBehind') {
           dom_but01.innerText = model.name;
@@ -356,7 +359,28 @@
         console.log("Model Value:", this.ModelValue)
         console.log("Tune Value:", this.TuneValue)
         console.log("Regular Value:", this.RegularValue)
-      }
+      },
+      hideButtonsForSharp: function () {
+        console.log("Since sharpening has been selected we hide buttons.") 
+        //Per business logic if the Chain / Blade Sharpen has been selected by the 
+        //customer, there is no need for them to use the other three buttons so we 
+        //hide them here.
+          this.showTypeButton = true
+          this.showMakeButton = false;
+          this.showModelButton = false
+          this.showTuneButton = false
+          this.showExpressButton = false 
+          this.showSubmitButton = true 
+      },
+      showButtons: function () {
+        console.log("Since sharpening has not been selected we show buttons.") 
+          this.showTypeButton = true
+          this.showMakeButton = true
+          this.showModelButton = true
+          this.showTuneButton = true
+          this.showExpressButton = false  // default to false 
+          this.showSubmitButton = false //default to false
+      },
     },
   }
 
