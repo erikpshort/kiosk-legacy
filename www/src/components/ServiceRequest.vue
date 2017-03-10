@@ -8,26 +8,19 @@
         <!-- Dropdown Structure -->
         <ul id='dropdown1' class='dropdown-content'>
           <li><span v-for="model in equipment" @click="A_Clicked(model)" v-model='modelName'>{{model.name}}</span></li>
-          <!--<li><span @click="A_Clicked('HandheldPower')">HandheldPower</span></li>
-          <li><span @click="A_Clicked('HomeOwnerWalkBehind')">Homeowner Walk Behind</span></li>
-          <li><span @click="A_Clicked('HomeOwnerZeroTurn')">Homeowner Zero Turn</span></li>
-          <li><span @click="A_Clicked('HomeOwnerTractor')">Homeowner Tractor</span></li>
-          <li><span @click="A_Clicked('CommercialWalkBehind')">Commercial Walk</span></li>
-          <li><span @click="A_Clicked('CommercialDeckMower')">Commercial Deck</span></li>
-          <li><span @click="A_Clicked('CommercialRiderMower')">Commercial Rider</span></li>-->
         </ul>
       </div>
-      <div class="col s2">
+      <div v-show = "showMakeButton" class="col s2">
         <span id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Make</span>
         <!-- Dropdown Structure -->
         <ul id='dropdown2' class='dropdown-content'>
           <!-- The contents of this dropdown are dynamically constructed based upon the choice from button 01 -->
         </ul>
       </div>
-      <div class="col s2">
+      <div v-show = "showModelButton" class="col s2">
         <input v-model="ModelValue" placeholder="Model" id="Model" type="text">
       </div>
-      <div class="col s2">
+      <div v-show = "showTuneButton" class="col s2">
         <a id='btn03' class='dropdown-button btn red' href='#' data-activates='dropdown3'>Tune / Repair</a>
         <!-- Dropdown Structure -->
         <ul id='dropdown3' class='dropdown-content'>
@@ -35,7 +28,7 @@
           <li><span @click="C_Clicked('Repair')">Repair</span></li>
         </ul>
       </div>
-      <div class="col s2">
+      <div v-show="showExpressButton" class="col s2">
         <span id='btn04' class='dropdown-button btn red' href='#' data-activates='dropdown4'>Regular / Rush</span>
         <!-- Dropdown Structure -->
         <ul id='dropdown4' class='dropdown-content'>
@@ -58,36 +51,36 @@
 </template>
 
 <script>
-  // let equipment: {
-  //   HandheldPower: {
-  //     models: ['Remmington', 'Makita', 'Polan'],
-  //     name: 'Handheld Power'
-  //   },
-  //   HomeOwnerWalkBehind: {
-  //     models: ['twoStrokeA', 'twoStrokeB', 'twoStrokeC']
-  //   },
-  //   HomeOwnerZeroTurn: {
-  //     models: ['fourStrokeA', 'fourStrokeB', 'fourStrokeC']
-  //   },
-  // }
-
   export default {
     name: 'test',
     data() {
       return {
         modelName: '',
         msg: 'Enter Your Service Request',
-        showSubmitButton: false,
+        
+        //flags indicating if buttons are visible. 
+        showTypeButton: true,
+        showMakeButton: true, 
+        showModelButton: true,
+        showTuneButton: true,
+        showExpressButton: false, //defaults to false on inital screen.
+        showSubmitButton: false, //defaults to false on inital screen. 
+        
+        //flags indicating if buttons color should be green.         
         equipmentTypeGreen: false,
         MakeGreen: false,
         TuneGreen: false,
         Regular: false,
 
+        //Variables to hold values selected by user. 
         equipmentTypeValue: '',
         MakeValue: '',
         ModelValue: '',
         TuneValue: '',
         RegularValue: '',
+
+        //Data to populate dropdown buttons. //Modify with care.
+        //At some point will this data live in the database and not need to be hard coded?
         equipment: {
           ChainBlade: {
             manufact: ['N/A'],
@@ -156,7 +149,7 @@
 
       //This function called when a selection is made in the dropdown for the first, "A" button.
       A_Clicked: function (model) {
-        console.log(model)
+        console.log("The" + model + " has been selected.")
         //Set the value of the selection in the local data section.
         this.equipmentTypeValue = model.name;
         //Indicate a selection has been made on this button and check if we should show the submit button.
@@ -164,12 +157,10 @@
         this.checkShowSubmit()
 
         var dom_but01 = document.getElementById("btn01")
-        if (model.argument == 'ChainBlade') {
-
+        if (model.argument == 'ChainBlade') 
+          {
           dom_but01.innerText = model.name;
-          //populate the MAKE dropdown menu based upon the fact that we have selected HandheldPower.
           var ul02 = document.getElementById('dropdown2')
-
           //Clear any old li elements from dropdown (will be present if a previous selection was made)
           while (ul02.childElementCount > 0) {
             ul02.removeChild(ul02.childNodes[0])
@@ -177,11 +168,21 @@
           //loop over the equipment HandheldPower models object to create the li elements for the second button.
           for (var i = 0; i < model.manufact.length; i++) {
             //populate the choices avaiable on the second button.
-            console.log("hello", model.manufact[i])
             ul02.appendChild(this.makeLi(model.manufact[i]))
           }
           //change the color of the button to green to indicate a selection has been made.
           dom_but01.setAttribute('class', 'dropdown-button btn green')
+
+          //Per business logic if the Chain / Blade Sharpen has been selected by the 
+          //customer, there is no need for them to use the other three buttons so we 
+          //hide them here.
+          this.showTypeButton = true
+          this.showMakeButton = false;
+          this.showModelButton = false
+          this.showTuneButton = false
+          this.showExpressButton = false 
+          this.showSubmitButton = true 
+
         } else if (model.argument == 'HandheldPower') {
 
           dom_but01.innerText = model.name;
