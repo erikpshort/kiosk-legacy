@@ -278,34 +278,7 @@
     text-transform: uppercase;
     text-align: center;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   input {
     text-align: center;
-  }
-
-  {
-    color: white;
   }
 </style>
