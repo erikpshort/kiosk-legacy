@@ -12,12 +12,13 @@
               <h4>{{customer.company}}</h4>
               <h4>{{customer.name}}</h4>
               <h4>{{customer.adress}}</h4>
-              <h4>{{customer.city}}, {{customer.state}} {{customer.zip}}</h4>
-              <h4>{{activePhone}}</h4>
+              <h4 v-if="customer.city || customer.state">{{customer.city}}, {{customer.state}} {{customer.zip}}</h4>
+              <h4 v-if="typeof activePhone == 'string'">{{activePhone}}</h4>
+              <h4 v-if="typeof activePhone != 'string'">{{activePhone[0]}}</h4>
               <h4>{{customer.email}}</h4>
             </div>
             <div class="card-action">
-              <a href="#">Is Correct</a>
+              <router-link :to="'/ServiceRequest'"><a>Is Correct</a></router-link>
               <a @click="show = !show">Is Not Correct</a>
             </div>
           </div>
@@ -102,7 +103,7 @@
     name: 'hello',
     data() {
       return {
-        msg: ' . . . . .......................................',
+        msg: 'Confirm your information',
         show: true,
       }
     },
@@ -124,7 +125,6 @@
         this.$root.$data.store.state.activePhone = phone
         this.$root.$data.store.actions.changeUser(userId, body)
         this.show = true
-        return console.log("Doing PUt REquest Later")
       }
     },
     computed: {

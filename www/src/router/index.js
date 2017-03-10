@@ -12,12 +12,9 @@ import bluejobs from '@/components/Bluejobs'
 import orangejobs from '@/components/Orangejobs'
 import greenjobs from '@/components/Greenjobs'
 import EditInfo from '@/components/EditInfo'
-<<<<<<< HEAD
 import AdminLogin from '@/components/AdminLogin'
 import Reject from '@/components/Reject'
-=======
 import AdminBoard from '@/components/AdminBoard'
->>>>>>> 04dff0fba964c24e1e92773f0320347a287abf8e
 
 
 
@@ -85,7 +82,6 @@ export default new Router({
       name: 'EditInfo',
       component: EditInfo
     },
-<<<<<<< HEAD
     {
       path: '/AdminLogin',
       name: 'AdminLogin',
@@ -95,13 +91,11 @@ export default new Router({
       path: '/Reject',
       name: 'Reject',
       component: Reject
-    }
-=======
+    },
       {
       path: '/AdminBoard',
       name: 'AdminBoard',
       component: AdminBoard,
     },
->>>>>>> 04dff0fba964c24e1e92773f0320347a287abf8e
   ]
 })
