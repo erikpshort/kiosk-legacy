@@ -145,6 +145,9 @@
       $('.service-request .dropdown-button').dropdown()
     },
     methods: {
+      addJob() {
+
+      },
       makeLi: function (dropText) {
         //This function creates the elements to be used in the dropdown for the second, "B" button.
         //dropText is the text to be shown in the dropdown menu.
@@ -192,14 +195,12 @@
         var dom_but01 = document.getElementById("btn01")
         dom_but01.innerText = model.name;
 
-        if (model.argument != 'ChainBlade' && model.argument != 'Other') 
-        {
+        if (model.argument != 'ChainBlade' && model.argument != 'Other') {
           this.showButtons()
           this.clearButtonBDropDownList()
           this.populateButtonBDropDownList(model)
         }
-        else if (model.argument == 'ChainBlade')
-        {
+        else if (model.argument == 'ChainBlade') {
           dom_but01.innerText = model.name;
           this.clearButtonBDropDownList()
           this.populateButtonBDropDownList(model)
@@ -252,25 +253,35 @@
       },
       checkShowSubmit: function () {
         //first check to see if the regular/rush button is showing:
-        if (this.showExpressButton == true)
-        {
+        if (this.showExpressButton == true) {
           //Make sure all four buttons are green before showing the submit button
-          if (this.equipmentTypeGreen && this.MakeGreen && this.TuneGreen && this.RegularGreen)
-          {
-             this.showSubmitButton = true;
+          if (this.equipmentTypeGreen && this.MakeGreen && this.TuneGreen && this.RegularGreen) {
+            this.showSubmitButton = true;
           }
         }
-        else
-        {
+        else {
           //Make sure the three visible buttons are green before showing the submit button. 
-          if (this.equipmentTypeGreen && this.MakeGreen && this.TuneGreen)
-          {
-             this.showSubmitButton = true;
+          if (this.equipmentTypeGreen && this.MakeGreen && this.TuneGreen) {
+            this.showSubmitButton = true;
           }
         }
       },
       //this is a placeholder function to report out the values that are to be sent on submit.
       returnSelection: function () {
+        var object = {
+          type1: this.equipmentTypeValue || null,
+          type2: this.RegularValue,
+          make: this.MakeValue,
+          model: this.ModelValue,
+          email: this.$root.$data.store.state.activeCustomer.email,
+          tUpRepExp: this.TuneValue,
+          jobNumber: 1001,
+          customerNotes: this.notesValue,
+          cellPhone:  this.$root.$data.store.state.activePhone,
+          customerId: this.$root.$data.store.state.activeCustomer._id
+        }
+        this.$root.$data.store.actions.postJob(object)
+        console.log(object)
         console.log("---submit has been pressed---")
         console.log("Equipment Type:", this.equipmentTypeValue)
         console.log("Make Value:", this.MakeValue)
@@ -311,6 +322,8 @@
       },
     },
   }
+
 </script>
 <style>
+
 </style>

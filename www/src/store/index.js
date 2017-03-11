@@ -143,7 +143,7 @@ export default {
             }).catch(handleError)
         },
         postJob(body) {
-            api.post('jobs', body).then(res => {
+            api.post('job', body).then(res => {
                 this.activeJob = res.data.data
                 this.getActiveJobs()
             }).catch(handleError)

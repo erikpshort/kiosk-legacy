@@ -110,6 +110,7 @@
           this.$root.$data.store.state.activeCustomer = body
           // this.$root.$data.store.actions.register(body)
           // this.$root.$data.store.actions.postUser(body)
+          
           this.$router.push('/ConfirmCompanyInfo')
         }
       }
