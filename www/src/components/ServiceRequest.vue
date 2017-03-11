@@ -79,6 +79,9 @@
         TuneValue: '',
         RegularValue: '',
 
+        //Manufactures for which express service is avaiable.
+        express_manufact: ["Stihl","Toro","Scag"],
+
         //Data to populate dropdown buttons. //Modify with care.
         //At some point will this data live in the database and not need to be hard coded?
         equipment: {
@@ -314,13 +317,20 @@
         }
       },
       //This function called when a selection is made in the dropdown for the second, "B" button.
-      B_Clicked: function (code) {
-        this.MakeValue = code;
+      
+      B_Clicked: function (make) {
+        this.MakeValue = make;
         this.MakeGreen = true;
         this.checkShowSubmit()
         var dom_but02 = document.getElementById("btn02")
         dom_but02.setAttribute('class', 'dropdown-button btn green')
-        dom_but02.innerText = code;
+        dom_but02.innerText = make;
+        //Expose the Express/Regular service if the store can support it.
+        if (this.express_manufact.includes(make))
+          {this.showExpressButton = true}
+        else
+          {this.showExpressButton = false}
+
       },
       //This function called when a selection is made in the dropdown for the third, "C" button.
       C_Clicked: function (code) {
