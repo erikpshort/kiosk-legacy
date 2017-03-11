@@ -36,16 +36,32 @@
           <li><span @click="D_Clicked('Express')">Express</span></li>
         </ul>
       </div>
+
       <div class="row">
-        <div class="col s12">
-          <!--<button>Submit</button>-->
-          <div v-show="showSubmitButton" class="submitButton">
-            <button @click="returnSelection()" class="waves-effect waves-light btn ">Submit</button>
+        <div class="input-field col s12">
+          <textarea id="textarea1" class="materialize-textarea"></textarea>
+          <label for="textarea1">Customer Notes:</label>
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <div class="row">
+          <div class="col s12">
+            <!--<button>Submit</button>-->
+            <div v-show="showSubmitButton" class="submitButton">
+              <button @click="returnSelection()" class="waves-effect waves-light btn ">Submit</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
   </div>
 </template>
@@ -80,7 +96,7 @@
         RegularValue: '',
 
         //Manufactures for which express service is avaiable.
-        express_manufact: ["Stihl","Toro","Scag"],
+        express_manufact: ["Stihl", "Toro", "Scag"],
 
         //Data to populate dropdown buttons. //Modify with care.
         //At some point will this data live in the database and not need to be hard coded?
@@ -317,7 +333,7 @@
         }
       },
       //This function called when a selection is made in the dropdown for the second, "B" button.
-      
+
       B_Clicked: function (make) {
         this.MakeValue = make;
         this.MakeGreen = true;
@@ -327,9 +343,9 @@
         dom_but02.innerText = make;
         //Expose the Express/Regular service if the store can support it.
         if (this.express_manufact.includes(make))
-          {this.showExpressButton = true}
+        { this.showExpressButton = true }
         else
-          {this.showExpressButton = false}
+        { this.showExpressButton = false }
 
       },
       //This function called when a selection is made in the dropdown for the third, "C" button.
