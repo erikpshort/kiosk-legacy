@@ -39,19 +39,9 @@
 
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="textarea1" class="materialize-textarea"></textarea>
+          <textarea v-model="notesValue" id="textarea1" class="materialize-textarea"></textarea>
           <label for="textarea1">Customer Notes:</label>
         </div>
-
-
-
-
-
-
-
-
-
-
         <div class="row">
           <div class="col s12">
             <!--<button>Submit</button>-->
@@ -94,6 +84,7 @@
         ModelValue: '',
         TuneValue: '',
         RegularValue: '',
+        notesValue: '',
 
         //Manufactures for which express service is avaiable.
         express_manufact: ["Stihl", "Toro", "Scag"],
@@ -166,170 +157,62 @@
         return new_li
       },
 
+      clearButtonBDropDownList: function (dropText) {
+        console.debug("Inside clearButtonBDropDownList")
+        var ul02 = document.getElementById('dropdown2')
+        while (ul02.childElementCount > 0) {  //while there is a child element (i.e. something in the dropdown)
+          ul02.removeChild(ul02.childNodes[0])  //remove it.
+        }
+      },
+
+      populateButtonBDropDownList: function (model) {
+        console.debug("Inside populateButtonBDropDownList")
+        var ul02 = document.getElementById('dropdown2')
+        for (var i = 0; i < model.manufact.length; i++) {
+          //populate the choices avaiable on the second button.
+          ul02.appendChild(this.makeLi(model.manufact[i]))
+          var dom_but01 = document.getElementById("btn01")
+          dom_but01.setAttribute('class', 'dropdown-button btn green')
+        }
+
+      },
+
       //This function called when a selection is made in the dropdown for the first, "A" button.
       A_Clicked: function (model) {
-        console.log("The" + model.name + " has been selected.")
+        console.info("The " + model.name + " has been selected.")
         //Set the value of the selection in the local data section.
         this.equipmentTypeValue = model.name;
         //Indicate a selection has been made on this button and check if we should show the submit button.
         this.equipmentTypeGreen = true;
         this.checkShowSubmit()
-
         //Reset the B button -- we do this since a previous selection may have been made we now want to clear these old settings. 
         this.resetBButton()
 
-        if (model.argument != 'ChainBlade') {
-          this.showButtons()
-        }
-
+        //Change the title of the "A" button.
         var dom_but01 = document.getElementById("btn01")
-        if (model.argument == 'ChainBlade') {
-          dom_but01.innerText = model.name;
-          var ul02 = document.getElementById('dropdown2')
-          //Clear any old li elements from dropdown (will be present if a previous selection was made)
-          while (ul02.childElementCount > 0) {
-            ul02.removeChild(ul02.childNodes[0])
-          }
-          //loop over the equipment HandheldPower models object to create the li elements for the second button.
-          for (var i = 0; i < model.manufact.length; i++) {
-            //populate the choices avaiable on the second button.
-            ul02.appendChild(this.makeLi(model.manufact[i]))
-          }
-          //change the color of the button to green to indicate a selection has been made.
-          dom_but01.setAttribute('class', 'dropdown-button btn green')
+        dom_but01.innerText = model.name;
 
-          //Per buseiness logic hide the buttons. 
+        if (model.argument != 'ChainBlade' && model.argument != 'Other') 
+        {
+          this.showButtons()
+          this.clearButtonBDropDownList()
+          this.populateButtonBDropDownList(model)
+        }
+        else if (model.argument == 'ChainBlade')
+        {
+          dom_but01.innerText = model.name;
+          this.clearButtonBDropDownList()
+          this.populateButtonBDropDownList(model)
+          //Per buseiness logic hide other buttons. 
           this.hideButtonsForSharp()
-        } else if (model.argument == 'HandheldPower') {
-          dom_but01.innerText = model.name;
-          //populate the MAKE dropdown menu based upon the fact that we have selected HandheldPower.
-          var ul02 = document.getElementById('dropdown2')
-
-          //Clear any old li elements from dropdown (will be present if a previous selection was made)
-          while (ul02.childElementCount > 0)
-          { ul02.removeChild(ul02.childNodes[0]) }
-          //loop over the equipment HandheldPower models object to create the li elements for the second button.
-          for (var i = 0; i < model.manufact.length; i++) {
-            //populate the choices avaiable on the second button.
-            console.log("hello", model.manufact[i])
-            ul02.appendChild(this.makeLi(model.manufact[i]))
-          }
-          //change the color of the button to green to indicate a selection has been made.
-          dom_but01.setAttribute('class', 'dropdown-button btn green')
         }
-        else if (model.argument == 'HomeOwnerWalkBehind') {
+        else if (model.argument == 'Other')  //for the monent this has same response as other but will need additioanl business logic, probalby?
+        {
           dom_but01.innerText = model.name;
-          //populate the MAKE dropdown menu based upon the fact that we have selected HandheldPower.
-          var ul02 = document.getElementById('dropdown2')
-
-          //Clear any old li elements from dropdown (will be present if a previous selection was made)
-          while (ul02.childElementCount > 0)
-          { ul02.removeChild(ul02.childNodes[0]) }
-          //loop over the equipment HandheldPower models object to create the li elements for the second button.
-          for (var i = 0; i < model.manufact.length; i++) {
-            //populate the choices avaiable on the second button.
-            console.log("hello", model.manufact[i])
-            ul02.appendChild(this.makeLi(model.manufact[i]))
-          }
-          //change the color of the button to green to indicate a selection has been made.
-          dom_but01.setAttribute('class', 'dropdown-button btn green')
-        }
-        else if (model.argument == 'HomeOwnerZeroTurn') {
-          dom_but01.innerText = model.name;
-          //populate the MAKE dropdown menu based upon the fact that we have selected HandheldPower.
-          var ul02 = document.getElementById('dropdown2')
-
-          //Clear any old li elements from dropdown (will be present if a previous selection was made)
-          while (ul02.childElementCount > 0)
-          { ul02.removeChild(ul02.childNodes[0]) }
-          //loop over the equipment HandheldPower models object to create the li elements for the second button.
-          for (var i = 0; i < model.manufact.length; i++) {
-            //populate the choices avaiable on the second button.
-            console.log("hello", model.manufact[i])
-            ul02.appendChild(this.makeLi(model.manufact[i]))
-          }
-          //change the color of the button to green to indicate a selection has been made.
-          dom_but01.setAttribute('class', 'dropdown-button btn green')
-        } else if (model.argument == 'HomeownerTractor') {
-          dom_but01.innerText = model.name;
-          //populate the MAKE dropdown menu based upon the fact that we have selected HandheldPower.
-          var ul02 = document.getElementById('dropdown2')
-
-          //Clear any old li elements from dropdown (will be present if a previous selection was made)
-          while (ul02.childElementCount > 0)
-          { ul02.removeChild(ul02.childNodes[0]) }
-          //loop over the equipment HandheldPower models object to create the li elements for the second button.
-          for (var i = 0; i < model.manufact.length; i++) {
-            //populate the choices avaiable on the second button.
-            console.log("hello", model.manufact[i])
-            ul02.appendChild(this.makeLi(model.manufact[i]))
-          }
-          //change the color of the button to green to indicate a selection has been made.
-          dom_but01.setAttribute('class', 'dropdown-button btn green')
-        } else if (model.argument == 'CommercialWalk') {
-          dom_but01.innerText = model.name;
-          //populate the MAKE dropdown menu based upon the fact that we have selected HandheldPower.
-          var ul02 = document.getElementById('dropdown2')
-
-          //Clear any old li elements from dropdown (will be present if a previous selection was made)
-          while (ul02.childElementCount > 0)
-          { ul02.removeChild(ul02.childNodes[0]) }
-          //loop over the equipment HandheldPower models object to create the li elements for the second button.
-          for (var i = 0; i < model.manufact.length; i++) {
-            //populate the choices avaiable on the second button.
-            console.log("hello", model.manufact[i])
-            ul02.appendChild(this.makeLi(model.manufact[i]))
-          }
-          //change the color of the button to green to indicate a selection has been made.
-          dom_but01.setAttribute('class', 'dropdown-button btn green')
-        } else if (model.argument == 'CommercialDeck') {
-          dom_but01.innerText = model.name;
-          //populate the MAKE dropdown menu based upon the fact that we have selected HandheldPower.
-          var ul02 = document.getElementById('dropdown2')
-
-          //Clear any old li elements from dropdown (will be present if a previous selection was made)
-          while (ul02.childElementCount > 0)
-          { ul02.removeChild(ul02.childNodes[0]) }
-          //loop over the equipment HandheldPower models object to create the li elements for the second button.
-          for (var i = 0; i < model.manufact.length; i++) {
-            //populate the choices avaiable on the second button.
-            console.log("hello", model.manufact[i])
-            ul02.appendChild(this.makeLi(model.manufact[i]))
-          }
-          //change the color of the button to green to indicate a selection has been made.
-          dom_but01.setAttribute('class', 'dropdown-button btn green')
-        } else if (model.argument == 'CommercialRider') {
-          dom_but01.innerText = model.name;
-          //populate the MAKE dropdown menu based upon the fact that we have selected HandheldPower.
-          var ul02 = document.getElementById('dropdown2')
-
-          //Clear any old li elements from dropdown (will be present if a previous selection was made)
-          while (ul02.childElementCount > 0)
-          { ul02.removeChild(ul02.childNodes[0]) }
-          //loop over the equipment HandheldPower models object to create the li elements for the second button.
-          for (var i = 0; i < model.manufact.length; i++) {
-            //populate the choices avaiable on the second button.
-            console.log("hello", model.manufact[i])
-            ul02.appendChild(this.makeLi(model.manufact[i]))
-          }
-          //change the color of the button to green to indicate a selection has been made.
-          dom_but01.setAttribute('class', 'dropdown-button btn green')
-        } else if (model.argument == 'Other') {
-          dom_but01.innerText = model.name;
-          //populate the MAKE dropdown menu based upon the fact that we have selected HandheldPower.
-          var ul02 = document.getElementById('dropdown2')
-
-          //Clear any old li elements from dropdown (will be present if a previous selection was made)
-          while (ul02.childElementCount > 0)
-          { ul02.removeChild(ul02.childNodes[0]) }
-          //loop over the equipment HandheldPower models object to create the li elements for the second button.
-          for (var i = 0; i < model.manufact.length; i++) {
-            //populate the choices avaiable on the second button.
-            console.log("hello", model.manufact[i])
-            ul02.appendChild(this.makeLi(model.manufact[i]))
-          }
-          //change the color of the button to green to indicate a selection has been made.
-          dom_but01.setAttribute('class', 'dropdown-button btn green')
+          this.clearButtonBDropDownList()
+          this.populateButtonBDropDownList(model)
+          //Per buseiness logic hide other buttons. 
+          this.hideButtonsForSharp()
         }
       },
       //This function called when a selection is made in the dropdown for the second, "B" button.
@@ -350,25 +233,40 @@
       },
       //This function called when a selection is made in the dropdown for the third, "C" button.
       C_Clicked: function (code) {
+        console.debug("C_Clicked")
         this.TuneValue = code;
         this.TuneGreen = true;
-        this.checkShowSubmit()
         var dom_but03 = document.getElementById("btn03")
         dom_but03.setAttribute('class', 'dropdown-button btn green')
         dom_but03.innerText = code;
+        this.checkShowSubmit()
       },
       //This function called when a selection is made in the dropdown for the fourth, "D" button.
       D_Clicked: function (code) {
         this.RegularValue = code;
-        this.Regular = true;
+        this.RegularGreen = true;
         this.checkShowSubmit()
         var dom_but04 = document.getElementById("btn04")
         dom_but04.setAttribute('class', 'dropdown-button btn green')
         dom_but04.innerText = code;
       },
       checkShowSubmit: function () {
-        if (this.Regular && this.TuneGreen && this.MakeGreen && this.equipmentTypeGreen) {
-          this.showSubmitButton = true;
+        //first check to see if the regular/rush button is showing:
+        if (this.showExpressButton == true)
+        {
+          //Make sure all four buttons are green before showing the submit button
+          if (this.equipmentTypeGreen && this.MakeGreen && this.TuneGreen && this.RegularGreen)
+          {
+             this.showSubmitButton = true;
+          }
+        }
+        else
+        {
+          //Make sure the three visible buttons are green before showing the submit button. 
+          if (this.equipmentTypeGreen && this.MakeGreen && this.TuneGreen)
+          {
+             this.showSubmitButton = true;
+          }
         }
       },
       //this is a placeholder function to report out the values that are to be sent on submit.
@@ -379,6 +277,7 @@
         console.log("Model Value:", this.ModelValue)
         console.log("Tune Value:", this.TuneValue)
         console.log("Regular Value:", this.RegularValue)
+        console.log("Notes Value:", this.notesValue)
       },
       hideButtonsForSharp: function () {
         console.log("Since sharpening has been selected we hide buttons.")
@@ -405,19 +304,13 @@
         console.log("Reseting the selections made on the B button.")
         //grab the button element from the dom 
         var dom_but02 = document.getElementById("btn02")
-        //clear the li elements
-
         //Set it to red
         dom_but02.setAttribute('class', 'dropdown-button btn red')
-
         //Change the name on the button back to MAKE.
         dom_but02.innerText = "MAKE";
       },
     },
   }
-
 </script>
-
 <style>
-
 </style>
