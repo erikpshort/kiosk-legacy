@@ -3,7 +3,8 @@ let Users = require('../models/user')
 let io = require('socket.io')
 let twilio = require('twilio');
 
-let client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+// let client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+// will need this for text messaging
 
 
 export default {

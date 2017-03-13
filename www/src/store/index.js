@@ -13,8 +13,8 @@ let api = axios.create({
 })
 
 // api.post('http://localhost:3000/api/login', {
-//     email: 'erik@erik.com',
-//     password: 'erik'
+//     email: 'erik@hotmail.com',
+//     password: 'pw123'
 // })
 
 
@@ -82,7 +82,7 @@ export default {
                 state.loggedInData = res.data
                 if (res.data.data.admin) {
                     state.loggedInUser = res.data.data
-                    return router.push('/backlog')
+                    return router.push('/AdminBoard')
                 } else if (!res.data.data.admin) {
                     Materialize.toast('You do not have Administrative Permissions', 6000)
                 }
