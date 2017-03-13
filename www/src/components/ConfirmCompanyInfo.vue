@@ -13,8 +13,7 @@
               <h4>{{customer.name}}</h4>
               <h4>{{customer.adress}}</h4>
               <h4 v-if="customer.city || customer.state">{{customer.city}}, {{customer.state}} {{customer.zip}}</h4>
-              <h4 v-if="typeof activePhone == 'string'">{{activePhone}}</h4>
-              <h4 v-if="typeof activePhone != 'string'">{{activePhone[0]}}</h4>
+              <h4 v-for="phone in activePhone">{{phone}}</h4>
               <h4>{{customer.email}}</h4>
             </div>
             <div class="card-action">

@@ -16,6 +16,7 @@
       }
     },methods:{
       compPicked(company){
+        this.$root.$data.store.state.activePhone = company.cellPhone
         this.$root.$data.store.state.activeCustomer = company
         return this.$router.push('/ConfirmCompanyInfo')
       }
@@ -23,7 +24,6 @@
     computed: {
       customers() {
         return this.$root.$data.store.state.activeCustomers.filter(cus => {
-          console.log(cus.company)
           if(cus.company === '' || cus.company === null){
             return
           }else{return cus}
