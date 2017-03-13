@@ -3,7 +3,9 @@ let Users = require('../models/user')
 let io = require('socket.io')
 let twilio = require('twilio');
 
-let client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+//commeted out at dave's suggestion. 
+//On a proper server these variables will be supplied by server environment.
+// let client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
 
 
 export default {

@@ -61,6 +61,7 @@
     name: 'test',
     data() {
       return {
+        debugMode : true, //used to hard code options for debugging -- set to false in prod.
         modelName: '',
         msg: 'Enter Your Service Request',
 
@@ -268,17 +269,21 @@
       },
       //this is a placeholder function to report out the values that are to be sent on submit.
       returnSelection: function () {
+          
+
         var object = {
           type1: this.equipmentTypeValue || null,
           type2: this.RegularValue,
           make: this.MakeValue,
           model: this.ModelValue,
-          email: this.$root.$data.store.state.activeCustomer.email,
+          // email: this.$root.$data.store.state.activeCustomer.email,
+          email: 'afreeman1s@topsy.com',
           tUpRepExp: this.TuneValue,
           jobNumber: 1001,
           customerNotes: this.notesValue,
           cellPhone:  this.$root.$data.store.state.activePhone,
-          customerId: this.$root.$data.store.state.activeCustomer._id
+          // customerId: this.$root.$data.store.state.activeCustomer._id
+          customerId: '58b9f7638f4f33979c7054e7'
         }
         this.$root.$data.store.actions.postJob(object)
         console.log(object)
