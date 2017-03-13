@@ -171,7 +171,4 @@ export default {
             }).catch(handleError)
         }
     },
-    message: {
-
-    }
 }
