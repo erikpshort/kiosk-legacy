@@ -1,3 +1,13 @@
+<!--Todo/Question List-->
+<!--Are we sorting the correct fields with the fourStroke/TwoStroke Methods-->
+<!--Need to tie to actual data in the store.-->
+<!--Is this tied correctly to actual data.-->
+<!--We need to change that field that add to working is using to move jobs around page-->
+<!--Prusumabally we can use this field to control where (i.e. in which box a job shows)-->
+<!--Need to make some design decisions on the UI so not so ugly.-->
+<!--Does it make sense to pull the filering functionaly into a method (drier)-->
+<!--Need to add to all methods a put back to the DB so this information stays consistent-->
+
 <template>
   <div class="AdminBoard">
     <h1>{{ msg }}</h1>
@@ -28,7 +38,7 @@
       }
     },
     methods: {
-      //takes in an array of job objects, and returns an array of only those where the type is four-stroke.
+      //takes in a full array of job objects, and returns an array of only those where the type is four-stroke.
       fourStroke: function (arr_jobs) {
         this.out_array = arr_jobs.filter(function (element) {
           //for the moment if element.archive = false they the job is shown in their colored board.
@@ -55,7 +65,7 @@
         return this.out_array;
       },
       addToWorking: function (jobId) {
-        //loop through the active jobs array to find the object with this id and change the job.archive field to 'working'
+        //loop through the active jobs array to find the object with the given id and change the job.archive field to 'working' (should use different field in future.)
         var arr_activeJobs = this.$root.store.state.activeJobs
         for (var i = 0; i < arr_activeJobs.length; i++) {
           var job = arr_activeJobs[i];
@@ -92,8 +102,5 @@
 .fourStroke { background-color: orange; }
 .twoStroke { background-color: green; }
 .blue { background-color: blue;}
-
-
-
 </style>
 
