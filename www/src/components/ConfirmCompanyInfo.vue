@@ -13,7 +13,8 @@
               <h4>{{customer.name}}</h4>
               <h4>{{customer.adress}}</h4>
               <h4 v-if="customer.city || customer.state">{{customer.city}}, {{customer.state}} {{customer.zip}}</h4>
-              <h4 v-for="phone in activePhone">{{phone}}</h4>
+              <h4 v-if="typeof activePhone == 'string'">{{activePhone}}</h4>
+              <h4 v-if="typeof activePhone != 'string'"v-for="phone in activePhone">{{phone}}</h4>
               <h4>{{customer.email}}</h4>
             </div>
             <div class="card-action">
@@ -46,7 +47,7 @@
               <div class="input-field col s6 offset-s3">
 
                 <label for="phonenum">Phone Number (format: xxx-xxx-xxxx):</label><br/><br/>
-                <input v-model="customer.cellPhone" type="tel" class=" validate" pattern="^\d{3}-\d{3}-\d{4}$">
+                <input v-for="phone in customer.cellPhone" v-model="customer.cellPhone" type="tel" class=" validate" pattern="^\d{3}-\d{3}-\d{4}$">
 
               </div>
             </div>
