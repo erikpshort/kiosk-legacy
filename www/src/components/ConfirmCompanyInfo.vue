@@ -14,7 +14,7 @@
               <h4>{{customer.adress}}</h4>
               <h4 v-if="customer.city || customer.state">{{customer.city}}, {{customer.state}} {{customer.zip}}</h4>
               <h4 v-if="typeof activePhone == 'string'">{{activePhone}}</h4>
-              <h4 v-if="typeof activePhone != 'string'"v-for="phone in activePhone">{{phone}}</h4>
+              <h4 v-if="typeof activePhone != 'string'" v-for="phone in activePhone">{{phone}}</h4>
               <h4>{{customer.email}}</h4>
             </div>
             <div class="card-action">
@@ -47,8 +47,8 @@
               <div class="input-field col s6 offset-s3">
 
                 <label for="phonenum">Phone Number (format: xxx-xxx-xxxx):</label><br/><br/>
-                <input v-for="phone in customer.cellPhone" v-model="customer.cellPhone" type="tel" class=" validate" pattern="^\d{3}-\d{3}-\d{4}$">
-
+                <input v-for="(phone, i) in customer.cellPhone" v-model="customer.cellPhone[i]" type="tel" class=" validate" pattern="^\d{3}-\d{3}-\d{4}$">
+                <input v-model="addPhone" type="tel" class=" validate" pattern="^\d{3}-\d{3}-\d{4}$" placeholder="Add Phone Number">
               </div>
             </div>
             <div class="row">
@@ -86,7 +86,7 @@
             </div>
 
             <div class="row">
-              <button @click="putRequest(customer.name, customer.company, customer.cellPhone, customer.address, customer.city, customer.state, customer.zip, customer.email)"
+              <button @click.prevent="putRequest(customer.name, customer.company, customer.cellPhone, customer.address, customer.city, customer.state, customer.zip, customer.email, addPhone)"
                 type="submit" class="waves-effect waves-light btn ">Submit</button>
             </div>
           </form>
@@ -105,26 +105,50 @@
       return {
         msg: 'Confirm your information',
         show: true,
+        addPhone: null,
       }
     },
     methods: {
-      putRequest(name, company, phone, address, city, state, zip, email) {
-        var body = {
-          company: company,
-          name: name,
-          email: email,
-          cellPhone: phone,
-          address: address,
-          state: state,
-          city: city,
-          zip: zip,
-          _id: this.customer._id
+      putRequest(name, company, phone, address, city, state, zip, email, addPhone) {
+        if (addPhone == null) {
+          console.log(addPhone)
+          var body = {
+            company: company,
+            name: name,
+            email: email,
+            cellPhone: phone,
+            address: address,
+            state: state,
+            city: city,
+            zip: zip,
+            _id: this.customer._id
+          }
+          var userId = this.customer._id
+          this.$root.$data.store.state.activeCustomer = body
+          this.$root.$data.store.state.activePhone = phone
+          this.$root.$data.store.actions.changeUser(userId, body)
+          this.show = true
+        }else{
+          console.log(addPhone)
+          phone.push(addPhone)
+                    console.log(phone)
+          var body = {
+            company: company,
+            name: name,
+            email: email,
+            cellPhone: phone,
+            address: address,
+            state: state,
+            city: city,
+            zip: zip,
+            _id: this.customer._id
+          }
+          var userId = this.customer._id
+          this.$root.$data.store.state.activeCustomer = body
+          this.$root.$data.store.state.activePhone = phone
+          this.$root.$data.store.actions.changeUser(userId, body)
+          this.show = true
         }
-        var userId = this.customer._id
-        this.$root.$data.store.state.activeCustomer = body
-        this.$root.$data.store.state.activePhone = phone
-        this.$root.$data.store.actions.changeUser(userId, body)
-        this.show = true
       }
     },
     computed: {

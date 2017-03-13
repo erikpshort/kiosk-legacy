@@ -14,7 +14,7 @@
       <div class="row">
         <div class="input-field col s6 offset-s3">
           
-  <label for="phonenum">Phone Number (format: xxx-xxx-xxxx):</label><br/><br/>
+  <label v-for="phone in phoneNum" for="phonenum">Phone Number (format: xxx-xxx-xxxx):</label><br/><br/>
   <input v-model="phoneNumber" id="phonenum" type="tel" class=" validate" placeholder=" xxx-xxx-xxxx" pattern="^\d{3}-\d{3}-\d{4}$"  >
 
     <!--      <input type="tel" name="number" placeholder="XXX-XXX-XXXX" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$">
