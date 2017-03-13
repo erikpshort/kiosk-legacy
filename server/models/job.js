@@ -7,7 +7,7 @@ let Schema = mongoose.Schema
 var schema = new Schema({
     // REQUIRED
     type1: {type: String, required: true, default:'Handheld Power'},
-    type2: { type: String, required: true, default:'Unkown' },
+    type2: { type: String, default:'Unkown' },
     make: { type: String, required: true },
     model: { type: String, required: true },
     created: { type: Number, required: true, default: Date.now() },
@@ -33,7 +33,6 @@ var schema = new Schema({
     // Relations REQUIRED
     archive:{type: Boolean, required: true, default: false},
     customerId: { type: ObjectId, ref: models.customer, required: true },
-    creatorId: { type: ObjectId, ref: models.user.name, required: true },
     cellPhone: {
         type: String,
         validate: {

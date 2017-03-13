@@ -109,7 +109,9 @@ export default {
         },
         //GETS
         getActiveJobs() {
+            console.log("action is hitting...")
             api('activejobs').then(res => {
+                console.log("active jobs res  "  ,res)
                 state.activeJobs = res.data.data
             }).catch(handleError)
         },
@@ -154,7 +156,7 @@ export default {
             }).catch(handleError)
         },
         postJob(body) {
-            api.post('jobs', body).then(res => {
+            api.post('job', body).then(res => {
                 this.activeJob = res.data.data
                 this.getActiveJobs()
             }).catch(handleError)

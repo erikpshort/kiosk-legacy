@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <img src="./assets/legacyLogo.png">
-    <router-view></router-view>
+    
+  <router-view></router-view> 
   </div>
 </template>
 

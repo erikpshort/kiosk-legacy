@@ -15,36 +15,51 @@ import EditInfo from '@/components/EditInfo'
 import AdminLogin from '@/components/AdminLogin'
 import Reject from '@/components/Reject'
 import AdminBoard from '@/components/AdminBoard'
-
+import Home from '@/components/Home'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'Hello',
-      component: Hello
-    },
-      {
-      path: '/CompanyDirectory',
-      name: 'CompanyDirectory',
-      component: CompanyDirectory
-    },
-      {
-      path: '/EnterInfo',
-      name: 'EnterInfo',
-      component: EnterInfo
-    },
-      {
-      path: '/ConfirmCompanyInfo',
-      name: 'ConfirmCompanyInfo',
-      component: ConfirmCompanyInfo
-    },
-    {
-      path: '/ServiceRequest',
-      name: 'ServiceRequest',
-      component: ServiceRequest
+      path: '/home',
+      name: 'Home',
+      component: Home,
+      children: [
+        {
+          path: '/',
+          name: 'Hello',
+          component: Hello
+
+        },
+
+        {
+          path: '/CompanyDirectory',
+          name: 'CompanyDirectory',
+          component: CompanyDirectory
+        },
+        {
+          path: '/EnterInfo',
+          name: 'EnterInfo',
+          component: EnterInfo
+        },
+        {
+          path: '/ConfirmCompanyInfo',
+          name: 'ConfirmCompanyInfo',
+          component: ConfirmCompanyInfo
+        },
+        {
+          path: '/ServiceRequest',
+          name: 'ServiceRequest',
+          component: ServiceRequest
+        },
+        {
+          path: '/AdminLogin',
+          name: 'AdminLogin',
+          component: AdminLogin
+        },
+
+      ]
     },
     {
       path: '/backlog',
@@ -81,20 +96,17 @@ export default new Router({
       name: 'EditInfo',
       component: EditInfo
     },
-    {
-      path: '/AdminLogin',
-      name: 'AdminLogin',
-      component: AdminLogin
-    },
+
     {
       path: '/Reject',
       name: 'Reject',
       component: Reject
     },
-      {
+    {
       path: '/AdminBoard',
       name: 'AdminBoard',
       component: AdminBoard,
     },
+
   ]
 })
