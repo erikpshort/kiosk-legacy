@@ -23,7 +23,8 @@
     "express": "^4.15.0",
     "express-session": "^1.15.1",
     "mongoose": "^4.8.5",
-    "socket.io": "^1.7.3"
+    "socket.io": "^1.7.3",
+    "twilio": "^2.11.1"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0"

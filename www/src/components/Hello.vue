@@ -190,87 +190,17 @@
   .placeholder {
     font-size: 36px
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   #telephone {
     font-size: 36px;
     text-align: center;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   .validate {
     font-size: 36px
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   #telephone {
     font-size: 36px;
     text-align: center;
   }
-
    ::-webkit-input-placeholder {
     font-size: 36px;
     color: #d0cdfa;
@@ -278,34 +208,7 @@
     text-transform: uppercase;
     text-align: center;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   input {
     text-align: center;
-  }
-
-  {
-    color: white;
   }
 </style>

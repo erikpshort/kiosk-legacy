@@ -1,5 +1,9 @@
 import router from '../router'
 import axios from 'axios'
+// import twilio from 'twilio'
+
+// var twilio = require('twilio');
+// var client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
 
 let api = axios.create({
     baseURL: 'http://localhost:3000/api/',
@@ -32,7 +36,7 @@ let state = {
     activePhone: '',
     loggedInUser: {},
     loggedInData: {},
-    error: {}
+    error: {},
 
 }
 
@@ -46,12 +50,19 @@ export default {
     state,
     //ACTIONS ARE RESPONSIBLE FOR MAKING ALL ASYNC CALLSf
     actions: {
+        sms(body) {
+            api.post('sms', body)
+                .then(res => {
+                    console.log(res)
+                }).catch(handleError)
+        },
         //REGISTER - LOGIN - LOGOUT - AUTHENTICATION
         register(body) {
             api.post('register', body)
                 .then(res => {
                     state.activeUser = res.data.data
                     state.activeCustomer = res.data.data
+
                 }).catch(handleError)
         },
         // logInMethod(res) {
@@ -76,13 +87,15 @@ export default {
                     Materialize.toast('You do not have Administrative Permissions', 6000)
                 }
             }).catch(err => {
-                        if(state.loggedInData.error == "Invalid Email or Password"){
-                            Materialize.toast(state.loggedInData.error, 6000)
-                        }else{Materialize.toast("Must Provide Email and Password", 6000)
-                                Materialize.toast("You may need to Register", 4000)}
-                        // If you need to call a function from a component use below method
-                    // router.getMatchedComponents('/AdminLogin')[0].methods.afterLogIn(state.loggedInData)
-                },handleError)
+                if (state.loggedInData.error == "Invalid Email or Password") {
+                    Materialize.toast(state.loggedInData.error, 6000)
+                } else {
+                    Materialize.toast("Must Provide Email and Password", 6000)
+                    Materialize.toast("You may need to Register", 4000)
+                }
+                // If you need to call a function from a component use below method
+                // router.getMatchedComponents('/AdminLogin')[0].methods.afterLogIn(state.loggedInData)
+            }, handleError)
         },
         logOut() {
             api.delete('logOut').then(res => {
@@ -159,5 +172,8 @@ export default {
                 this.activeJobs()
             }).catch(handleError)
         }
+    },
+    message: {
+
     }
 }
