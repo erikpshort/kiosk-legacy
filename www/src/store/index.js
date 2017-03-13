@@ -1,9 +1,5 @@
 import router from '../router'
 import axios from 'axios'
-// import twilio from 'twilio'
-
-// var twilio = require('twilio');
-// var client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
 
 let api = axios.create({
     baseURL: 'http://localhost:3000/api/',
@@ -175,7 +171,4 @@ export default {
             }).catch(handleError)
         }
     },
-    message: {
-
-    }
 }
