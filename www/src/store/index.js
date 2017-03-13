@@ -8,10 +8,12 @@ let api = axios.create({
 
 })
 
+//console.warn("makeing a post with hard coded login information.")
 // api.post('http://localhost:3000/api/login', {
 //     email: 'erik@hotmail.com',
 //     password: 'pw123'
 // })
+
 
 
 //REGISTER ALL DATA HERE
