@@ -31,7 +31,7 @@
     </div>
     <div class="row">
       <div class="col s12 grey jobText">Jobs Being Worked On
-        <div v-for="job in working(this.$root.store.state.activeJobs)" @click=removeFromWorking(job._id)><span v-bind:class="{ fourStroke: job.type=='four Stroke', twoStroke: job.type=='two Stroke'}">{{job.created}} {{job.make}} {{job.model}} {{job.notes}}</span></div>
+        <div v-for="job in working(this.$root.store.state.activeJobs)" @click=removeFromWorking(job._id)><span v-bind:class="{fourStroke: job.type=='four Stroke', twoStroke: job.type=='two Stroke', sharpen: job.type1=='Sharpen'}">{{job._id}} Make:{{job.make}} Model:{{job.model}} Notes:{{job.customerNotes}}</span></div>
       </div>
     </div>
   </div>
@@ -43,6 +43,7 @@
     data() {
       return {
         msg: 'This is the Admin Board',
+        workingColorCodes: "{fourStroke: job.type=='four Stroke', twoStroke: job.type=='two Stroke', sharpen: job.type1=='Sharpen'}"
       }
     },
     methods: {
@@ -67,7 +68,7 @@
       },
       working: function (arr_jobs) {
         this.out_array = arr_jobs.filter(function (element) {
-          if (element.archive == "working") { return true }
+          if (element.whereAmI == "WorkLog") { return true }
           else { return false }
         })
         return this.out_array;
@@ -110,5 +111,6 @@
 .fourStroke { background-color: orange; }
 .twoStroke { background-color: green; }
 .blue { background-color: blue;}
+.sharpen { background-color: red;}
 </style>
 

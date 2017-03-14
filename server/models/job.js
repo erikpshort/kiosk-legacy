@@ -6,14 +6,14 @@ let Schema = mongoose.Schema
 
 var schema = new Schema({
     // REQUIRED
-    type1: {type: String, required: true, default:'Handheld Power'},
+    type1: {type: String, required: true, default:'HandheldPower'},
     type2: { type: String, default:'Unkown' },
     make: { type: String, required: true },
     model: { type: String, required: true },
     created: { type: Number, required: true, default: Date.now() },
     createdDate: { type: String, required: true, default: new Date()},
     email: {type: String, required: true},
-    whereAmI: {type: String, required: true, default: 'Work log'},
+    whereAmI: {type: String, required: true, default: 'WorkLog'},
 
     tUpRepExp: { type: String, required: true }, //nature of job tune up or repair.
     created: { type: Number, required: true, default: Date.now() },
