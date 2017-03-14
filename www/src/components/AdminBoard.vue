@@ -162,6 +162,6 @@
 .fourStroke { background-color: orange; }
 .twoStroke { background-color: green; }
 .commercial { background-color: cornflowerblue;}
-.sharpen { background-color: red;}
+.sharpen { background-color: yellow;}
 </style>
 
