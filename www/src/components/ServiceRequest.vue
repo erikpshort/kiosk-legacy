@@ -1,10 +1,11 @@
 <template>
   <div class="service-request">
     <h1>{{msg}}</h1>
+    <h3>{{this.$root.$data.store.state.activePhone}}</h3>
     <div class="row">
       <div class="col s3">
         <!-- Dropdown Trigger -->
-        <span id='btn01' class='dropdown-button btn red' href='#' data-activates='dropdown1'>Equipment Type</span>
+        <span id='btn01' class='dropdown-button btn red' href='#' data-activates='dropdown1'>Equipment Type <i class="fa fa-caret-down" aria-hidden="true"></i></span>
         <!-- Dropdown Structure -->
         <ul id='dropdown1' class='dropdown-content'>
           <li><span v-for="model in equipment" @click="A_Clicked(model)" v-model='modelName'>{{model.name}}</span></li>
@@ -196,6 +197,9 @@
         //Change the title of the "A" button.
         var dom_but01 = document.getElementById("btn01")
         dom_but01.innerText = model.name;
+        console.debug("Inner HTML:", dom_but01.innerHTML)
+        dom_but01.innerHTML = dom_but01.innerHTML + '<i class="fa fa-caret-down" aria-hidden="true"></i>';
+        console.debug("Inner HTML:", dom_but01.innerHTML)
 
         if (model.argument != 'ChainBlade' && model.argument != 'Other') {
           this.showButtons()

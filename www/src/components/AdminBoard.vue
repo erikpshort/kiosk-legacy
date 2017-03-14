@@ -52,7 +52,7 @@
 
 
 
-        <div v-for="job in working(this.$root.store.state.activeJobs)" @click=removeFromWorking(job._id)><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen'}">Age: TBD  Make:{{job.make}} Model:{{job.model}}</span></div>
+        <div v-for="job in working(this.$root.store.state.activeJobs)" @click=removeFromWorking(job._id)><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">Age: TBD  Make:{{job.make}} Model:{{job.model}}</span></div>
         <!--<div v-for="job in working(this.$root.store.state.activeJobs)" @click=removeFromWorking(job._id)><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen'}">{{job._id}} Make:{{job.make}} Model:{{job.model}} Notes:{{job.customerNotes}}</span></div>-->
       
       
@@ -159,9 +159,10 @@
     height: 350px;
   }
 
-.fourStroke { background-color: orange; }
+.fourStroke { color: black; background-color: orange; }
 .twoStroke { background-color: green; }
 .commercial { background-color: cornflowerblue;}
 .sharpen { background-color: yellow;}
+.express { color: red;}
 </style>
 
