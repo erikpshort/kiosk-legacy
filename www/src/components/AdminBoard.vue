@@ -22,19 +22,43 @@
     <div class="row">
       <div class="col s4 orange jobText">Orange (four-stroke) Jobs
         <!--fourStroke is a method that returns a array of objects which we then v-for to display in this column.-->
-        <div v-for="job in fourStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id)>id: {{job._id}} {{job.created}} {{job.make}} {{job.model}} {{job.notes}}</div>
+        <!--<div v-for="job in fourStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id)>id: {{job._id}} {{job.created}} {{job.make}} {{job.model}} {{job.notes}}</div>
+      </div>-->
+        <div v-for="job in fourStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id)>Age: TBD Make: {{job.make}} Model: {{job.model}}</div>
       </div>
-      <div class="col s4 green jobText">Green (two-stroke) Jobs
-        <div v-for="job in twoStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id)>id: {{job._id}} {{job.created}} {{job.make}} {{job.model}} {{job.notes}}</div>
-      </div>
-      <div class="col s4 blue jobText">Blue Board Goes Here
+        <!--<div v-for="job in fourStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id)>id: {{job._id}} {{job.created}} {{job.make}} {{job.model}} {{job.notes}}</div>
+      </div>-->
 
-        <div v-for="job in comerical(this.$root.store.state.activeJobs)" @click=addToWorking(job._id)>id: {{job._id}} {{job.created}} {{job.make}} {{job.model}} {{job.notes}}</div>
+
+
+      <div class="col s4 green jobText">Green (two-stroke) Jobs
+        <div v-for="job in twoStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id)>Age: TBD {{job.make}} {{job.model}}</div>
       </div>
+      <!--<div class="col s4 green jobText">Green (two-stroke) Jobs
+        <div v-for="job in twoStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id)>id: {{job._id}} {{job.created}} {{job.make}} {{job.model}} {{job.notes}}</div>
+      </div>-->
+
+
+      <div class="col s4 blue jobText">Commerical Equipment
+    
+        <div v-for="job in comerical(this.$root.store.state.activeJobs)" @click=addToWorking(job._id)>Age: TBD {{job.make}} {{job.model}}</div>
+        <!--<div v-for="job in comerical(this.$root.store.state.activeJobs)" @click=addToWorking(job._id)>id: {{job._id}} {{job.created}} {{job.make}} {{job.model}} {{job.notes}}</div>-->
+      </div>
+
+
     </div>
     <div class="row">
       <div class="col s12 grey jobText">Jobs Being Worked On
-        <div v-for="job in working(this.$root.store.state.activeJobs)" @click=removeFromWorking(job._id)><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen'}">{{job._id}} Make:{{job.make}} Model:{{job.model}} Notes:{{job.customerNotes}}</span></div>
+
+
+
+        <div v-for="job in working(this.$root.store.state.activeJobs)" @click=removeFromWorking(job._id)><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen'}">Age: TBD  Make:{{job.make}} Model:{{job.model}}</span></div>
+        <!--<div v-for="job in working(this.$root.store.state.activeJobs)" @click=removeFromWorking(job._id)><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen'}">{{job._id}} Make:{{job.make}} Model:{{job.model}} Notes:{{job.customerNotes}}</span></div>-->
+      
+      
+      
+      
+      
       </div>
     </div>
   </div>
