@@ -86,6 +86,7 @@
         TuneValue: '',
         RegularValue: '',
         notesValue: '',
+        jobStatus: 'pending',
 
         //Manufactures for which express service is avaiable.
         express_manufact: ["Stihl", "Toro", "Scag"],
@@ -212,6 +213,7 @@
           this.MakeValue = 'chainBlade'
           this.ModelValue = 'chainBlade'
           this.whereAmI = 'WorkLog'
+          this.jobStatus = 'working'
         }
         else if (model.argument == 'Other')  //for the monent this has same response as other but will need additioanl business logic, probalby?
         {
@@ -288,6 +290,7 @@
           cellPhone:  "208-619-4746",
           // customerId: this.$root.$data.store.state.activeCustomer._id
           customerId: '58b9f7638f4f33979c7054e7',
+          jobStatus: this.jobStatus,
           whereAmI: this.whereAmI
         }
         this.$root.$data.store.actions.postJob(object)
