@@ -86,6 +86,7 @@
         TuneValue: '',
         RegularValue: '',
         notesValue: '',
+        jobStatus: 'pending',
 
         //Manufactures for which express service is avaiable.
         express_manufact: ["Stihl", "Toro", "Scag"],
@@ -95,7 +96,7 @@
         equipment: {
           ChainBlade: {
             manufact: ['N/A'],
-            name: 'Chain/Blade Sharpen',
+            name: 'Sharpen',
             argument: 'ChainBlade',
           },
           HandheldPower: {
@@ -207,6 +208,12 @@
           this.populateButtonBDropDownList(model)
           //Per buseiness logic hide other buttons. 
           this.hideButtonsForSharp()
+          //Need to set values for required model elements that are not supplied by buttons.
+          this.TuneValue = 'chainBlade'
+          this.MakeValue = 'chainBlade'
+          this.ModelValue = 'chainBlade'
+          this.whereAmI = 'WorkLog'
+          this.jobStatus = 'working'
         }
         else if (model.argument == 'Other')  //for the monent this has same response as other but will need additioanl business logic, probalby?
         {
@@ -269,8 +276,6 @@
       },
       //this is a placeholder function to report out the values that are to be sent on submit.
       returnSelection: function () {
-          
-
         var object = {
           type1: this.equipmentTypeValue || null,
           type2: this.RegularValue,
@@ -281,9 +286,12 @@
           tUpRepExp: this.TuneValue,
           jobNumber: 1001,
           customerNotes: this.notesValue,
-          cellPhone:  this.$root.$data.store.state.activePhone,
+          // cellPhone:  this.$root.$data.store.state.activePhone,
+          cellPhone:  "208-619-4746",
           // customerId: this.$root.$data.store.state.activeCustomer._id
-          customerId: '58b9f7638f4f33979c7054e7'
+          customerId: '58b9f7638f4f33979c7054e7',
+          jobStatus: this.jobStatus,
+          whereAmI: this.whereAmI
         }
         this.$root.$data.store.actions.postJob(object)
         console.log(object)
