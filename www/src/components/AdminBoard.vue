@@ -29,25 +29,63 @@
 
         <div v-for="job in fourStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart.capture="drag(job)">
 
+
           <div class="row">
             <div class="col s4">
-              Age: {{job.created | age}}
+              {{job.created | age}}
             </div>
             <div class="col s4">
-              Make: {{job.make}}
+              {{job.make}}
             </div>
             <div class="col s4">
-              Model: {{job.model}}
+              {{job.model}}
             </div>
           </div>
 
         </div>
       </div>
       <div id="twoStroke" class="col s4 green pendingRow" @drop="workingDrop" @dragover.prevent>Green (two-stroke) Jobs
-        <div v-for="job in twoStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">Age: {{job.created | age}} {{job.make}} {{job.model}}</div>
+        <div v-for="job in twoStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">
+
+
+          <div class="row">
+            <div class="col s4">
+              {{job.created | age}}
+            </div>
+            <div class="col s4">
+              {{job.make}}
+            </div>
+            <div class="col s4">
+              {{job.model}}
+            </div>
+          </div>
+
+
+        </div>
       </div>
       <div id="commercial" class="col s4 blue pendingRow" @drop="workingDrop" @dragover.prevent>Commerical Jobs
-        <div v-for="job in comerical(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">Age: {{job.created | age}} {{job.make}} {{job.model}}</div>
+        <div v-for="job in comerical(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">
+
+          <div class="row">
+            <div class="col s4">
+              {{job.created | age}}
+            </div>
+            <div class="col s4">
+              {{job.make}}
+            </div>
+            <div class="col s4">
+              {{job.model}}
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+        </div>
       </div>
     </div>
 
@@ -281,8 +319,8 @@
     height: 55vh;
     overflow: auto
   }
-
-    .workRow {
+  
+  .workRow {
     color: black;
     height: 30vh;
     overflow: auto
