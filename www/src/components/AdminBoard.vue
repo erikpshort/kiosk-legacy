@@ -20,6 +20,9 @@
   <div class="AdminBoard">
     <h1>{{ msg }}</h1>
     <div class="row">
+      <span @click="toggleBacklog" id='showBacklog' class='dropdown-button btn red'>Hide Backlog</span>
+    </div>
+    <div class="row" v-if="showBacklog">
       <div id="fourStroke" class="col s4 orange jobText" @drop="workingDrop" @dragover.prevent>Orange (four-stroke) Jobs
 
         <div v-for="job in fourStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart.capture="drag(job)">Age: TBD Make: {{job.make}} Model: {{job.model}}</div>
@@ -31,16 +34,20 @@
         <div v-for="job in comerical(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">Age: TBD {{job.make}} {{job.model}}</div>
       </div>
     </div>
+
     <div class="row">
-      <div id="workingBoard" class="col s12 grey jobText" @drop.capture="workingDrop" @dragover.prevent>Jobs Being Worked On
+      <span @click="toggleWorking" id='showWorking' class='dropdown-button btn red'>Hide Working</span>
+
+      <div class="row" v-if="showWorking">
+        <div id="workingBoard" class="col s12 grey jobText" @drop.capture="workingDrop" @dragover.prevent>Jobs Being Worked On
 
 
 
-        <div v-for="job in working(this.$root.store.state.activeJobs)" click="removeFromWorking(job._id)"><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}"
-            draggable="true" @dragstart="drag(job._id,$event)">Age: TBD  Make:{{job.make}} Model:{{job.model}}</span></div>
+          <div v-for="job in working(this.$root.store.state.activeJobs)" click="removeFromWorking(job._id)"><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}"
+              draggable="true" @dragstart="drag(job._id,$event)">Age: TBD  Make:{{job.make}} Model:{{job.model}}</span></div>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 <script>
@@ -49,6 +56,12 @@
     data() {
       return {
         msg: 'This is the Admin Board',
+
+        showBacklog: true,
+        showWorking: true,
+        showPendingParts: true,
+        showPendingPickup: true,
+
         fs_css: {
           "Homeowner Walk Behind": true,
           "Homeowner Zero Turn": true,
@@ -141,6 +154,24 @@
         // var draggedJobId = ev.dataTransfer.getData("text/html")
         // console.log(draggedJobId)
         // var arr_activeJobs = this.$root.store.state.activeJobs
+      },
+      toggleWorking: function () {
+        this.showWorking = !this.showWorking
+        var buttonText = ''
+        if (this.showBacklog)
+        { buttonText = 'Hide Working' }
+        else
+        { buttonText = 'Show Working' }
+        document.getElementById('showWorking').innerText = buttonText;
+      },
+      toggleBacklog: function () {
+        this.showBacklog = !this.showBacklog
+        var buttonText = ''
+        if (this.showBacklog)
+        { buttonText = 'Hide Backlog' }
+        else
+        { buttonText = 'Show Backlog' }
+        document.getElementById('showBacklog').innerText = buttonText;
       },
     },
     computed: {},
