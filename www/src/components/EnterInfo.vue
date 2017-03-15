@@ -1,13 +1,15 @@
 <template>
+
   <div class="enterInfo">
+
     <h1>{{ msg }}</h1>
 
     <div class="container">
 
-      <form class="col s12">
+      <form class="col s12" @submit.prevent="returnCompanyInfo(name, companyName, phoneNumber, streetAddress, city, state, zip, email)">
         <div class="row">
           <div class="input-field col s6 offset-s3 offset-s3">
-            <input id="name" required="required" aria-required="true" v-model="name" type="text" placeholder="Name" class="validate">
+            <input id="name" v-model="name" type="text" placeholder="Name" class="validate" required>
             <!--<label for="icon_prefix">Company name</label>-->
           </div>
         </div>
@@ -66,10 +68,10 @@
         </div>
 
         <div class="row">
-          <button @click.prevent="returnCompanyInfo(name, companyName, phoneNumber, streetAddress, city, state, zip, email)" type="submit"
+          <button type="submit"
             class="waves-effect waves-light btn ">Submit</button>
         </div>
-      </form>
+      </form >
     </div>
 
   </div>
@@ -77,13 +79,12 @@
 </template>
 
 <script>
-  import router from '../router/index.js'
   export default {
     name: 'EnterInfo',
     data() {
       return {
         name: '',
-        companyName: '',
+        companyName: null,
         phoneNumber: this.$root.$data.store.state.activePhone,
         streetAddress: '',
         city: '',
@@ -115,11 +116,11 @@
           body: "Test message from Legacy Feed and Fuel",
           to: '+1' + phoneNumber
         }
-        console.log(message.to)
+        // console.log(message.to)
         this.$root.$data.store.state.activeCustomer = body
-        // this.$root.$data.store.actions.register(body)
-        // this.$root.$data.store.actions.postUser(body)
-        this.$root.$data.store.actions.sms(message);
+        this.$root.$data.store.actions.register(body)
+        this.$root.$data.store.actions.postUser(body)
+        // this.$root.$data.store.actions.sms(message);
         this.$router.push('/ConfirmCompanyInfo')
       }
     },

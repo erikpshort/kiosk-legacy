@@ -1,57 +1,68 @@
 <template>
   <div class="service-request">
     <h1>{{msg}}</h1>
-    <div class="row">
-      <div class="col s3">
-        <!-- Dropdown Trigger -->
-        <span id='btn01' class='dropdown-button btn red' href='#' data-activates='dropdown1'>Equipment Type</span>
-        <!-- Dropdown Structure -->
-        <ul id='dropdown1' class='dropdown-content'>
-          <li><span v-for="model in equipment" @click="A_Clicked(model)" v-model='modelName'>{{model.name}}</span></li>
-        </ul>
-      </div>
-      <div v-show="showMakeButton" class="col s2">
-        <span id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Make</span>
-        <!-- Dropdown Structure -->
-        <ul id='dropdown2' class='dropdown-content'>
-          <!-- The contents of this dropdown are dynamically constructed based upon the choice from button 01 -->
-        </ul>
-      </div>
-      <div v-show="showModelButton" class="col s2">
-        <input v-model="ModelValue" placeholder="Model" id="Model" type="text">
-      </div>
-      <div v-show="showTuneButton" class="col s2">
-        <a id='btn03' class='dropdown-button btn red' href='#' data-activates='dropdown3'>Tune / Repair</a>
-        <!-- Dropdown Structure -->
-        <ul id='dropdown3' class='dropdown-content'>
-          <li><span @click="C_Clicked('Tune-up')">Tune-up</span></li>
-          <li><span @click="C_Clicked('Repair')">Repair</span></li>
-        </ul>
-      </div>
-      <div v-show="showExpressButton" class="col s2">
-        <span id='btn04' class='dropdown-button btn red' href='#' data-activates='dropdown4'>Regular / Rush</span>
-        <!-- Dropdown Structure -->
-        <ul id='dropdown4' class='dropdown-content'>
-          <li><span @click="D_Clicked('Regular')">Regular</span></li>
-          <li><span @click="D_Clicked('Express')">Express</span></li>
-        </ul>
-      </div>
-
+    <form @submit.prevent="returnSelection(hello)">
       <div class="row">
-        <div class="input-field col s12">
-          <textarea v-model="notesValue" id="textarea1" class="materialize-textarea"></textarea>
-          <label for="textarea1">Customer Notes:</label>
+        <div class="col s3">
+          <!-- Dropdown Trigger -->
+          <span id='btn01' class='dropdown-button btn red' href='#' data-activates='dropdown1'>Equipment Type</span>
+          <!-- Dropdown Structure -->
+          <ul id='dropdown1' class='dropdown-content'>
+            <li><span v-for="model in equipment" @click="A_Clicked(model)" v-model='modelName'>{{model.name}}</span></li>
+          </ul>
         </div>
+        <div v-show="showMakeButton" class="col s2">
+          <span id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Make</span>
+          <!-- Dropdown Structure -->
+          <ul id='dropdown2' class='dropdown-content'>
+            <!-- The contents of this dropdown are dynamically constructed based upon the choice from button 01 -->
+          </ul>
+        </div>
+        <div v-show="showModelButton" class="col s2">
+          <input v-model="ModelValue" placeholder="Model" id="Model" type="text">
+        </div>
+        <div v-show="showTuneButton" class="col s2">
+          <a id='btn03' class='dropdown-button btn red' href='#' data-activates='dropdown3'>Tune / Repair</a>
+          <!-- Dropdown Structure -->
+          <ul id='dropdown3' class='dropdown-content'>
+            <li><span @click="C_Clicked('Tune-up')">Tune-up</span></li>
+            <li><span @click="C_Clicked('Repair')">Repair</span></li>
+          </ul>
+        </div>
+        <div v-show="showExpressButton" class="col s2">
+          <span id='btn04' class='dropdown-button btn red' href='#' data-activates='dropdown4'>Regular / Rush</span>
+          <!-- Dropdown Structure -->
+          <ul id='dropdown4' class='dropdown-content'>
+            <li><span @click="D_Clicked('Regular')">Regular</span></li>
+            <li><span @click="D_Clicked('Express')">Express</span></li>
+          </ul>
+        </div>
+
         <div class="row">
-          <div class="col s12">
-            <!--<button>Submit</button>-->
-            <div v-show="showSubmitButton" class="submitButton">
-              <button @click="returnSelection()" class="waves-effect waves-light btn ">Submit</button>
+          <div class="input-field col s12">
+            <textarea v-model="notesValue" id="textarea1" class="materialize-textarea"></textarea>
+            <label for="textarea1">Customer Notes:</label>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <!--<button>Submit</button>-->
+              <div v-show="showSubmitButton" class="submitButton">
+                <button class="waves-effect waves-light btn ">Submit</button>
+              </div>
+            </div>
+          </div>
+          <div class="row" v-if="typeof activePhone != typeof 'string'">
+            <div class="input-field col s12">
+              <select>
+                  <option value="" disabled selected>Choose your option</option>
+                  <option v-for="(phone, index) in activePhone">{{phone}}</option>
+                </select>
+              <label>Please Select Phone Number</label>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
   </div>
 </template>
@@ -59,9 +70,14 @@
 <script>
   export default {
     name: 'test',
+    computed: {
+      activePhone() {
+        return this.$root.$data.store.state.activePhone
+      }
+    },
     data() {
       return {
-        debugMode : true, //used to hard code options for debugging -- set to false in prod.
+        debugMode: true, //used to hard code options for debugging -- set to false in prod.
         modelName: '',
         msg: 'Enter Your Service Request',
 
@@ -72,6 +88,8 @@
         showTuneButton: true,
         showExpressButton: false, //defaults to false on inital screen.
         showSubmitButton: false, //defaults to false on inital screen. 
+        hello: null,
+        
 
         //flags indicating if buttons color should be green.         
         equipmentTypeGreen: false,
@@ -145,6 +163,12 @@
     },
     mounted() {
       $('.service-request .dropdown-button').dropdown()
+      $(document).ready(function () {
+        $('select').material_select();
+      });
+      $(document).ready(function () {
+        Materialize.updateTextFields();
+      });
     },
     methods: {
       addJob() {
@@ -275,25 +299,26 @@
         }
       },
       //this is a placeholder function to report out the values that are to be sent on submit.
-      returnSelection: function () {
+      returnSelection: function (hello) {
         var object = {
           type1: this.equipmentTypeValue || null,
           type2: this.RegularValue,
           make: this.MakeValue,
           model: this.ModelValue,
-          // email: this.$root.$data.store.state.activeCustomer.email,
-          email: 'afreeman1s@topsy.com',
+          email: this.$root.$data.store.state.activeCustomer.email,
           tUpRepExp: this.TuneValue,
           jobNumber: 1001,
           customerNotes: this.notesValue,
-          // cellPhone:  this.$root.$data.store.state.activePhone,
-          cellPhone:  "208-619-4746",
-          // customerId: this.$root.$data.store.state.activeCustomer._id
-          customerId: '58b9f7638f4f33979c7054e7',
+          // cellPhone:  this.$root.$data.store.state.activePhone[i],
+          // cellPhone: "208-619-4746",
+          customerId: this.$root.$data.store.state.activeCustomer._id,
+          // customerId: '58b9f7638f4f33979c7054e7',
           jobStatus: this.jobStatus,
-          whereAmI: this.whereAmI
+          whereAmI: this.whereAmI,
+
         }
         this.$root.$data.store.actions.postJob(object)
+        console.log(hello)
         console.log(object)
         console.log("---submit has been pressed---")
         console.log("Equipment Type:", this.equipmentTypeValue)

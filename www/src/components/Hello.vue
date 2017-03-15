@@ -1,18 +1,19 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <form class="col s12">
+    <form class="col s12"@submit.prevent="phoneNum(phone)">
+          <label for="phonenum">Phone Number (format: ###-###-####):</label><br/><br/>
+      <input id="phonenum" type="tel" class=" validate" placeholder="###-###-####" pattern="^\d{3}-\d{3}-\d{4}$" v-model="phone" required>
       <div class="row">
 
         <div class="input-field col s6 offset-s3">
-          <label for="phonenum">Phone Number (format: ###-###-####):</label><br/><br/>
-          <form @submit.prevent="phoneNum(phone)"><input id="phonenum" type="tel" class=" validate" placeholder="###-###-####" pattern="^\d{3}-\d{3}-\d{4}$" v-model="phone"></form>
         </div>
       </div>
-    </form>
 
     <div class="row">
-      <a @click.prevent="phoneNum(phone)" class="waves-effect waves-light btn">ENTER</a>
+      <button type="submit" class="waves-effect waves-light btn">ENTER</button>
+    </div>
+    </form>
       <div class="row">
         <h4>or</h4>
       </div>
@@ -21,13 +22,12 @@
           <router-link :to="'/companyDirectory'">Find By Company Name</router-link>
         </a>
       </div>
-
+<!--
       <div class="row">
         <a class="waves-effect waves-light btn">
           <router-link :to="'/EnterInfo'">Register as a New Customer</router-link>
         </a>
-      </div>
-    </div>
+      </div>-->
   </div>
 
 </template>
@@ -190,17 +190,21 @@
   .placeholder {
     font-size: 36px
   }
+  
   #telephone {
     font-size: 36px;
     text-align: center;
   }
+  
   .validate {
     font-size: 36px
   }
+  
   #telephone {
     font-size: 36px;
     text-align: center;
   }
+  
    ::-webkit-input-placeholder {
     font-size: 36px;
     color: #d0cdfa;
@@ -208,6 +212,7 @@
     text-transform: uppercase;
     text-align: center;
   }
+  
   input {
     text-align: center;
   }

@@ -32,7 +32,7 @@
           <form class="col s12">
             <div class="row">
               <div class="input-field col s6 offset-s3 offset-s3">
-                <input v-model="customer.name" type="text" name="Name" class="validate">
+                <input v-model="customer.name" type="text" name="Name" class="validate" required>
               </div>
             </div>
 
@@ -80,16 +80,16 @@
 
             <div class="row">
               <div class="input-field col s6 offset-s3">
-                <input v-model="customer.email" id="icon_prefix" type="email" class="validate">
+                <input v-model="customer.email" id="icon_prefix" type="email" class="validate" required>
                 <label for="icon_prefix"></label>
               </div>
             </div>
 
             <div class="row">
-              <button @click.prevent="putRequest(customer.name, customer.company, customer.cellPhone, customer.address, customer.city, customer.state, customer.zip, customer.email, addPhone)"
+              <button 
                 type="submit" class="waves-effect waves-light btn ">Submit</button>
             </div>
-          </form>
+          </form @submit.prevent="putRequest(customer.name, customer.company, customer.cellPhone, customer.address, customer.city, customer.state, customer.zip, customer.email, addPhone)">
         </div>
       </div>
     </div>
@@ -107,6 +107,14 @@
         show: true,
         addPhone: null,
       }
+    },
+    mounted() {
+      $(document).ready(function () {
+        $('select').material_select();
+      });
+      $(document).ready(function () {
+        Materialize.updateTextFields();
+      });
     },
     methods: {
       putRequest(name, company, phone, address, city, state, zip, email, addPhone) {
@@ -128,10 +136,10 @@
           this.$root.$data.store.state.activePhone = phone
           this.$root.$data.store.actions.changeUser(userId, body)
           this.show = true
-        }else{
+        } else {
           console.log(addPhone)
           phone.push(addPhone)
-                    console.log(phone)
+          console.log(phone)
           var body = {
             company: company,
             name: name,
