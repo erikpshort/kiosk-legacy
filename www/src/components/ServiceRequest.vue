@@ -1,7 +1,47 @@
 <template>
   <div class="service-request">
     <h1>{{msg}}</h1>
+<<<<<<< HEAD
     <form @submit.prevent="returnSelection(hello)">
+=======
+    <h3>{{this.$root.$data.store.state.activePhone}}</h3>
+    <div class="row">
+      <div class="col s3">
+        <!-- Dropdown Trigger -->
+        <span id='btn01' class='dropdown-button btn red' href='#' data-activates='dropdown1'>Equipment Type <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+        <!-- Dropdown Structure -->
+        <ul id='dropdown1' class='dropdown-content'>
+          <li><span v-for="model in equipment" @click="A_Clicked(model)" v-model='modelName'>{{model.name}}</span></li>
+        </ul>
+      </div>
+      <div v-show="showMakeButton" class="col s2">
+        <span id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Make</span>
+        <!-- Dropdown Structure -->
+        <ul id='dropdown2' class='dropdown-content'>
+          <!-- The contents of this dropdown are dynamically constructed based upon the choice from button 01 -->
+        </ul>
+      </div>
+      <div v-show="showModelButton" class="col s2">
+        <input v-model="ModelValue" placeholder="Model" id="Model" type="text">
+      </div>
+      <div v-show="showTuneButton" class="col s2">
+        <a id='btn03' class='dropdown-button btn red' href='#' data-activates='dropdown3'>Tune / Repair</a>
+        <!-- Dropdown Structure -->
+        <ul id='dropdown3' class='dropdown-content'>
+          <li><span @click="C_Clicked('Tune-up')">Tune-up</span></li>
+          <li><span @click="C_Clicked('Repair')">Repair</span></li>
+        </ul>
+      </div>
+      <div v-show="showExpressButton" class="col s2">
+        <span id='btn04' class='dropdown-button btn red' href='#' data-activates='dropdown4'>Regular / Rush</span>
+        <!-- Dropdown Structure -->
+        <ul id='dropdown4' class='dropdown-content'>
+          <li><span @click="D_Clicked('Regular')">Regular</span></li>
+          <li><span @click="D_Clicked('Express')">Express</span></li>
+        </ul>
+      </div>
+
+>>>>>>> 9a20c7ffba115378e19d135bd493d47e62050159
       <div class="row">
         <div class="col s3">
           <!-- Dropdown Trigger -->
@@ -220,6 +260,9 @@
         //Change the title of the "A" button.
         var dom_but01 = document.getElementById("btn01")
         dom_but01.innerText = model.name;
+        console.debug("Inner HTML:", dom_but01.innerHTML)
+        dom_but01.innerHTML = dom_but01.innerHTML + '<i class="fa fa-caret-down" aria-hidden="true"></i>';
+        console.debug("Inner HTML:", dom_but01.innerHTML)
 
         if (model.argument != 'ChainBlade' && model.argument != 'Other') {
           this.showButtons()
