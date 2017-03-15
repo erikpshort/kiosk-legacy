@@ -40,16 +40,45 @@
     <div class="row">
       <span @click="toggleWorking" id='showWorking' class='dropdown-button btn red'>Hide Working</span></div>
 
-      <div class="row" v-if="showWorking">
-        <div id="workingBoard" class="col s12 grey jobText" @drop.capture="workingDrop" @dragover.prevent>Jobs Being Worked On
+    <div class="row" v-if="showWorking">
+      <div id="workingBoard" class="col s12 grey jobText" @drop.capture="workingDrop" @dragover.prevent>Jobs Being Worked On
 
-
-
-          <div v-for="job in working(this.$root.store.state.activeJobs)" click="removeFromWorking(job._id)"><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}"
-              draggable="true" @dragstart="drag(job._id,$event)">{{job.created | age}}  Make:{{job.make}} Model:{{job.model}}</span></div>
-        </div>
+        <div v-for="job in working(this.$root.store.state.activeJobs)" click="removeFromWorking(job._id)"><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}"
+            draggable="true" @dragstart="drag(job._id,$event)">{{job.created | age}}  Make:{{job.make}} Model:{{job.model}}</span></div>
       </div>
     </div>
+
+    <!--This is the start of the parts board-->
+    <div class="row">
+      <span @click="togglePendingParts" id='showPendingParts' class='dropdown-button btn red'>Hide Pending Parts</span>
+      </div>
+
+    <div class="row" v-if="showPendingParts">
+      <div id="pendingOrderParts" class="col s6 purple jobText" @drop="workingDrop" @dragover.prevent>Jobs for which parts need to be ordered.
+
+        <div v-for="job in pendingOrderParts(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart.capture="drag(job)">Age: {{job.created | age}} Make: {{job.make}} Model: {{job.model}}</div>
+      </div>
+      <div id="pendingRecieveParts" class="col s6 brown jobText" @drop="workingDrop" @dragover.prevent>Jobs for which we are waiting on recieveing parts
+        <div v-for="job in pendingRecieveParts(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">Age: {{job.created | age}} {{job.make}} {{job.model}}</div>
+      </div>
+      </div>
+
+    <!--This is the end of the parts board-->
+
+    <!--This is the end of the awating pickup board-->
+
+    <div class="row">
+      <span @click="togglePendingPickup" id='showPendingPickup' class='dropdown-button btn red'>Hide Pending Pickup</span></div>
+
+    <div class="row" v-if="showPendingPickup">
+      <div id="workingBoard" class="col s12 grey jobText" @drop.capture="workingDrop" @dragover.prevent>Jobs Pending Customer Pickup
+
+        <div v-for="job in pendingPickup(this.$root.store.state.activeJobs)" click="removeFromWorking(job._id)"><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}"
+            draggable="true" @dragstart="drag(job._id,$event)">{{job.created | age}}  Make:{{job.make}} Model:{{job.model}}</span></div>
+      </div>
+    </div>
+    </div>
+  </div>
   </div>
 </template>
 <script>
@@ -121,6 +150,27 @@
         })
         return this.out_array;
       },
+      pendingOrderParts: function (arr_jobs) {
+        this.out_array = arr_jobs.filter(function (element) {
+          if (element.archive == false && element.jobStatus == 'pendingOrderParts') { return true }
+          else { return false }
+        })
+        return this.out_array;
+      },
+      pendingRecieveParts: function (arr_jobs) {
+        this.out_array = arr_jobs.filter(function (element) {
+          if (element.archive == false && element.jobStatus == 'pendingRecieveParts') { return true }
+          else { return false }
+        })
+        return this.out_array;
+      },
+      pendingPickup: function (arr_jobs) {
+        this.out_array = arr_jobs.filter(function (element) {
+          if (element.archive == false && element.jobStatus == 'pendingPickuo') { return true }
+          else { return false }
+        })
+        return this.out_array;
+      },
       addToWorking: function (jobId) {
         //loop through the active jobs array to find the object with the given id and change the job.status field to 'working'
         var arr_activeJobs = this.$root.store.state.activeJobs
@@ -175,14 +225,31 @@
         { buttonText = 'Show Backlog' }
         document.getElementById('showBacklog').innerText = buttonText;
       },
+      togglePendingParts: function () {
+        this.showPendingParts = !this.showPendingParts
+        var buttonText = ''
+        if (this.showPendingParts)
+        { buttonText = 'Hide Pending Parts' }
+        else
+        { buttonText = 'Show Pending Parts' }
+        document.getElementById('showPendingParts').innerText = buttonText;
+      },
+      togglePendingPickup: function () {
+        this.showPendingPickup = !this.showPendingPickup
+        var buttonText = ''
+        if (this.showPendingPickup)
+        { buttonText = 'Hide Pending Pickup' }
+        else
+        { buttonText = 'Show Pending Pickup' }
+        document.getElementById('showPendingPickup').innerText = buttonText;
+      },
     },
     computed: {},
     filters: {
-      age: function(createdInMs)
-      {
+      age: function (createdInMs) {
         var now = Date.now()
         var ageInMs = now - createdInMs;
-        var ageInDays = (ageInMs / (1000*60*60*24))
+        var ageInDays = (ageInMs / (1000 * 60 * 60 * 24))
         return Math.floor(ageInDays);
       }
     },
@@ -220,5 +287,4 @@
   .express {
     color: red;
   }
-
 </style>

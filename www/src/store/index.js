@@ -107,9 +107,9 @@ export default {
         },
         //GETS
         getActiveJobs() {
-            console.log("action is hitting...")
+            //console.log("action is hitting...")
             api('activejobs').then(res => {
-                console.log("active jobs res  "  ,res)
+                //console.log("active jobs res  "  ,res)
                 state.activeJobs = res.data.data
             }).catch(handleError)
         },
