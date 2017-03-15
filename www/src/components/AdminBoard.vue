@@ -19,24 +19,26 @@
 <template>
   <div class="AdminBoard">
     <h1>{{ msg }}</h1>
+
     <div class="row">
       <span @click="toggleBacklog" id='showBacklog' class='dropdown-button btn red'>Hide Backlog</span>
     </div>
+
     <div class="row" v-if="showBacklog">
       <div id="fourStroke" class="col s4 orange jobText" @drop="workingDrop" @dragover.prevent>Orange (four-stroke) Jobs
 
-        <div v-for="job in fourStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart.capture="drag(job)">Age: TBD Make: {{job.make}} Model: {{job.model}}</div>
+        <div v-for="job in fourStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart.capture="drag(job)">Age: {{job.created | age}} Make: {{job.make}} Model: {{job.model}}</div>
       </div>
       <div id="twoStroke" class="col s4 green jobText" @drop="workingDrop" @dragover.prevent>Green (two-stroke) Jobs
-        <div v-for="job in twoStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">Age: TBD {{job.make}} {{job.model}}</div>
+        <div v-for="job in twoStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">Age: {{job.created | age}} {{job.make}} {{job.model}}</div>
       </div>
-      <div id="commercial" class="col s4 blue jobText" @drop="workingDrop" @dragover.prevent>Commerical Equipment
-        <div v-for="job in comerical(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">Age: TBD {{job.make}} {{job.model}}</div>
+      <div id="commercial" class="col s4 blue jobText" @drop="workingDrop" @dragover.prevent>Commerical Jobs
+        <div v-for="job in comerical(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">Age: {{job.created | age}} {{job.make}} {{job.model}}</div>
       </div>
     </div>
 
     <div class="row">
-      <span @click="toggleWorking" id='showWorking' class='dropdown-button btn red'>Hide Working</span>
+      <span @click="toggleWorking" id='showWorking' class='dropdown-button btn red'>Hide Working</span></div>
 
       <div class="row" v-if="showWorking">
         <div id="workingBoard" class="col s12 grey jobText" @drop.capture="workingDrop" @dragover.prevent>Jobs Being Worked On
@@ -44,7 +46,7 @@
 
 
           <div v-for="job in working(this.$root.store.state.activeJobs)" click="removeFromWorking(job._id)"><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}"
-              draggable="true" @dragstart="drag(job._id,$event)">Age: TBD  Make:{{job.make}} Model:{{job.model}}</span></div>
+              draggable="true" @dragstart="drag(job._id,$event)">{{job.created | age}}  Make:{{job.make}} Model:{{job.model}}</span></div>
         </div>
       </div>
     </div>
@@ -175,6 +177,15 @@
       },
     },
     computed: {},
+    filters: {
+      age: function(createdInMs)
+      {
+        var now = Date.now()
+        var ageInMs = now - createdInMs;
+        var ageInDays = (ageInMs / (1000*60*60*24))
+        return Math.floor(ageInDays);
+      }
+    },
     mounted() {
       this.$root.$data.store.actions.getActiveJobs()
     }
@@ -186,6 +197,7 @@
   .jobText {
     color: black;
     height: 350px;
+    overflow: auto
   }
   
   .fourStroke {
@@ -208,4 +220,5 @@
   .express {
     color: red;
   }
+
 </style>
