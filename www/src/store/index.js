@@ -54,6 +54,12 @@ export default {
                     console.log(res)
                 }).catch(handleError)
         },
+        printqr(body) {
+            api.post('printqr', body)
+                .then(res => {
+                    console.log(res)
+                }).catch(handleError)
+        },
         //REGISTER - LOGIN - LOGOUT - AUTHENTICATION
         register(body) {
             api.post('register', body)
@@ -109,7 +115,7 @@ export default {
         getActiveJobs() {
             console.log("action is hitting...")
             api('activejobs').then(res => {
-                console.log("active jobs res  "  ,res)
+                console.log("active jobs res  ", res)
                 state.activeJobs = res.data.data
             }).catch(handleError)
         },
