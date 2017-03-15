@@ -17,6 +17,9 @@ function API(model, schema) {
   }
 
   function get(req, res, next) {
+    if(!req.user.uid){
+      return res.status(401).send(handleResponse(actions.find, null, new Error("User not authenticated")))
+    }
     var id = req.params.id || req.query.id || '';
     var params = req.params.id ? req.params : {};
     var query = req.query.with || '';

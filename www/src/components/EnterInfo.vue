@@ -119,7 +119,6 @@
         // console.log(message.to)
         this.$root.$data.store.state.activeCustomer = body
         this.$root.$data.store.actions.register(body)
-        this.$root.$data.store.actions.postUser(body)
         // this.$root.$data.store.actions.sms(message);
         this.$router.push('/ConfirmCompanyInfo')
       }

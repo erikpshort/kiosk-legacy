@@ -13,6 +13,9 @@ export default {
     path: '/activejobs',
     reqType: 'get',
     method(req, res, next) {
+      if (!req.session.uid) {
+        return res.status(401).send(handleResponse(null, null, new Error("User Not Authenticated")))
+      }
       let action = 'Find Active Jobs'
       jobs.find({ archive: false })
         .then(data => {
@@ -26,6 +29,9 @@ export default {
     path: '/archivedjobs',
     reqType: 'get',
     method(req, res, next) {
+      if (!req.session.uid) {
+        return res.status(401).send(handleResponse(null, null, new Error("User Not Authenticated")))
+      }
       let action = 'Find archived Jobs'
       jobs.find({ archive: true })
         .then(data => {
@@ -39,6 +45,9 @@ export default {
     path: '/activeadmins',
     reqType: 'get',
     method(req, res, next) {
+      if (!req.session.uid) {
+        return res.status(401).send(handleResponse(null, null, new Error("User Not Authenticated")))
+      }
       let action = 'Find Active Administrative Users'
       Users.find({ admin: true, archive: false })
         .then(data => {
@@ -52,6 +61,9 @@ export default {
     path: '/archivedadmins',
     reqType: 'get',
     method(req, res, next) {
+      if (!req.session.uid) {
+        return res.status(401).send(handleResponse(null, null, new Error("User Not Authenticated")))
+      }
       let action = 'Find Archived Administrative Users'
       Users.find({ admin: true, archive: true })
         .then(data => {
@@ -65,6 +77,9 @@ export default {
     path: '/activecustomers',
     reqType: 'get',
     method(req, res, next) {
+      if (!req.session.uid) {
+        return res.status(401).send(handleResponse(null, null, new Error("User Not Authenticated")))
+      }
       let action = 'Find Active Customer Users'
       Users.find({ admin: false, archive: false })
         .then(data => {
@@ -78,6 +93,9 @@ export default {
     path: '/archivedcustomers',
     reqType: 'get',
     method(req, res, next) {
+      if (!req.session.uid) {
+        return res.status(401).send(handleResponse(null, null, new Error("User Not Authenticated")))
+      }
       let action = 'Find Archived Customer Users'
       Users.find({ admin: false, archive: true })
         .then(data => {
@@ -91,6 +109,9 @@ export default {
     path: '/user/:id/jobs',
     reqType: 'get',
     method(req, res, next) {
+      if (!req.session.uid) {
+        return res.status(401).send(handleResponse(null, null, new Error("User Not Authenticated")))
+      }
       let action = 'Find Customers Jobs'
       jobs.find({ customerId: req.params.id })
         .then(data => {
