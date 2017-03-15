@@ -26,18 +26,13 @@
       </div>
       <div class="enterInfo" v-if="!show">
         <h5>{{ msg }}</h5>
-
-
         <div>
-          <form class="col s12">
+          <form class="col s12" @submit.prevent="putRequest(customer.name, customer.company, customer.cellPhone, customer.address, customer.city, customer.state, customer.zip, customer.email, addPhone)">
             <div class="row">
               <div class="input-field col s6 offset-s3 offset-s3">
                 <input v-model="customer.name" type="text" name="Name" class="validate" required>
               </div>
             </div>
-
-
-
             <div class="row">
               <div class="input-field col s6 offset-s3 offset-s3">
                 <input v-model="customer.company" type="text" name="CompanyName" class="validate">
@@ -89,7 +84,7 @@
               <button 
                 type="submit" class="waves-effect waves-light btn ">Submit</button>
             </div>
-          </form @submit.prevent="putRequest(customer.name, customer.company, customer.cellPhone, customer.address, customer.city, customer.state, customer.zip, customer.email, addPhone)">
+          </form>
         </div>
       </div>
     </div>

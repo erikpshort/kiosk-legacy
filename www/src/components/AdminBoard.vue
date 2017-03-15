@@ -22,7 +22,7 @@
     <div class="row">
       <div id="fourStroke" class="col s4 orange jobText" @drop="workingDrop" @dragover.prevent>Orange (four-stroke) Jobs
 
-        <div v-for="job in fourStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">Age: TBD Make: {{job.make}} Model: {{job.model}}</div>
+        <div v-for="job in fourStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart.capture="drag(job)">Age: TBD Make: {{job.make}} Model: {{job.model}}</div>
       </div>
       <div id="twoStroke" class="col s4 green jobText" @drop="workingDrop" @dragover.prevent>Green (two-stroke) Jobs
         <div v-for="job in twoStroke(this.$root.store.state.activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">Age: TBD {{job.make}} {{job.model}}</div>
@@ -32,11 +32,12 @@
       </div>
     </div>
     <div class="row">
-      <div id="workingBoard" class="col s12 grey jobText" @drop="workingDrop" @dragover.prevent>Jobs Being Worked On
+      <div id="workingBoard" class="col s12 grey jobText" @drop.capture="workingDrop" @dragover.prevent>Jobs Being Worked On
 
 
 
-        <div v-for="job in working(this.$root.store.state.activeJobs)" click="removeFromWorking(job._id)"><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}" draggable="true" @dragstart="drag(job._id,$event)">Age: TBD  Make:{{job.make}} Model:{{job.model}}</span></div>
+        <div v-for="job in working(this.$root.store.state.activeJobs)" click="removeFromWorking(job._id)"><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}"
+            draggable="true" @dragstart="drag(job._id,$event)">Age: TBD  Make:{{job.make}} Model:{{job.model}}</span></div>
       </div>
     </div>
   </div>
@@ -126,24 +127,20 @@
           }
         }
       },
-      drag: function (jobId, ev) {
-        ev.dataTransfer.setData("text/html", jobId)
+      drag: function (job) {
+        console.log(job)
+        console.log(event)
+        event.dataTransfer.setData('text/javascript', JSON.stringify(job))
       },
       workingDrop: function (ev) {
-        ev.preventDefault();
-        //console.debug(ev)
-        console.debug(ev.target.id)
-        var draggedJobId = ev.dataTransfer.getData("text/html")
-        var arr_activeJobs = this.$root.store.state.activeJobs
-        for (var i = 0; i < arr_activeJobs.length; i++) {
-          var job = arr_activeJobs[i];
-          if (job._id == draggedJobId)
-          {if (ev.target.id == 'workingBoard') 
-            {job.jobStatus = 'working' }
-          if (ev.target.id == 'fourStroke' || ev.target.id == 'twoStroke' || ev.target.id == 'commercial') 
-            {job.jobStatus = 'pending' }
-          }
-        }
+        var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
+        console.log(job)
+        // ev.preventDefault();
+        // //console.debug(ev)
+        // console.log()
+        // var draggedJobId = ev.dataTransfer.getData("text/html")
+        // console.log(draggedJobId)
+        // var arr_activeJobs = this.$root.store.state.activeJobs
       },
     },
     computed: {},

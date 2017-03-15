@@ -1,11 +1,17 @@
 <template>
   <div class="service-request">
     <h1>{{msg}}</h1>
-    <h3>{{this.$root.$data.store.state.activePhone}}</h3>
+    <h3 v-if="typeof activePhone == typeof 'string'">{{this.$root.$data.store.state.activePhone}}</h3>
+    <div class="input-field col s12" v-if="typeof activePhone != typeof 'string'">
+      <select >
+      <option @click="setPhone(phone)" v-for="(phone, i) in activePhone">{{phone}}</option>
+    </select>
+      <label>Materialize Select</label>
+    </div>
     <div class="row">
       <div class="col s3">
         <!-- Dropdown Trigger -->
-        <span id='btn01' class='dropdown-button btn red' href='#' data-activates='dropdown1'>Equipment Type <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+        <span id='btn01' class='dropdown-button btn red' href='#' data-activates='dropdown1'>Equipment Type<i class="fa fa-caret-down" aria-hidden="true"></i></span>
         <!-- Dropdown Structure -->
         <ul id='dropdown1' class='dropdown-content'>
           <li><span v-for="model in equipment" @click="A_Clicked(model)" v-model='modelName'>{{model.name}}</span></li>
@@ -47,13 +53,13 @@
           <div class="col s12">
             <!--<button>Submit</button>-->
             <div v-show="showSubmitButton" class="submitButton">
-              <button @click="returnSelection()" class="waves-effect waves-light btn ">Submit</button>
+              <button @click="returnSelectionNew()" class="waves-effect waves-light btn ">Submit and New</button>
+              <button @click="returnSelection()" class="waves-effect waves-light btn ">Submit and Close</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -62,7 +68,8 @@
     name: 'test',
     data() {
       return {
-        debugMode : true, //used to hard code options for debugging -- set to false in prod.
+        jobPhone:0,
+        debugMode: true, //used to hard code options for debugging -- set to false in prod.
         modelName: '',
         msg: 'Enter Your Service Request',
         //flags indicating if buttons are visible. 
@@ -139,10 +146,23 @@
         }
       }
     },
+    computed: {
+      activePhone() {
+        return this.$root.$data.store.state.activePhone
+      }
+    },
     mounted() {
       $('.service-request .dropdown-button').dropdown()
+      $(document).ready(function () {
+        $('select').material_select();
+      });
+
     },
+
     methods: {
+      setPhone(phone){
+        console.log("setPhone")
+      },
       addJob() {
       },
       makeLi: function (dropText) {
@@ -187,7 +207,7 @@
         var dom_but01 = document.getElementById("btn01")
         dom_but01.innerText = model.name;
         console.debug("Inner HTML:", dom_but01.innerHTML)
-        dom_but01.innerHTML = dom_but01.innerHTML + '<i class="fa fa-caret-down" aria-hidden="true"></i>';
+        dom_but01.innerHTML = dom_but01.innerHTML + ' ' + '<i class="fa fa-caret-down" aria-hidden="true"></i>';
         console.debug("Inner HTML:", dom_but01.innerHTML)
         if (model.argument != 'ChainBlade' && model.argument != 'Other') {
           this.showButtons()
@@ -266,20 +286,21 @@
       },
       //this is a placeholder function to report out the values that are to be sent on submit.
       returnSelection: function () {
+        
         var object = {
           type1: this.equipmentTypeValue || null,
           type2: this.RegularValue,
           make: this.MakeValue,
           model: this.ModelValue,
-          // email: this.$root.$data.store.state.activeCustomer.email,
-          email: 'afreeman1s@topsy.com',
+          email: this.$root.$data.store.state.activeCustomer.email,
+          // email: 'afreeman1s@topsy.com',
           tUpRepExp: this.TuneValue,
           jobNumber: 1001,
           customerNotes: this.notesValue,
-          // cellPhone:  this.$root.$data.store.state.activePhone,
-          cellPhone:  "208-619-4746",
-          // customerId: this.$root.$data.store.state.activeCustomer._id
-          customerId: '58b9f7638f4f33979c7054e7',
+          cellPhone: this.$root.$data.store.state.activePhone,
+          // cellPhone:  "208-619-4746",
+          customerId: this.$root.$data.store.state.activeCustomer._id,
+          // customerId: '58b9f7638f4f33979c7054e7',
           jobStatus: this.jobStatus,
           whereAmI: this.whereAmI
         }
@@ -292,6 +313,35 @@
         console.log("Tune Value:", this.TuneValue)
         console.log("Regular Value:", this.RegularValue)
         console.log("Notes Value:", this.notesValue)
+        this.$router.push('/Home')
+      },
+      returnSelectionNew: function () {
+        console.log(this.jobPhone)
+        var object = {
+          type1: this.equipmentTypeValue || null,
+          type2: this.RegularValue,
+          make: this.MakeValue,
+          model: this.ModelValue,
+          email: this.$root.$data.store.state.activeCustomer.email,
+          // email: 'afreeman1s@topsy.com',
+          tUpRepExp: this.TuneValue,
+          jobNumber: 1001,
+          customerNotes: this.notesValue,
+          cellPhone: this.$root.$data.store.state.activePhone,
+          // cellPhone:  "208-619-4746",
+          customerId: this.$root.$data.store.state.activeCustomer._id,
+          // customerId: '58b9f7638f4f33979c7054e7',
+          jobStatus: this.jobStatus,
+          whereAmI: this.whereAmI
+        }
+        this.$root.$data.store.actions.postJob(object)
+        this.showExpressButton = false
+        this.showSubmitButton = false
+        this.notesValue = ''
+        this.ModelValue = ''
+        this.resetAButton()
+        this.resetBButton()
+        this.resetCButton()
       },
       hideButtonsForSharp: function () {
         console.log("Since sharpening has been selected we hide buttons.")
@@ -314,6 +364,15 @@
         this.showExpressButton = false  // default to false 
         this.showSubmitButton = false //default to false
       },
+      resetAButton: function () {
+        console.log("Reseting the selections made on the B button.")
+        //grab the button element from the dom 
+        var dom_but01 = document.getElementById("btn01")
+        //Set it to red
+        dom_but01.setAttribute('class', 'dropdown-button btn red')
+        //Change the name on the button back to MAKE.
+        dom_but01.innerText = "Equipment Type";
+      },
       resetBButton: function () {
         console.log("Reseting the selections made on the B button.")
         //grab the button element from the dom 
@@ -323,8 +382,19 @@
         //Change the name on the button back to MAKE.
         dom_but02.innerText = "MAKE";
       },
+      resetCButton: function () {
+        console.log("Reseting the selections made on the B button.")
+        //grab the button element from the dom 
+        var dom_but03 = document.getElementById("btn03")
+        //Set it to red
+        dom_but03.setAttribute('class', 'dropdown-button btn red')
+        //Change the name on the button back to MAKE.
+        dom_but03.innerText = "TUNE/Repair";
+      },
     },
   }
+
 </script>
 <style>
+
 </style>

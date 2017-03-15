@@ -147,7 +147,7 @@ export default {
         },
         //POST
         postUser(body) {
-            api.post('users', body).then(res => {
+            api.post('user', body).then(res => {
                 this.activeCustomer = res.data.data
                 this.getActiveJobs()
                 console.log(this.activeCustomer)
