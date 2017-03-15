@@ -1,9 +1,7 @@
 <template>
   <div class="service-request">
     <h1>{{msg}}</h1>
-<<<<<<< HEAD
     <form @submit.prevent="returnSelection(hello)">
-=======
     <h3>{{this.$root.$data.store.state.activePhone}}</h3>
     <div class="row">
       <div class="col s3">
@@ -40,8 +38,6 @@
           <li><span @click="D_Clicked('Express')">Express</span></li>
         </ul>
       </div>
-
->>>>>>> 9a20c7ffba115378e19d135bd493d47e62050159
       <div class="row">
         <div class="col s3">
           <!-- Dropdown Trigger -->
