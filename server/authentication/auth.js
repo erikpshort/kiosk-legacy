@@ -22,6 +22,9 @@ router.post('/api/register', (req, res) => {
 router.post('/api/login', (req, res) => {
   Users.findOne({ email: req.body.email })
     .then(user => {
+      if(!user.admin){
+        throw new Error("Must be admin to login")
+      }
       user.validatePassword(req.body.password)
         .then(valid => {
           if(!valid){
@@ -41,7 +44,7 @@ router.post('/api/login', (req, res) => {
         })
     })
     .catch(err => {
-      res.send({
+      res.status(401).send({
         error: err,
         message: 'Invalid Email or Password'
       })

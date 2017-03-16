@@ -2,64 +2,66 @@
   <div class="service-request">
     <h1>{{msg}}</h1>
     <h3 v-if="typeof activePhone == typeof 'string'">{{this.$root.$data.store.state.activePhone}}</h3>
-    <div class="input-field col s12" v-if="typeof activePhone != typeof 'string'">
-      <select >
-      <option @click="setPhone(phone)" v-for="(phone, i) in activePhone">{{phone}}</option>
+    <form @submit.prevent="returnSelectionNew(i)">
+      <div class="input-field col s12" v-if="typeof activePhone != typeof 'string'">
+        <label class="selectLabel">Materialize Select</label>
+        <select v-model="selected">
+      <option v-for="(phone, i) in activePhone" >{{phone}}</option>
     </select>
-      <label>Materialize Select</label>
-    </div>
-    <div class="row">
-      <div class="col s3">
-        <!-- Dropdown Trigger -->
-        <span id='btn01' class='dropdown-button btn red' href='#' data-activates='dropdown1'>Equipment Type<i class="fa fa-caret-down" aria-hidden="true"></i></span>
-        <!-- Dropdown Structure -->
-        <ul id='dropdown1' class='dropdown-content'>
-          <li><span v-for="model in equipment" @click="A_Clicked(model)" v-model='modelName'>{{model.name}}</span></li>
-        </ul>
       </div>
-      <div v-show="showMakeButton" class="col s2">
-        <span id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Make</span>
-        <!-- Dropdown Structure -->
-        <ul id='dropdown2' class='dropdown-content'>
-          <!-- The contents of this dropdown are dynamically constructed based upon the choice from button 01 -->
-        </ul>
-      </div>
-      <div v-show="showModelButton" class="col s2">
-        <input v-model="ModelValue" placeholder="Model" id="Model" type="text">
-      </div>
-      <div v-show="showTuneButton" class="col s2">
-        <a id='btn03' class='dropdown-button btn red' href='#' data-activates='dropdown3'>Tune / Repair</a>
-        <!-- Dropdown Structure -->
-        <ul id='dropdown3' class='dropdown-content'>
-          <li><span @click="C_Clicked('Tune-up')">Tune-up</span></li>
-          <li><span @click="C_Clicked('Repair')">Repair</span></li>
-        </ul>
-      </div>
-      <div v-show="showExpressButton" class="col s2">
-        <span id='btn04' class='dropdown-button btn red' href='#' data-activates='dropdown4'>Regular / Rush</span>
-        <!-- Dropdown Structure -->
-        <ul id='dropdown4' class='dropdown-content'>
-          <li><span @click="D_Clicked('Regular')">Regular</span></li>
-          <li><span @click="D_Clicked('Express')">Express</span></li>
-        </ul>
-      </div>
-
       <div class="row">
-        <div class="input-field col s12">
-          <textarea v-model="notesValue" id="textarea1" class="materialize-textarea"></textarea>
-          <label for="textarea1">Customer Notes:</label>
+        <div class="col s3">
+          <!-- Dropdown Trigger -->
+          <span id='btn01' class='dropdown-button btn red' href='#' data-activates='dropdown1'>Equipment Type<i class="fa fa-caret-down" aria-hidden="true"></i></span>
+          <!-- Dropdown Structure -->
+          <ul id='dropdown1' class='dropdown-content'>
+            <li><span v-for="model in equipment" @click="A_Clicked(model)" v-model='modelName'>{{model.name}}</span></li>
+          </ul>
         </div>
+        <div v-show="showMakeButton" class="col s2">
+          <span id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Make</span>
+          <!-- Dropdown Structure -->
+          <ul id='dropdown2' class='dropdown-content'>
+            <!-- The contents of this dropdown are dynamically constructed based upon the choice from button 01 -->
+          </ul>
+        </div>
+        <div v-show="showModelButton" class="col s2">
+          <input v-model="ModelValue" placeholder="Model" id="Model" type="text">
+        </div>
+        <div v-show="showTuneButton" class="col s2">
+          <a id='btn03' class='dropdown-button btn red' href='#' data-activates='dropdown3'>Tune / Repair</a>
+          <!-- Dropdown Structure -->
+          <ul id='dropdown3' class='dropdown-content'>
+            <li><span @click="C_Clicked('Tune-up')">Tune-up</span></li>
+            <li><span @click="C_Clicked('Repair')">Repair</span></li>
+          </ul>
+        </div>
+        <div v-show="showExpressButton" class="col s2">
+          <span id='btn04' class='dropdown-button btn red' href='#' data-activates='dropdown4'>Regular / Rush</span>
+          <!-- Dropdown Structure -->
+          <ul id='dropdown4' class='dropdown-content'>
+            <li><span @click="D_Clicked('Regular')">Regular</span></li>
+            <li><span @click="D_Clicked('Express')">Express</span></li>
+          </ul>
+        </div>
+
         <div class="row">
-          <div class="col s12">
-            <!--<button>Submit</button>-->
-            <div v-show="showSubmitButton" class="submitButton">
-              <button @click="returnSelectionNew()" class="waves-effect waves-light btn ">Submit and New</button>
-              <button @click="returnSelection()" class="waves-effect waves-light btn ">Submit and Close</button>
+          <div class="input-field col s12">
+            <textarea v-model="notesValue" id="textarea1" class="materialize-textarea"></textarea>
+            <label for="textarea1">Customer Notes:</label>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <!--<button>Submit</button>-->
+              <div v-show="showSubmitButton" class="submitButton">
+                <button  class="waves-effect waves-light btn " type="submit">Submit and New</button>
+                <button @click="returnSelection()" class="waves-effect waves-light btn ">Submit and Close</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -68,7 +70,7 @@
     name: 'test',
     data() {
       return {
-        jobPhone:0,
+        selected: '',
         debugMode: true, //used to hard code options for debugging -- set to false in prod.
         modelName: '',
         msg: 'Enter Your Service Request',
@@ -153,14 +155,14 @@
     },
     mounted() {
       $('.service-request .dropdown-button').dropdown()
-      $(document).ready(function () {
-        $('select').material_select();
-      });
+      // $(document).ready(function () {
+      //   $('select').material_select();
+      // });
 
     },
 
     methods: {
-      setPhone(phone){
+      setPhone(phone) {
         console.log("setPhone")
       },
       addJob() {
@@ -286,7 +288,7 @@
       },
       //this is a placeholder function to report out the values that are to be sent on submit.
       returnSelection: function () {
-        
+
         var object = {
           type1: this.equipmentTypeValue || null,
           type2: this.RegularValue,
@@ -315,8 +317,9 @@
         console.log("Notes Value:", this.notesValue)
         this.$router.push('/Home')
       },
-      returnSelectionNew: function () {
+      returnSelectionNew: function (i) {
         console.log(this.jobPhone)
+        console.log(i)
         var object = {
           type1: this.equipmentTypeValue || null,
           type2: this.RegularValue,
@@ -396,5 +399,13 @@
 
 </script>
 <style>
+select {
+  display: block !important;
+}
 
+.input-field label.selectLabel{
+
+  position: relative;
+  top: 0;
+}
 </style>
