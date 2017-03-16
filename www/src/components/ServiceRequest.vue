@@ -188,6 +188,7 @@
         while (ul02.childElementCount > 0) {  //while there is a child element (i.e. something in the dropdown)
           ul02.removeChild(ul02.childNodes[0])  //remove it.
         }
+        this.ModelValue = ''
       },
       populateButtonBDropDownList: function (model) {
         console.debug("Inside populateButtonBDropDownList")
