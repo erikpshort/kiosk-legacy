@@ -3,10 +3,10 @@ let Users = require('../models/user')
 let io = require('socket.io')
 let twilio = require('twilio');
 
-// var edge = require('edge');
-// var fs = require('fs');
-// var dymo = require('dymo');
-// var qr = require('qr-image');
+var edge = require('edge');
+var fs = require('fs');
+var dymo = require('dymo');
+var qr = require('qr-image');
 
 //commeted out at dave's suggestion to successfully build server. 
 //On a proper server these variables will be supplied by server environment.
@@ -152,6 +152,7 @@ export default {
     reqType: 'post',
     method(req, res, next) {
       let action = 'Printing Label'
+      console.log('at start of printqr route!')
       console.log(req.body)
 
       fs.unlink('customerfile.png', function (err) {
@@ -159,7 +160,7 @@ export default {
         console.log('file deleted successfully');
       });
       var userinput = {
-        "_id": "208-111-2222",
+        "phone": "208-111-2222",
         "fullName": "john doe",
       }
       console.log(userinput)
@@ -188,7 +189,7 @@ export default {
             label: 'test.label',                        //path to label filename
             fields: {
               title: userinput.fullName,
-              phone: userinput._id
+              phone: userinput.phone
             },
             images: {
               photo: fs.readFileSync('customerfile.png')
@@ -203,7 +204,7 @@ export default {
 
         });
 
-      }, 2000);
+      }, 4000);
     }
   }
 }
