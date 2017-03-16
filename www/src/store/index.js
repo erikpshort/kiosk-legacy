@@ -173,8 +173,8 @@ export default {
             }).catch(handleError)
         },
         changeJob(jobId, body) {
-            api.put('job' + jobId, body).then(res => {
-                this.activeJobs()
+            api.put('job/' + jobId, body).then(res => {
+                this.getActiveJobs()
             }).catch(handleError)
         }
     },
