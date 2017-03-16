@@ -2,12 +2,13 @@
   <div class="service-request">
     <h1>{{msg}}</h1>
     <h3 v-if="typeof activePhone == typeof 'string'">{{this.$root.$data.store.state.activePhone}}</h3>
-    <form @submit.prevent="returnSelectionNew(i)">
+    <form @submit.prevent="returnSelectionNew()">
       <div class="input-field col s12" v-if="typeof activePhone != typeof 'string'">
-        <label class="selectLabel">Materialize Select</label>
-        <select v-model="selected">
-      <option v-for="(phone, i) in activePhone" >{{phone}}</option>
-    </select>
+        <label class="selectLabel">Please Select Phone Number</label>
+        <select v-model="selectedPhoneNum">
+        <option v-for="(phone, i) in activePhone">{{phone}}</option>
+      </select>
+        <br>
       </div>
       <div class="row">
         <div class="col s3">
@@ -54,7 +55,7 @@
             <div class="col s12">
               <!--<button>Submit</button>-->
               <div v-show="showSubmitButton" class="submitButton">
-                <button  class="waves-effect waves-light btn " type="submit">Submit and New</button>
+                <button class="waves-effect waves-light btn " type="submit">Submit and New</button>
                 <button @click="returnSelection()" class="waves-effect waves-light btn ">Submit and Close</button>
               </div>
             </div>
@@ -70,7 +71,7 @@
     name: 'test',
     data() {
       return {
-        selected: '',
+        selectedPhoneNum: null,
         debugMode: true, //used to hard code options for debugging -- set to false in prod.
         modelName: '',
         msg: 'Enter Your Service Request',
@@ -150,6 +151,9 @@
     },
     computed: {
       activePhone() {
+        return this.$root.$data.store.state.activePhone
+      },
+      selectedPhoneNum() {
         return this.$root.$data.store.state.activePhone
       }
     },
@@ -288,63 +292,98 @@
       },
       //this is a placeholder function to report out the values that are to be sent on submit.
       returnSelection: function () {
-
-        var object = {
-          type1: this.equipmentTypeValue || null,
-          type2: this.RegularValue,
-          make: this.MakeValue,
-          model: this.ModelValue,
-          email: this.$root.$data.store.state.activeCustomer.email,
-          // email: 'afreeman1s@topsy.com',
-          tUpRepExp: this.TuneValue,
-          jobNumber: 1001,
-          customerNotes: this.notesValue,
-          cellPhone: this.$root.$data.store.state.activePhone,
-          // cellPhone:  "208-619-4746",
-          customerId: this.$root.$data.store.state.activeCustomer._id,
-          // customerId: '58b9f7638f4f33979c7054e7',
-          jobStatus: this.jobStatus,
-          whereAmI: this.whereAmI
+        console.log(!Array.isArray(this.activePhone))
+        if (typeof this.activePhone == typeof 'string') {
+          console.log('here')
+          var object = {
+            type1: this.equipmentTypeValue || null,
+            type2: this.RegularValue,
+            make: this.MakeValue,
+            model: this.ModelValue,
+            email: this.$root.$data.store.state.activeCustomer.email,
+            tUpRepExp: this.TuneValue,
+            jobNumber: 1001,
+            customerNotes: this.notesValue,
+            cellPhone: this.activePhone,
+            customerId: this.$root.$data.store.state.activeCustomer._id,
+            jobStatus: this.jobStatus,
+            whereAmI: this.whereAmI
+          }
+          this.$root.$data.store.actions.postJob(object)
+          this.$router.push('/home')
+        } else if (typeof this.selectedPhoneNum == typeof 'sting') {
+          var object = {
+            type1: this.equipmentTypeValue || null,
+            type2: this.RegularValue,
+            make: this.MakeValue,
+            model: this.ModelValue,
+            email: this.$root.$data.store.state.activeCustomer.email,
+            tUpRepExp: this.TuneValue,
+            jobNumber: 1001,
+            customerNotes: this.notesValue,
+            cellPhone: this.selectedPhoneNum,
+            customerId: this.$root.$data.store.state.activeCustomer._id,
+            jobStatus: this.jobStatus,
+            whereAmI: this.whereAmI
+          }
+          this.$root.$data.store.actions.postJob(object)
+          this.$router.push('/home')
+        } else {
+          window.alert("Please Select a Phone Num from the Drop Down List")
         }
-        this.$root.$data.store.actions.postJob(object)
-        console.log(object)
-        console.log("---submit has been pressed---")
-        console.log("Equipment Type:", this.equipmentTypeValue)
-        console.log("Make Value:", this.MakeValue)
-        console.log("Model Value:", this.ModelValue)
-        console.log("Tune Value:", this.TuneValue)
-        console.log("Regular Value:", this.RegularValue)
-        console.log("Notes Value:", this.notesValue)
-        this.$router.push('/Home')
       },
-      returnSelectionNew: function (i) {
-        console.log(this.jobPhone)
-        console.log(i)
-        var object = {
-          type1: this.equipmentTypeValue || null,
-          type2: this.RegularValue,
-          make: this.MakeValue,
-          model: this.ModelValue,
-          email: this.$root.$data.store.state.activeCustomer.email,
-          // email: 'afreeman1s@topsy.com',
-          tUpRepExp: this.TuneValue,
-          jobNumber: 1001,
-          customerNotes: this.notesValue,
-          cellPhone: this.$root.$data.store.state.activePhone,
-          // cellPhone:  "208-619-4746",
-          customerId: this.$root.$data.store.state.activeCustomer._id,
-          // customerId: '58b9f7638f4f33979c7054e7',
-          jobStatus: this.jobStatus,
-          whereAmI: this.whereAmI
+      returnSelectionNew: function () {
+        console.log(!Array.isArray(this.activePhone))
+        if (typeof this.activePhone == typeof 'string') {
+          console.log('here')
+          var object = {
+            type1: this.equipmentTypeValue || null,
+            type2: this.RegularValue,
+            make: this.MakeValue,
+            model: this.ModelValue,
+            email: this.$root.$data.store.state.activeCustomer.email,
+            tUpRepExp: this.TuneValue,
+            jobNumber: 1001,
+            customerNotes: this.notesValue,
+            cellPhone: this.activePhone,
+            customerId: this.$root.$data.store.state.activeCustomer._id,
+            jobStatus: this.jobStatus,
+            whereAmI: this.whereAmI
+          }
+          this.$root.$data.store.actions.postJob(object)
+          this.showExpressButton = false
+          this.showSubmitButton = false
+          this.notesValue = ''
+          this.ModelValue = ''
+          this.resetAButton()
+          this.resetBButton()
+          this.resetCButton()
+        } else if (typeof this.selectedPhoneNum == typeof 'sting') {
+          var object = {
+            type1: this.equipmentTypeValue || null,
+            type2: this.RegularValue,
+            make: this.MakeValue,
+            model: this.ModelValue,
+            email: this.$root.$data.store.state.activeCustomer.email,
+            tUpRepExp: this.TuneValue,
+            jobNumber: 1001,
+            customerNotes: this.notesValue,
+            cellPhone: this.selectedPhoneNum,
+            customerId: this.$root.$data.store.state.activeCustomer._id,
+            jobStatus: this.jobStatus,
+            whereAmI: this.whereAmI
+          }
+          this.$root.$data.store.actions.postJob(object)
+          this.showExpressButton = false
+          this.showSubmitButton = false
+          this.notesValue = ''
+          this.ModelValue = ''
+          this.resetAButton()
+          this.resetBButton()
+          this.resetCButton()
+        } else {
+          window.alert("Please Select a Phone Num from the Drop Down List")
         }
-        this.$root.$data.store.actions.postJob(object)
-        this.showExpressButton = false
-        this.showSubmitButton = false
-        this.notesValue = ''
-        this.ModelValue = ''
-        this.resetAButton()
-        this.resetBButton()
-        this.resetCButton()
       },
       hideButtonsForSharp: function () {
         console.log("Since sharpening has been selected we hide buttons.")
@@ -399,13 +438,12 @@
 
 </script>
 <style>
-select {
-  display: block !important;
-}
-
-.input-field label.selectLabel{
-
-  position: relative;
-  top: 0;
-}
+  select {
+    display: block !important;
+  }
+  
+  .input-field label.selectLabel {
+    position: relative;
+    top: 0;
+  }
 </style>
