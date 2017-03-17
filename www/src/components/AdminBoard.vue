@@ -25,10 +25,11 @@
     <div class="row" v-if="showBacklog" @drop="workingDropBackLog" @dragover.prevent>
       <div id="fourStroke" class="col s4 orange pendingRow">Orange (four-stroke) Jobs
 
-        <div v-for="job in fourStroke(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart.capture="drag(job)" v-bind:class="{express:job.type2=='Express'}">
+        <div v-for="job in fourStroke(activeJobs)" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{express:job.type2=='Express'}">
 
 
-          <div class="row">
+          <div class="row" id="show-modal" @dblclick="toggleModal(job)">
+            <modal v-if="showModal"></modal>
             <div class="col s4">
               {{job.created | age}}
             </div>
@@ -84,10 +85,10 @@
     <div class="row" v-if="showWorking">
       <div id="workingBoard" class="col s12 grey workRow" @drop.capture="workingDropToDo" @dragover.prevent>Jobs Being Worked On
 
-        <div  click="removeFromWorking(job._id)">
+        <div click="removeFromWorking(job._id)">
           <div class="row">
             <div class="col s4" v-for="job in working(activeJobs)" @dragstart="drag(job)" draggable="true">
-              <div class="row" >
+              <div class="row">
                 <div class="col s4" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">
                   {{job.created | age}}
                 </div>
@@ -139,10 +140,14 @@
   </div>
 </template>
 <script>
+  import modal from './Modal.vue'
   export default {
     name: 'adminBoard',
+    components: {modal},
     data() {
       return {
+        modalJob: {},
+        showModal: false,
         msg: 'This is the Admin Board',
 
         showBacklog: true,
@@ -166,6 +171,14 @@
       }
     },
     methods: {
+      toggleModal(job) {
+        this.$root.store.state.modalJob = job
+        if (!this.showModal) {
+          this.showModal = true
+        } else if (this.showModal) {
+          this.showModal = false
+        }
+      },
       //takes in a full array of job objects, and returns an array of only those where the type is four-stroke.
       fourStroke: function (arr_jobs) {
         //this object holds the type1 catagories that belong on the fourStroke board.
@@ -257,10 +270,10 @@
       workingDropBackLog() {
         var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
         //This is because of Business Logic.  They want these done right away
-        if(job.make != 'chainBlade'){
-        job.jobStatus = 'pending',
-          console.log(job)
-        this.$root.$data.store.actions.changeJob(job._id, job)
+        if (job.make != 'chainBlade') {
+          job.jobStatus = 'pending',
+            console.log(job)
+          this.$root.$data.store.actions.changeJob(job._id, job)
         }
       },
       workingDropToDo() {
@@ -331,6 +344,11 @@
     },
     mounted() {
       this.$root.$data.store.actions.getActiveJobs()
+      $(document).ready(function () {
+        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+        $('.modal').modal();
+      });
+
     }
   }
 
@@ -369,4 +387,6 @@
   .express {
     color: red;
   }
+  
+
 </style>

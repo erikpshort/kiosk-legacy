@@ -30,10 +30,11 @@ let state = {
     archivedCustomers: [],
     archivedJob: {},
     archivedJobs: [],
-    customerJobs: [],
     activePhone: '',
+    customerJobs: [],
     loggedInUser: {},
     loggedInData: {},
+    modalJob:{},
     error: {},
 
 }
