@@ -5,6 +5,23 @@
                 <div class="modal-container">
                     <div class="modal-header">
                         <div class="row">
+                            <label>
+                                {{modalJob.created | age}} Days Old
+                            </label>
+                            <h3>
+                                {{modalJob.jobNumber}}
+                            </h3>
+                        </div>
+                        <div class="row">
+                            <label class="col s4">
+                                Model
+                            </label>
+                            <label class="col s4">
+                                Make
+                            </label>
+                            <label class="col s4">
+                                Customer Phone #
+                            </label>
                             <h4 class="col s4">
                                 {{modalJob.model}}
                             </h4>
@@ -17,14 +34,32 @@
                         </div>
                     </div>
                     <div class="modal-body row">
-                        {{modalJob.customerNotes}}
+                        <label class="modal-body row">
+                        Customer Notes
+                    </label> {{modalJob.customerNotes}}
                     </div>
                     <div class="modal-body row">
                         <input type="text" placeholder="Mechanic Notes" v-model="mechanicNotes">
                     </div>
+                    <div v-if="partsRequired.length > 0" v-for="parts in partsRequired">
+                        <div class="modal-body row">
+                            <div class="col s3">
+                                <input type="text" v-model="parts.partNumber" placeholder="Part Number">
+                            </div>
+                            <div class="col s5">
+                                <input type="text" v-model="parts.partDescription" placeholder="Part Description">
+                            </div>
+                            <div class="col s2">
+                                <input type="number" v-model="parts.partQty" placeholder="Qty">
+                            </div>
+                            <div class="col s2">
+                                <input type="number" v-model="parts.partPrice" placeholder="$Price">
+                            </div>
+                        </div>
+                    </div>
                     <div class="modal-body row">
-                        <div class="col s5">
-                            <input type="number" v-model="partNumber" placeholder="Part Number">
+                        <div class="col s3">
+                            <input type="text" v-model="partNumber" placeholder="Part Number">
                         </div>
                         <div class="col s5">
                             <input type="text" v-model="partDescription" placeholder="Part Description">
@@ -32,16 +67,41 @@
                         <div class="col s2">
                             <input type="number" v-model="partQty" placeholder="Qty">
                         </div>
+                        <div class="col s2">
+                            <input type="number" v-model="partPrice" placeholder="$Price">
+                        </div>
                     </div>
                     <div class="modal-body row">
-                        {{modalJob.created | age}} Days Old
+                        <button @click.prevent="addMechNotesandPart()">Submit and Close</button>
                     </div>
-                    <div class="modal-footer">
-                        <footer name="footer">
-                            <button type="submit" @submit.prevent="addMechNotesandPart()">Submit and Close</button>
-                            <a @click="showModal()">hide</a>
-                        </footer>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="row">
+                        <label class="col s4">
+                            Customer Name
+                        </label>
+                        <label class="col s4" v-if="activeCustomer.company">
+                            Company Name
+                        </label>
+                        <label class="col s4">
+                            Customer Email
+                        </label>
+                        <div class="col s4">
+                            {{activeCustomer.name}}
+                        </div>
+                        <div class="col s4">
+                            {{activeCustomer.company}}
+                        </div>
+                        <div class="col s4">
+                            {{activeCustomer.email}}
+                        </div>
                     </div>
+                    <br>
+                    <footer class="row">
+                        <div class="col s12"></div>
+                        <span @click="showModal()">Cancel</span>
+                    </footer>
                 </div>
             </div>
         </div>
@@ -53,10 +113,10 @@
         name: 'modal',
         data() {
             return {
-                mechanicNotes: '',
                 partDescription: '',
                 partNumber: '',
                 partQty: null,
+                partPrice: null,
             }
         },
         mounted() {
@@ -73,18 +133,40 @@
                 return Math.floor(ageInDays);
             }
         },
-        computed:{
-            modalJob(){
+        computed: {
+            partsRequired() {
+                return this.$root.store.state.modalJob.partsRequired
+            },
+            mechanicNotes() {
+                return this.$root.store.state.modalJob.mechanicNotes
+            },
+            modalJob() {
                 return this.$root.store.state.modalJob
+            },
+            activeCustomer() {
+                return this.$root.store.state.activeCustomer
             }
         },
-        methods:{
-            showModal(){
-                if(this.$parent.showModal){
+        methods: {
+            showModal() {
+                if (this.$parent.showModal) {
                     this.$parent.showModal = false
-                }else{
+                } else {
                     this.$parent.showModal = true
                 }
+            },
+            addMechNotesandPart() {
+                var object = {
+                    mechanicNotes: this.mechanicNotes,
+                    partsRequired: {
+                        partDescription: this.partDescription,
+                        partNumber: this.partNumber,
+                        partQty: this.partQty,
+                        partPrice: this.partPrice,
+                    }
+                }
+                console.log(object)
+                this.$root.store.actions.changeJob(this.modalJob._id, object)
             }
         }
     }
@@ -133,14 +215,6 @@
     .modal-default-button {
         float: right;
     }
-    /*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
     
     .modal-enter {
         opacity: 0;
@@ -159,15 +233,15 @@
     slot {
         text-align: center
     }
-    a {
-        float: right;
+    
+    label {
+        font-size: 10px;
     }
-footer {
-    margin-top: 100px;
-    position: relative;
-    left: 0;
-    bottom: 0;
-    width: 75%;
-    overflow:hidden;
-}
+    
+    footer {
+        /*margin-top: 15%;
+        position: relative;
+        width: 100%;*/
+        color: blue
+    }
 </style>

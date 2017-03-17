@@ -24,20 +24,22 @@
     </div>
     <div class="row" v-if="showBacklog" @drop="workingDropBackLog" @dragover.prevent>
       <div id="fourStroke" class="col s4 orange pendingRow">Orange (four-stroke) Jobs
-
+        <modal v-if="showModal"></modal>
         <div v-for="job in fourStroke(activeJobs)" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{express:job.type2=='Express'}">
 
 
-          <div class="row" id="show-modal" @dblclick="toggleModal(job)">
-            <modal v-if="showModal"></modal>
-            <div class="col s4">
+          <div class="row">
+            <div class="col s1">
               {{job.created | age}}
             </div>
-            <div class="col s4">
+            <div class="col s5">
               {{job.make}}
             </div>
-            <div class="col s4">
+            <div class="col s5">
               {{job.model}}
+            </div>
+            <div class="col s1" @click="toggleModal(job)">
+            <a>+</a>
             </div>
           </div>
 
@@ -172,6 +174,8 @@
     },
     methods: {
       toggleModal(job) {
+        console.log(job)
+        this.$root.store.actions.getSingleCustomer(job.customerId)
         this.$root.store.state.modalJob = job
         if (!this.showModal) {
           this.showModal = true
@@ -387,6 +391,8 @@
   .express {
     color: red;
   }
-  
+  a {
+    color: black;
+  }
 
 </style>

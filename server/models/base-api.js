@@ -17,7 +17,7 @@ function API(model, schema) {
   }
 
   function get(req, res, next) {
-    if(!req.user.uid){
+    if(!req.session.uid){
       return res.status(401).send(handleResponse(actions.find, null, new Error("User not authenticated")))
     }
     var id = req.params.id || req.query.id || '';
@@ -70,7 +70,7 @@ function API(model, schema) {
     if (!id) {
       return next(handleResponse(action, null, { error: { message: 'Invalid request no id provided' } }))
     }
-
+    console.log("Base Api")
     schema.findOneAndUpdate({ _id: id }, req.body)
       .then(data => {
         return res.send(handleResponse(action, { message: 'Successfully updated' }))

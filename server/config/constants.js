@@ -18,7 +18,8 @@ const models = {
   // },
   job: {
     name: 'Job',
-    endpoint: 'job'
+    endpoint: 'job',
+    useCustomRoutes: true
   }
 
 }

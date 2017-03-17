@@ -8,6 +8,13 @@ let api = axios.create({
 
 })
 
+let noApi = axios.create({
+    baseURL: 'http://localhost:3000/',
+    timeout: 20000,
+    withCredentials: true
+
+})
+
 //console.warn("makeing a post with hard coded login information.")
 // api.post('http://localhost:3000/api/login', {
 //     email: 'erik@hotmail.com',
@@ -70,18 +77,6 @@ export default {
 
                 }).catch(handleError)
         },
-        // logInMethod(res) {
-        //     if (res.data.data.admin) {
-        //         console.log("respons first ", res)
-        //         state.loggedInUser = res.data.data
-        //         return router.push('/backlog')
-        //     } else if (!res.data.data.admin) {
-        //         console.log("else if", res.data.data.admin)
-        //         Materialize.toast('Hello', 4000)
-        //     } else {
-        //         console.log(res.data.error)
-        //     }
-        // },
         logIn(user) {
             api.post('login', user).then(res => {
                 state.loggedInData = res.data
@@ -114,7 +109,6 @@ export default {
         },
         //GETS
         getActiveJobs() {
-            //console.log("action is hitting...")
             api('activejobs').then(res => {
                 state.activeJobs = res.data.data
             }).catch(handleError)
@@ -139,7 +133,11 @@ export default {
                 state.activeCustomers = res.data.data
             }).catch(handleError)
         },
-
+        getSingleCustomer(customerId){
+            api('user/' + customerId).then(res => {
+                state.activeCustomer = res.data.data
+            }).catch(handleError)
+        },
         getArchivedCustomers() {
 
             api('archivedcustomers').then(res => {
@@ -149,6 +147,7 @@ export default {
         getCustomerJobs(custId) {
             api('users/' + custId + '/jobs').then(res => {
                 state.customerJobs = res.data.data
+                console.log(state.activeCustomer)
             }).catch(handleError)
         },
         //POST
@@ -174,7 +173,7 @@ export default {
             }).catch(handleError)
         },
         changeJob(jobId, body) {
-            api.put('job/' + jobId, body).then(res => {
+            api.put('addParts/' + jobId, body).then(res => {
                 this.getActiveJobs()
             }).catch(handleError)
         }
