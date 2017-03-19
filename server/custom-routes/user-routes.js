@@ -1,5 +1,6 @@
-let jobs = require('../models/job')
+let Jobs = require('../models/job')
 let Users = require('../models/user')
+let Parts = require('../models/part')
 let io = require('socket.io')
 let twilio = require('twilio');
 
@@ -22,7 +23,7 @@ export default {
         return res.status(401).send(handleResponse(null, null, new Error("User Not Authenticated")))
       }
       let action = 'Find Active Jobs'
-      jobs.find({ archive: false })
+      Jobs.find({ archive: false })
         .then(data => {
           res.send(handleResponse(action, data))
         }).catch(error => {
@@ -38,7 +39,7 @@ export default {
         return res.status(401).send(handleResponse(null, null, new Error("User Not Authenticated")))
       }
       let action = 'Find archived Jobs'
-      jobs.find({ archive: true })
+      Jobs.find({ archive: true })
         .then(data => {
           res.send(handleResponse(action, data))
         }).catch(error => {
@@ -118,7 +119,7 @@ export default {
         return res.status(401).send(handleResponse(null, null, new Error("User Not Authenticated")))
       }
       let action = 'Find Customers Jobs'
-      jobs.find({ customerId: req.params.id })
+      Jobs.find({ customerId: req.params.id })
         .then(data => {
           res.send(handleResponse(action, data))
         }).catch(error => {

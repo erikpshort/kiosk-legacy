@@ -1,68 +1,90 @@
 <template>
-  <div class="service-request">
-    <h1>{{msg}}</h1>
-    <h3 v-if="typeof activePhone == typeof 'string'">{{this.$root.$data.store.state.activePhone}}</h3>
-    <form @submit.prevent="returnSelectionNew()">
-      <div class="input-field col s12" v-if="typeof activePhone != typeof 'string'">
-        <label class="selectLabel">Please Select Phone Number</label>
-        <select v-model="selectedPhoneNum">
+  <div>
+    <div class="container" v-if="confirm">
+      <div class="col s12">
+        <div class="card blue-grey darken-1">
+          <div class="card-content white-text">
+            <p>Please verify that the information below is correct.</p>
+            <h4>{{activeJob.make}}</h4>
+            <h4>{{activeJob.model}}</h4>
+            <h4>{{activeJob.type1}}</h4>
+            <!--<h4 v-if="customer.city || customer.state">{{customer.city}}, {{customer.state}} {{customer.zip}}</h4>
+            <h4 v-if="typeof activePhone == 'string'">{{activePhone}}</h4>
+            <h4 v-if="typeof activePhone != 'string'" v-for="phone in activePhone">{{phone}}</h4>
+            <h4>{{customer.email}}</h4>-->
+          </div>
+          <div class="card-action">
+            <router-link :to="'/ServiceRequest'"><a>Is Correct</a></router-link>
+            <a @click="show = !show">Is Not Correct</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="service-request" v-if="!confirm">
+      <h1>{{msg}}</h1>
+      <h3 v-if="typeof activePhone == typeof 'string'">{{this.$root.$data.store.state.activePhone}}</h3>
+      <form @submit.prevent="returnSelectionNew()">
+        <div class="input-field col s12" v-if="typeof activePhone != typeof 'string'">
+          <label class="selectLabel">Please Select Phone Number</label>
+          <select v-model="selectedPhoneNum">
         <option v-for="(phone, i) in activePhone">{{phone}}</option>
       </select>
-        <br>
-      </div>
-      <div class="row">
-        <div class="col s3">
-          <!-- Dropdown Trigger -->
-          <span id='btn01' class='dropdown-button btn red' href='#' data-activates='dropdown1'>Equipment Type<i class="fa fa-caret-down" aria-hidden="true"></i></span>
-          <!-- Dropdown Structure -->
-          <ul id='dropdown1' class='dropdown-content'>
-            <li><span v-for="model in equipment" @click="A_Clicked(model)" v-model='modelName'>{{model.name}}</span></li>
-          </ul>
+          <br>
         </div>
-        <div v-show="showMakeButton" class="col s2">
-          <span id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Make</span>
-          <!-- Dropdown Structure -->
-          <ul id='dropdown2' class='dropdown-content'>
-            <!-- The contents of this dropdown are dynamically constructed based upon the choice from button 01 -->
-          </ul>
-        </div>
-        <div v-show="showModelButton" class="col s2">
-          <input v-model="ModelValue" placeholder="Model" id="Model" type="text">
-        </div>
-        <div v-show="showTuneButton" class="col s2">
-          <a id='btn03' class='dropdown-button btn red' href='#' data-activates='dropdown3'>Tune / Repair</a>
-          <!-- Dropdown Structure -->
-          <ul id='dropdown3' class='dropdown-content'>
-            <li><span @click="C_Clicked('Tune-up')">Tune-up</span></li>
-            <li><span @click="C_Clicked('Repair')">Repair</span></li>
-          </ul>
-        </div>
-        <div v-show="showExpressButton" class="col s2">
-          <span id='btn04' class='dropdown-button btn red' href='#' data-activates='dropdown4'>Regular / Rush</span>
-          <!-- Dropdown Structure -->
-          <ul id='dropdown4' class='dropdown-content'>
-            <li><span @click="D_Clicked('Regular')">Regular</span></li>
-            <li><span @click="D_Clicked('Express')">Express</span></li>
-          </ul>
-        </div>
-
         <div class="row">
-          <div class="input-field col s12">
-            <textarea v-model="notesValue" id="textarea1" class="materialize-textarea"></textarea>
-            <label for="textarea1">Customer Notes:</label>
+          <div class="col s3">
+            <!-- Dropdown Trigger -->
+            <span id='btn01' class='dropdown-button btn red' href='#' data-activates='dropdown1'>Equipment Type<i class="fa fa-caret-down" aria-hidden="true"></i></span>
+            <!-- Dropdown Structure -->
+            <ul id='dropdown1' class='dropdown-content'>
+              <li><span v-for="model in equipment" @click="A_Clicked(model)" v-model='modelName'>{{model.name}}</span></li>
+            </ul>
           </div>
+          <div v-show="showMakeButton" class="col s2">
+            <span id='btn02' class='dropdown-button btn red' href='#' data-activates='dropdown2'>Make</span>
+            <!-- Dropdown Structure -->
+            <ul id='dropdown2' class='dropdown-content'>
+              <!-- The contents of this dropdown are dynamically constructed based upon the choice from button 01 -->
+            </ul>
+          </div>
+          <div v-show="showModelButton" class="col s2">
+            <input v-model="ModelValue" placeholder="Model" id="Model" type="text">
+          </div>
+          <div v-show="showTuneButton" class="col s2">
+            <a id='btn03' class='dropdown-button btn red' href='#' data-activates='dropdown3'>Tune / Repair</a>
+            <!-- Dropdown Structure -->
+            <ul id='dropdown3' class='dropdown-content'>
+              <li><span @click="C_Clicked('Tune-up')">Tune-up</span></li>
+              <li><span @click="C_Clicked('Repair')">Repair</span></li>
+            </ul>
+          </div>
+          <div v-show="showExpressButton" class="col s2">
+            <span id='btn04' class='dropdown-button btn red' href='#' data-activates='dropdown4'>Regular / Rush</span>
+            <!-- Dropdown Structure -->
+            <ul id='dropdown4' class='dropdown-content'>
+              <li><span @click="D_Clicked('Regular')">Regular</span></li>
+              <li><span @click="D_Clicked('Express')">Express</span></li>
+            </ul>
+          </div>
+
           <div class="row">
-            <div class="col s12">
-              <!--<button>Submit</button>-->
-              <div v-show="showSubmitButton" class="submitButton">
-                <button class="waves-effect waves-light btn " type="submit">Submit and New</button>
-                <button @click="returnSelection()" class="waves-effect waves-light btn ">Submit and Close</button>
+            <div class="input-field col s12">
+              <textarea v-model="notesValue" id="textarea1" class="materialize-textarea"></textarea>
+              <label for="textarea1">Customer Notes:</label>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                <!--<button>Submit</button>-->
+                <div v-show="showSubmitButton" class="submitButton">
+                  <button class="waves-effect waves-light btn " type="submit">Submit and New</button>
+                  <button @click="returnSelection()" class="waves-effect waves-light btn ">Submit and Close</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -71,6 +93,7 @@
     name: 'test',
     data() {
       return {
+        confirm: false,
         selectedPhoneNum: null,
         debugMode: true, //used to hard code options for debugging -- set to false in prod.
         modelName: '',
@@ -151,10 +174,13 @@
     },
     computed: {
       activePhone() {
-        return this.$root.$data.store.state.activePhone
+        return this.$root.store.state.activePhone
       },
       selectedPhoneNum() {
-        return this.$root.$data.store.state.activePhone
+        return this.$root.store.state.activePhone
+      },
+      activeJob(){
+        return this.$root.store.state.activeJob
       }
     },
     mounted() {
@@ -295,7 +321,6 @@
       returnSelection: function () {
         console.log(!Array.isArray(this.activePhone))
         if (typeof this.activePhone == typeof 'string') {
-          console.log('here')
           var object = {
             type1: this.equipmentTypeValue || null,
             type2: this.RegularValue,
@@ -310,8 +335,10 @@
             jobStatus: this.jobStatus,
             whereAmI: this.whereAmI
           }
-          this.$root.$data.store.actions.postJob(object)
-          this.$router.push('/home')
+          this.$root.store.state.activeJob = object
+          this.confirm = true
+          // this.$root.$data.store.actions.postJob(object)
+          // this.$router.push('/home')
         } else if (typeof this.selectedPhoneNum == typeof 'sting') {
           var object = {
             type1: this.equipmentTypeValue || null,
@@ -327,8 +354,10 @@
             jobStatus: this.jobStatus,
             whereAmI: this.whereAmI
           }
-          this.$root.$data.store.actions.postJob(object)
-          this.$router.push('/home')
+          this.$root.store.state.activeJob = object
+          this.confirm = true
+          // this.$root.$data.store.actions.postJob(object)
+          // this.$router.push('/home')
         } else {
           window.alert("Please Select a Phone Num from the Drop Down List")
         }
@@ -351,14 +380,16 @@
             jobStatus: this.jobStatus,
             whereAmI: this.whereAmI
           }
-          this.$root.$data.store.actions.postJob(object)
-          this.showExpressButton = false
-          this.showSubmitButton = false
-          this.notesValue = ''
-          this.ModelValue = ''
-          this.resetAButton()
-          this.resetBButton()
-          this.resetCButton()
+          this.$root.store.state.activeJob = object
+          this.confirm = true
+          // this.$root.$data.store.actions.postJob(object)
+          // this.showExpressButton = false
+          // this.showSubmitButton = false
+          // this.notesValue = ''
+          // this.ModelValue = ''
+          // this.resetAButton()
+          // this.resetBButton()
+          // this.resetCButton()
         } else if (typeof this.selectedPhoneNum == typeof 'sting') {
           var object = {
             type1: this.equipmentTypeValue || null,
@@ -374,14 +405,16 @@
             jobStatus: this.jobStatus,
             whereAmI: this.whereAmI
           }
-          this.$root.$data.store.actions.postJob(object)
-          this.showExpressButton = false
-          this.showSubmitButton = false
-          this.notesValue = ''
-          this.ModelValue = ''
-          this.resetAButton()
-          this.resetBButton()
-          this.resetCButton()
+          this.$root.store.state.activeJob = object
+          this.confirm = true
+          // this.$root.$data.store.actions.postJob(object)
+          // this.showExpressButton = false
+          // this.showSubmitButton = false
+          // this.notesValue = ''
+          // this.ModelValue = ''
+          // this.resetAButton()
+          // this.resetBButton()
+          // this.resetCButton()
         } else {
           window.alert("Please Select a Phone Num from the Drop Down List")
         }
@@ -446,5 +479,29 @@
   .input-field label.selectLabel {
     position: relative;
     top: 0;
+  }
+    .placeholder {
+    font-size: 36px
+  }
+  
+  .validate {
+    font-size: 36px
+  }
+  
+  #telephone {
+    font-size: 36px;
+    text-align: center;
+  }
+  
+   ::-webkit-input-placeholder {
+    font-size: 36px;
+    color: #d0cdfa;
+    text-transform: uppercase;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  
+  input {
+    text-align: center;
   }
 </style>

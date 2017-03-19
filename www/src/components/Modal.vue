@@ -39,26 +39,29 @@
                     </label> {{modalJob.customerNotes}}
                     </div>
                     <div class="modal-body row">
-                        <input type="text" placeholder="Mechanic Notes" v-model="mechanicNotes">
+                        <input type="text" placeholder="Mechanic Notes" v-model="modalJob.mechanicNotes" @keyup.enter="addMechNotes()">
                     </div>
-                    <div v-if="partsRequired.length > 0" v-for="parts in partsRequired">
+                    <div v-if="partsRequired.length > 0" v-for="part in partsRequired">
                         <div class="modal-body row">
-                            <div class="col s3">
-                                <input type="text" v-model="parts.partNumber" placeholder="Part Number">
+                            <div class="col s2">
+                                <input type="text" v-model="part.partNumber" @keyup.enter="editParts(part.partNumber)" placeholder="Part Number">
                             </div>
                             <div class="col s5">
-                                <input type="text" v-model="parts.partDescription" placeholder="Part Description">
+                                <input type="text" v-model="part.partDescription" placeholder="Part Description">
                             </div>
                             <div class="col s2">
-                                <input type="number" v-model="parts.partQty" placeholder="Qty">
+                                <input type="number" v-model="part.partQty" placeholder="Qty">
                             </div>
                             <div class="col s2">
-                                <input type="number" v-model="parts.partPrice" placeholder="$Price">
+                                <input type="number" v-model="part.partPrice" placeholder="$Price">
+                            </div>
+                            <div class="col s1">
+                                <button v-on:click="archivePart(part)">-</button>
                             </div>
                         </div>
                     </div>
                     <div class="modal-body row">
-                        <div class="col s3">
+                        <div class="col s2">
                             <input type="text" v-model="partNumber" placeholder="Part Number">
                         </div>
                         <div class="col s5">
@@ -70,9 +73,12 @@
                         <div class="col s2">
                             <input type="number" v-model="partPrice" placeholder="$Price">
                         </div>
+                        <div class="col s1">
+                            <button @click="addParts()">+</button>
+                        </div>
                     </div>
                     <div class="modal-body row">
-                        <button @click.prevent="addMechNotesandPart()">Submit and Close</button>
+                        <button>Submit and Close</button>
                     </div>
                     <br>
                     <br>
@@ -134,9 +140,6 @@
             }
         },
         computed: {
-            partsRequired() {
-                return this.$root.store.state.modalJob.partsRequired
-            },
             mechanicNotes() {
                 return this.$root.store.state.modalJob.mechanicNotes
             },
@@ -145,7 +148,12 @@
             },
             activeCustomer() {
                 return this.$root.store.state.activeCustomer
-            }
+            },
+            partsRequired() {
+                return this.$root.store.state.parts.filter(part => {
+                    return (part.jobId == this.$root.store.state.modalJob._id && part.archive == false)
+                })
+            },
         },
         methods: {
             showModal() {
@@ -155,18 +163,37 @@
                     this.$parent.showModal = true
                 }
             },
-            addMechNotesandPart() {
+            addMechNotes() {
                 var object = {
-                    mechanicNotes: this.mechanicNotes,
-                    partsRequired: {
-                        partDescription: this.partDescription,
-                        partNumber: this.partNumber,
-                        partQty: this.partQty,
-                        partPrice: this.partPrice,
-                    }
+                    mechanicNotes: this.mechanicNotes
                 }
                 console.log(object)
                 this.$root.store.actions.changeJob(this.modalJob._id, object)
+            },
+            addParts() {
+                var object = {
+                    customerId: this.modalJob.customerId,
+                    jobId: this.modalJob._id,
+                    partDescription: this.partDescription,
+                    partNumber: this.partNumber,
+                    partQty: this.partQty,
+                    partPrice: this.partPrice
+                }
+                this.$root.store.actions.postParts(object)
+                this.partDescription = '',
+                    this.partNumber = '',
+                    this.partQty = '',
+                    this.partPrice = ''
+            },
+            archivePart(part) {
+                var id = part._id
+                var object = {
+                    archive: true
+                }
+                this.$root.store.actions.changePart(id, object)
+            },
+            editParts(part) {
+                console.log(part)
             }
         }
     }
@@ -195,12 +222,14 @@
         width: 75%;
         margin: 0px auto;
         padding: 20px 30px;
-        height: 75% !important;
+        height: auto;
         background-color: #fff;
         border-radius: 2px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
         transition: all .3s ease;
         font-family: Helvetica, Arial, sans-serif;
+        max-height: calc(100vh - 30px);
+        overflow-y: auto;
     }
     
     .modal-header h3 {

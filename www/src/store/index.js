@@ -37,11 +37,13 @@ let state = {
     archivedCustomers: [],
     archivedJob: {},
     archivedJobs: [],
+    activePart: {},
     activePhone: '',
     customerJobs: [],
     loggedInUser: {},
     loggedInData: {},
-    modalJob:{},
+    modalJob: {},
+    parts: {},
     error: {},
 
 }
@@ -133,7 +135,7 @@ export default {
                 state.activeCustomers = res.data.data
             }).catch(handleError)
         },
-        getSingleCustomer(customerId){
+        getSingleCustomer(customerId) {
             api('user/' + customerId).then(res => {
                 state.activeCustomer = res.data.data
             }).catch(handleError)
@@ -150,6 +152,12 @@ export default {
                 console.log(state.activeCustomer)
             }).catch(handleError)
         },
+        getParts() {
+            api('part').then(res => {
+                state.parts = res.data.data
+                console.log(state.parts)
+            }).catch(handleError)
+        },
         //POST
         postUser(body) {
             api.post('user', body).then(res => {
@@ -164,7 +172,13 @@ export default {
                 this.getActiveJobs()
             }).catch(handleError)
         },
-        //PUTS
+        postParts(body) {
+            api.post('part', body).then(res => {
+                console.log(res.data.data)
+                this.activePart = res.data.data
+                this.getParts()
+            }).catch(handleError)
+        },
         changeUser(userId, body) {
             api.put('user/' + userId, body).then(res => {
                 state.activeCustomer = body
@@ -173,9 +187,15 @@ export default {
             }).catch(handleError)
         },
         changeJob(jobId, body) {
-            api.put('addParts/' + jobId, body).then(res => {
+            api.put('job/' + jobId, body).then(res => {
                 this.getActiveJobs()
             }).catch(handleError)
+        },
+        changePart(partId, body) {
+            api.put('part/' + partId, body).then(res => {
+                state.activePart = res.data.data
+                this.getParts()
+            }).catch(handleError)
         }
-    },
+    }
 }

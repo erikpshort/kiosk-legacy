@@ -28,7 +28,6 @@ var schema = new Schema({
     hoursWorked: {type: Number},
     sendText: {type: Boolean, required: true, default: false},
     mechanicId: {type: Schema.Types.Mixed},
-    partsRequired:[{partNumber: String, partQty: Number, partDescription: String, partPrice: String}],
     signatures:[{type: String}],
     // Relations REQUIRED
     archive:{type: Boolean, required: true, default: false},

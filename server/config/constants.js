@@ -12,10 +12,10 @@ const models = {
     endpoint: 'user',
     useCustomRoutes: true
   },
-  // customer: {
-  //   name: 'Customer',
-  //   endpoint: 'customer'
-  // },
+  part: {
+    name: 'Part',
+    endpoint: 'part'
+  },
   job: {
     name: 'Job',
     endpoint: 'job',

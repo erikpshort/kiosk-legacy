@@ -25,7 +25,7 @@
     <div class="row" v-if="showBacklog" @drop="workingDropBackLog" @dragover.prevent>
       <div id="fourStroke" class="col s4 orange pendingRow">Orange (four-stroke) Jobs
         <modal v-if="showModal"></modal>
-        <div v-for="job in fourStroke(activeJobs)" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{express:job.type2=='Express'}">
+        <div v-for="job in fourStroke(activeJobs)" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{express:job.tUpRepExp=='Express'}">
 
 
           <div class="row">
@@ -39,25 +39,28 @@
               {{job.model}}
             </div>
             <div class="col s1" @click="toggleModal(job)">
-            <a>+</a>
+              <a>+</a>
             </div>
           </div>
 
         </div>
       </div>
       <div id="twoStroke" class="col s4 green pendingRow" @drop="workingDrop" @dragover.prevent>Green (two-stroke) Jobs
-        <div v-for="job in twoStroke(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job)" v-bind:class="{express:job.type2=='Express'}">
+        <div v-for="job in twoStroke(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job)" v-bind:class="{express:job.tUpRepExp=='Express'}">
 
 
           <div class="row">
-            <div class="col s4">
+            <div class="col s1">
               {{job.created | age}}
             </div>
-            <div class="col s4">
+            <div class="col s5">
               {{job.make}}
             </div>
-            <div class="col s4">
+            <div class="col s5">
               {{job.model}}
+            </div>
+            <div class="col s1" @click="toggleModal(job)">
+              <a>+</a>
             </div>
           </div>
 
@@ -65,17 +68,19 @@
         </div>
       </div>
       <div id="commercial" class="col s4 blue pendingRow" @drop="workingDrop" @dragover.prevent>Commerical Jobs
-        <div v-for="job in comerical(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job)" v-bind:class="{express:job.type2=='Express'}">
-
+        <div v-for="job in comerical(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job)" v-bind:class="{express:job.tUpRepExp=='Express'}">
           <div class="row">
-            <div class="col s4">
+            <div class="col s1">
               {{job.created | age}}
             </div>
-            <div class="col s4">
+            <div class="col s5">
               {{job.make}}
             </div>
-            <div class="col s4">
+            <div class="col s5">
               {{job.model}}
+            </div>
+            <div class="col s1" @click="toggleModal(job)">
+              <a>+</a>
             </div>
           </div>
         </div>
@@ -90,15 +95,18 @@
         <div click="removeFromWorking(job._id)">
           <div class="row">
             <div class="col s4" v-for="job in working(activeJobs)" @dragstart="drag(job)" draggable="true">
-              <div class="row">
-                <div class="col s4" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">
+              <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
+                <div class="col s1">
                   {{job.created | age}}
                 </div>
-                <div class="col s4" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">
+                <div class="col s5">
                   {{job.make}}
                 </div>
-                <div class="col s4" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">
+                <div class="col s5">
                   {{job.model}}
+                </div>
+                <div class="col s1" @click="toggleModal(job)">
+                  <a>+</a>
                 </div>
               </div>
             </div>
@@ -116,10 +124,40 @@
     <div class="row" v-if="showPendingParts">
       <div id="pendingOrderParts" class="col s6 purple workRow" @drop="workingDrop" @dragover.prevent>Jobs for which parts need to be ordered.
 
-        <div v-for="job in pendingOrderParts(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart.capture="drag(job)">Age: {{job.created | age}} Make: {{job.make}} Model: {{job.model}}</div>
+        <div v-for="job in pendingOrderParts(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart.capture="drag(job)">
+          <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
+            <div class="col s1">
+              {{job.created | age}}
+            </div>
+            <div class="col s5">
+              {{job.make}}
+            </div>
+            <div class="col s5">
+              {{job.model}}
+            </div>
+            <div class="col s1" @click="toggleModal(job)">
+              <a>+</a>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="pendingRecieveParts" class="col s6 brown workRow" @drop="workingDrop" @dragover.prevent>Jobs for which we are waiting on recieveing parts
-        <div v-for="job in pendingRecieveParts(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">Age: {{job.created | age}} {{job.make}} {{job.model}}</div>
+        <div v-for="job in pendingRecieveParts(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">
+          <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
+            <div class="col s1">
+              {{job.created | age}}
+            </div>
+            <div class="col s5">
+              {{job.make}}
+            </div>
+            <div class="col s5">
+              {{job.model}}
+            </div>
+            <div class="col s1" @click="toggleModal(job)">
+              <a>+</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -129,12 +167,30 @@
 
     <div class="row">
       <span @click="togglePendingPickup" id='showPendingPickup' class='dropdown-button btn red'>Hide Pending Pickup</span></div>
-
     <div class="row" v-if="showPendingPickup">
-      <div id="workingBoard" class="col s12 grey workRow" @drop.capture="workingDrop" @dragover.prevent>Jobs Pending Customer Pickup
+      <div id="showPendingPickup" class="col s12 grey workRow" @drop.capture="workingDropToDo" @dragover.prevent>Jobs Pending Pickp-up
 
-        <div v-for="job in pendingPickup(activeJobs)" click="removeFromWorking(job._id)"><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}"
-            draggable="true" @dragstart="drag(job._id,$event)">{{job.created | age}}  Make:{{job.make}} Model:{{job.model}}</span></div>
+        <div click="removeFromWorking(job._id)">
+          <div class="row">
+            <div class="col s4" v-for="job in pendingPickup(activeJobs)" @dragstart="drag(job)" draggable="true">
+              <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
+                <div class="col s1">
+                  {{job.created | age}}
+                </div>
+                <div class="col s5">
+                  {{job.make}}
+                </div>
+                <div class="col s5">
+                  {{job.model}}
+                </div>
+                <div class="col s1" @click="toggleModal(job)">
+                  <a>+</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
@@ -145,7 +201,7 @@
   import modal from './Modal.vue'
   export default {
     name: 'adminBoard',
-    components: {modal},
+    components: { modal },
     data() {
       return {
         modalJob: {},
@@ -160,22 +216,28 @@
         fs_css: {
           "Homeowner Walk Behind": true,
           "Homeowner Zero Turn": true,
-          "Homeowner Tractor": true
+          "Homeowner Tractor": true,
+          "HomeOwnerWalkBehind": true,
+          "HomeOwnerZeroTurn": true,
+          "HomeownerTractor": true
         },
 
         com_css: {
           "Commercial Walk": true,
           "Commercial Deck": true,
-          "Commercial Rider": true
+          "Commercial Rider": true,
+          "CommericalWalk": true,
+          "CommericalDeck": true,
+          "CommericalRider": true
         },
-        ts_css: { "Handheld Power": true },
+        ts_css: { "HandheldPower": true },
 
       }
     },
     methods: {
       toggleModal(job) {
-        console.log(job)
-        this.$root.store.actions.getSingleCustomer(job.customerId)
+        console.log(job.customerId)
+        this.$root.store.actions.getSingleCustomer("58b9f7638f4f33979c7054b9")
         this.$root.store.state.modalJob = job
         if (!this.showModal) {
           this.showModal = true
@@ -187,9 +249,9 @@
       fourStroke: function (arr_jobs) {
         //this object holds the type1 catagories that belong on the fourStroke board.
         var fs = {
-          "Homeowner Walk Behind": true,
-          "Homeowner Zero Turn": true,
-          "Homeowner Tractor": true
+          "HomeOwnerWalkBehind": true,
+          "HomeOwnerZeroTurn": true,
+          "HomeownerTractor": true
         };
 
         this.out_array = arr_jobs.filter(function (element) {
@@ -202,7 +264,7 @@
         //takes in an array of job objects, and returns an array of only those where the type is two-stroke.
         this.out_array = arr_jobs.filter(function (element) {
           //the ts object holds the catagoreis for the two stroke board. 
-          var ts = { "Handheld Power": true };
+          var ts = { "HandheldPower": true };
           if (element.type1 in ts && element.archive == false && element.jobStatus == 'pending') { return true }
           else { return false }
         })
@@ -217,7 +279,8 @@
       },
       comerical: function (arr_jobs) {
         //the com object holds the the type1 values for the commerical board. 
-        var com = { "Commercial Walk": true, "Commercial Deck": true, "Commercial Rider": true }
+        //We will need to change this when we deal with actual data  Commercial is spelled wrong
+        var com = { "CommericalWalk": true, "CommericalDeck": true, "CommericalRider": true }
         this.out_array = arr_jobs.filter(function (element) {
           if ((element.type1 in com) && element.archive == false && element.jobStatus == 'pending') { return true }
           else { return false }
@@ -233,14 +296,14 @@
       },
       pendingRecieveParts: function (arr_jobs) {
         this.out_array = arr_jobs.filter(function (element) {
-          if (element.archive == false && element.jobStatus == 'pendingRecieveParts') { return true }
+          if (element.archive == false && element.jobStatus == 'parts on order') { return true }
           else { return false }
         })
         return this.out_array;
       },
       pendingPickup: function (arr_jobs) {
         this.out_array = arr_jobs.filter(function (element) {
-          if (element.archive == false && element.jobStatus == 'pendingPickuo') { return true }
+          if (element.archive == false && element.jobStatus == 'ready for pickup') { return true }
           else { return false }
         })
         return this.out_array;
@@ -348,11 +411,11 @@
     },
     mounted() {
       this.$root.$data.store.actions.getActiveJobs()
+      this.$root.$data.store.actions.getParts()
       $(document).ready(function () {
         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
         $('.modal').modal();
       });
-
     }
   }
 
@@ -361,14 +424,14 @@
 <style scoped>
   .pendingRow {
     color: black;
-    height: 55vh;
-    overflow: auto
+    max-height: calc(100vh - 30px);
+    overflow-y: auto;
   }
   
   .workRow {
     color: black;
-    height: 30vh;
-    overflow: auto
+    max-height: calc(100vh - 30px);
+    overflow-y: auto;
   }
   
   .fourStroke {
@@ -391,8 +454,8 @@
   .express {
     color: red;
   }
+  
   a {
     color: black;
   }
-
 </style>
