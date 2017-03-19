@@ -173,7 +173,9 @@ export default {
             }).catch(handleError)
         },
         changeJob(jobId, body) {
+            // BREAKS DRAG and DROP on ADMIN BOORD
             api.put('addParts/' + jobId, body).then(res => {
+            // api.put('job/' + jobId, body).then(res => {
                 this.getActiveJobs()
             }).catch(handleError)
         }

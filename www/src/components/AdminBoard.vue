@@ -33,20 +33,20 @@
               {{job.created | age}}
             </div>
             <div class="col s5">
-              {{job.make}}
+              {{job.make}} {{job.jobStatus}}
             </div>
             <div class="col s5">
               {{job.model}}
             </div>
             <div class="col s1" @click="toggleModal(job)">
-            <a>+</a>
+              <a>+</a>
             </div>
           </div>
 
         </div>
       </div>
-      <div id="twoStroke" class="col s4 green pendingRow" @drop="workingDrop" @dragover.prevent>Green (two-stroke) Jobs
-        <div v-for="job in twoStroke(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job)" v-bind:class="{express:job.type2=='Express'}">
+      <div id="twoStroke" class="col s4 green pendingRow" @drop="workingDropBackLog" @dragover.prevent>Green (two-stroke) Jobs
+        <div v-for="job in twoStroke(activeJobs)" draggable="true" @dragstart="drag(job)" v-bind:class="{express:job.type2=='Express'}">
 
 
           <div class="row">
@@ -54,7 +54,7 @@
               {{job.created | age}}
             </div>
             <div class="col s4">
-              {{job.make}}
+              {{job.make}} {{job.jobStatus}}
             </div>
             <div class="col s4">
               {{job.model}}
@@ -64,8 +64,8 @@
 
         </div>
       </div>
-      <div id="commercial" class="col s4 blue pendingRow" @drop="workingDrop" @dragover.prevent>Commerical Jobs
-        <div v-for="job in comerical(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job)" v-bind:class="{express:job.type2=='Express'}">
+      <div id="commercial" class="col s4 blue pendingRow" @drop="workingDropBackLog" @dragover.prevent>Commerical Jobs
+        <div v-for="job in comerical(activeJobs)" draggable="true" @dragstart="drag(job)" v-bind:class="{express:job.type2=='Express'}">
 
           <div class="row">
             <div class="col s4">
@@ -87,7 +87,7 @@
     <div class="row" v-if="showWorking">
       <div id="workingBoard" class="col s12 grey workRow" @drop.capture="workingDropToDo" @dragover.prevent>Jobs Being Worked On
 
-        <div click="removeFromWorking(job._id)">
+        <div>
           <div class="row">
             <div class="col s4" v-for="job in working(activeJobs)" @dragstart="drag(job)" draggable="true">
               <div class="row">
@@ -95,7 +95,7 @@
                   {{job.created | age}}
                 </div>
                 <div class="col s4" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">
-                  {{job.make}}
+                  {{job.make}} {{job.jobStatus}}
                 </div>
                 <div class="col s4" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">
                   {{job.model}}
@@ -114,12 +114,41 @@
     </div>
 
     <div class="row" v-if="showPendingParts">
-      <div id="pendingOrderParts" class="col s6 purple workRow" @drop="workingDrop" @dragover.prevent>Jobs for which parts need to be ordered.
+      <div id="pendingPartsToOrder" class="col s6 purple workRow" @drop="pendingPartsToOrderDrop" @dragover.prevent>Jobs for which parts need to be ordered.
 
-        <div v-for="job in pendingOrderParts(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart.capture="drag(job)">Age: {{job.created | age}} Make: {{job.make}} Model: {{job.model}}</div>
+        <div v-for="job in pendingPartsToOrder(activeJobs)" draggable="true" @dragstart.capture="drag(job)">
+
+          <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">
+            <div class="col s4">
+              {{job.created | age}}
+            </div>
+            <div class="col s4">
+              {{job.make}} DB: jobStatus {{job.jobStatus}}
+            </div>
+            <div class="col s4">
+              {{job.model}}
+            </div>
+          </div>
+
+
+        </div>
       </div>
-      <div id="pendingRecieveParts" class="col s6 brown workRow" @drop="workingDrop" @dragover.prevent>Jobs for which we are waiting on recieveing parts
-        <div v-for="job in pendingRecieveParts(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">Age: {{job.created | age}} {{job.make}} {{job.model}}</div>
+      <div id="pendingRecieveParts" class="col s6 brown workRow" @drop="pendingPartsToReceiveDrop" @dragover.prevent>Jobs for which we are waiting on recieveing parts
+        <div v-for="job in pendingPartsToReceive(activeJobs)" draggable="true" @dragstart="drag(job)">
+          
+          <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">
+            <div class="col s4">
+              {{job.created | age}}
+            </div>
+            <div class="col s4">
+              {{job.make}} DB: jobStatus {{job.jobStatus}}
+            </div>
+            <div class="col s4">
+              {{job.model}}
+            </div>
+          </div>          
+          
+          </div>
       </div>
     </div>
 
@@ -131,10 +160,23 @@
       <span @click="togglePendingPickup" id='showPendingPickup' class='dropdown-button btn red'>Hide Pending Pickup</span></div>
 
     <div class="row" v-if="showPendingPickup">
-      <div id="workingBoard" class="col s12 grey workRow" @drop.capture="workingDrop" @dragover.prevent>Jobs Pending Customer Pickup
+      <div id="pendingPickup" class="col s12 grey workRow" @drop.capture="pendingPickupDrop" @dragover.prevent>Jobs Pending Customer Pickup
 
-        <div v-for="job in pendingPickup(activeJobs)" click="removeFromWorking(job._id)"><span v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}"
-            draggable="true" @dragstart="drag(job._id,$event)">{{job.created | age}}  Make:{{job.make}} Model:{{job.model}}</span></div>
+        <div v-for="job in pendingPickup(activeJobs)" draggable="true" @dragstart="drag(job)">
+            
+          <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">
+            <div class="col s4">
+              {{job.created | age}}
+            </div>
+            <div class="col s4">
+              {{job.make}} DB: jobStatus {{job.jobStatus}}
+            </div>
+            <div class="col s4">
+              {{job.model}}
+            </div>
+          </div>    
+            
+            </span></div>
       </div>
     </div>
   </div>
@@ -145,7 +187,7 @@
   import modal from './Modal.vue'
   export default {
     name: 'adminBoard',
-    components: {modal},
+    components: { modal },
     data() {
       return {
         modalJob: {},
@@ -224,23 +266,23 @@
         })
         return this.out_array;
       },
-      pendingOrderParts: function (arr_jobs) {
+      pendingPartsToOrder: function (arr_jobs) {
         this.out_array = arr_jobs.filter(function (element) {
-          if (element.archive == false && element.jobStatus == 'pendingOrderParts') { return true }
+          if (element.archive == false && element.jobStatus == 'pendingPartsToOrder') { return true }
           else { return false }
         })
         return this.out_array;
       },
-      pendingRecieveParts: function (arr_jobs) {
+      pendingPartsToReceive: function (arr_jobs) {
         this.out_array = arr_jobs.filter(function (element) {
-          if (element.archive == false && element.jobStatus == 'pendingRecieveParts') { return true }
+          if (element.archive == false && element.jobStatus == 'pendingPartsToReceive') { return true }
           else { return false }
         })
         return this.out_array;
       },
       pendingPickup: function (arr_jobs) {
         this.out_array = arr_jobs.filter(function (element) {
-          if (element.archive == false && element.jobStatus == 'pendingPickuo') { return true }
+          if (element.archive == false && element.jobStatus == 'pendingPickup') { return true }
           else { return false }
         })
         return this.out_array;
@@ -267,23 +309,58 @@
         }
       },
       drag: function (job) {
-        console.log(job)
-        console.log(event)
+        console.debug("In drag with job: ", job)
+        //console.debug("In event)
         event.dataTransfer.setData('text/javascript', JSON.stringify(job))
       },
       workingDropBackLog() {
+        console.debug("In working drop backog.")
         var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
+        console.debug("Job: ", job)
         //This is because of Business Logic.  They want these done right away
         if (job.make != 'chainBlade') {
-          job.jobStatus = 'pending',
-            console.log(job)
+          console.debug("Job Status: ", job.jobStatus)
+          console.debug("Changing job status to pending.")
+          job.jobStatus = 'pending'
+          console.debug("Job Status: ", job.jobStatus)
+          //console.log(job)
           this.$root.$data.store.actions.changeJob(job._id, job)
         }
       },
       workingDropToDo() {
+        console.debug("In working drop todo.")
         var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
+        console.debug("Job Status: ", job.jobStatus)
         job.jobStatus = 'working',
-          console.log(job)
+          console.debug("Job Status: ", job.jobStatus)
+        console.log("Job Object just before being sent to store: ", job)
+        this.$root.$data.store.actions.changeJob(job._id, job)
+      },
+      pendingPartsToOrderDrop() {
+        console.debug("In pending parts to order drop")
+        var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
+        console.debug("Job Status: ", job.jobStatus)
+        job.jobStatus = 'pendingPartsToOrder',
+          console.debug("Job Status: ", job.jobStatus)
+        console.log("Job Object just before being sent to store: ", job)
+        this.$root.$data.store.actions.changeJob(job._id, job)
+      },
+      pendingPartsToReceiveDrop() {
+        console.debug("In pending parts to recieve drop")
+        var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
+        console.debug("Job Status: ", job.jobStatus)
+        job.jobStatus = 'pendingPartsToReceive',
+          console.debug("Job Status: ", job.jobStatus)
+        console.log("Job Object just before being sent to store: ", job)
+        this.$root.$data.store.actions.changeJob(job._id, job)
+      },
+      pendingPickupDrop() {
+        console.debug("In pending parts to recieve drop")
+        var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
+        console.debug("Job Status: ", job.jobStatus)
+        job.jobStatus = 'pendingPickup',
+          console.debug("Job Status: ", job.jobStatus)
+        console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
       },
       workingDrop: function (ev) {
@@ -391,8 +468,8 @@
   .express {
     color: red;
   }
+  
   a {
     color: black;
   }
-
 </style>
