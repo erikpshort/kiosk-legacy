@@ -123,7 +123,7 @@
     </div>
 
     <div class="row" v-if="showPendingParts">
-      <div id="pendingPartsToOrder" class="col s6 purple workRow" @drop="pendingPartsToOrderDrop" @dragover.prevent>Jobs for which parts need to be ordered.
+      <div id="pendingPartsToOrder" class="col s6 purple pendingRow" @drop="pendingPartsToOrderDrop" @dragover.prevent>Jobs for which parts need to be ordered.
 
         <div v-for="job in pendingOrderParts(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart.capture="drag(job)">
           <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
@@ -142,8 +142,8 @@
           </div>
         </div>
       </div>
-      <div id="pendingRecieveParts" class="col s6 brown workRow" @drop="workingDrop" @dragover.prevent>Jobs for which we are waiting on recieveing parts
-        <div v-for="job in pendingRecieveParts(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart="drag(job._id,$event)">
+      <div id="pendingPartsToReceive" class="col s6 brown pendingRow" @drop="pendingPartsToReceiveDrop" @dragover.prevent>Jobs for which we are waiting on recieveing parts
+        <div v-for="job in pendingPartsToReceive(activeJobs)" draggable="true" @dragstart="drag(job)">
           <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
             <div class="col s1">
               {{job.created | age}}
@@ -169,9 +169,9 @@
     <div class="row">
       <span @click="togglePendingPickup" id='showPendingPickup' class='dropdown-button btn red'>Hide Pending Pickup</span></div>
     <div class="row" v-if="showPendingPickup">
-      <div id="showPendingPickup" class="col s12 grey workRow" @drop.capture="workingDropToDo" @dragover.prevent>Jobs Pending Pickp-up
+      <div id="showPendingPickup" class="col s12 grey workRow" @drop="pendingPickupDrop" @dragover.prevent>Jobs Pending Pickp-up
 
-        <div click="removeFromWorking(job._id)">
+        <div>
           <div class="row">
             <div class="col s4" v-for="job in pendingPickup(activeJobs)" @dragstart="drag(job)" draggable="true">
               <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
@@ -190,7 +190,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -295,7 +294,7 @@
         })
         return this.out_array;
       },
-      pendingRecieveParts: function (arr_jobs) {
+      pendingPartsToReceive: function (arr_jobs) {
         this.out_array = arr_jobs.filter(function (element) {
           if (element.archive == false && element.jobStatus == 'parts on order') { return true }
           else { return false }
@@ -371,7 +370,7 @@
         console.debug("In pending parts to recieve drop")
         var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
         console.debug("Job Status: ", job.jobStatus)
-        job.jobStatus = 'pendingPartsToReceive',
+        job.jobStatus = 'parts on order',
           console.debug("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
@@ -380,7 +379,7 @@
         console.debug("In pending parts to recieve drop")
         var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
         console.debug("Job Status: ", job.jobStatus)
-        job.jobStatus = 'pendingPickup',
+        job.jobStatus = 'ready for pickup',
           console.debug("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
@@ -460,14 +459,11 @@
 <style scoped>
   .pendingRow {
     color: black;
-    max-height: calc(100vh - 30px);
-    overflow-y: auto;
-  }
-  
-  .workRow {
-    color: black;
-    max-height: calc(100vh - 30px);
-    overflow-y: auto;
+    /*min-height: calc(50vh);
+    max-height: calc(100vh - 30px);*/
+    height: 50vh;
+    /*max-height: 100vh;*/
+    overflow: auto;
   }
   
   .fourStroke {
