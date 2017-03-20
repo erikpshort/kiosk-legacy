@@ -397,7 +397,7 @@
       toggleWorking: function () {
         this.showWorking = !this.showWorking
         var buttonText = ''
-        if (this.showBacklog)
+        if (this.showWorking)
         { buttonText = 'Hide Working' }
         else
         { buttonText = 'Show Working' }
