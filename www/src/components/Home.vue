@@ -33,7 +33,7 @@
 
 </script>
 
-<style>
+<style scoped>
 .home{
     font-size: 20px;
     font-weight: bold;

@@ -39,21 +39,21 @@
                     </label> {{modalJob.customerNotes}}
                     </div>
                     <div class="modal-body row">
-                        <input type="text" placeholder="Mechanic Notes" v-model="modalJob.mechanicNotes" @keyup.enter="addMechNotes()">
+                        <input type="text" placeholder="Mechanic Notes" v-model="modalJob.mechanicNotes" @blur="addMechNotes()" @keyup.tab="addMechNotes()">
                     </div>
                     <div v-if="partsRequired.length > 0" v-for="part in partsRequired">
                         <div class="modal-body row">
                             <div class="col s2">
-                                <input type="text" v-model="part.partNumber" @keyup.enter="editParts(part.partNumber)" placeholder="Part Number">
+                                <input type="text" v-model="part.partNumber" @blur="editPart( part )" placeholder="Part Number">
                             </div>
                             <div class="col s5">
-                                <input type="text" v-model="part.partDescription" placeholder="Part Description">
+                                <input type="text" v-model="part.partDescription" @blur="editPart( part )" placeholder="Part Description">
                             </div>
                             <div class="col s2">
-                                <input type="number" v-model="part.partQty" placeholder="Qty">
+                                <input type="number" v-model="part.partQty"  @blur="editPart( part )" placeholder="Qty">
                             </div>
                             <div class="col s2">
-                                <input type="number" v-model="part.partPrice" placeholder="$Price">
+                                <input type="number" v-model="part.partPrice" @blur="editPart( part )" placeholder="$Price">
                             </div>
                             <div class="col s1">
                                 <button v-on:click="archivePart(part)">-</button>
@@ -192,8 +192,15 @@
                 }
                 this.$root.store.actions.changePart(id, object)
             },
-            editParts(part) {
-                console.log(part)
+            editPart(part) {
+                var id = part._id
+                var object = {
+                    partNumber: part.partNumber,
+                    partDescription: part.partDescription,
+                    partQty: part.partQty,
+                    partPrice: part.partPrice
+                }
+                this.$root.store.actions.changePart(id, object)
             }
         }
     }

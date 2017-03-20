@@ -5,17 +5,62 @@
         <div class="card blue-grey darken-1">
           <div class="card-content white-text">
             <p>Please verify that the information below is correct.</p>
-            <h4>{{activeJob.make}}</h4>
-            <h4>{{activeJob.model}}</h4>
-            <h4>{{activeJob.type1}}</h4>
-            <!--<h4 v-if="customer.city || customer.state">{{customer.city}}, {{customer.state}} {{customer.zip}}</h4>
-            <h4 v-if="typeof activePhone == 'string'">{{activePhone}}</h4>
-            <h4 v-if="typeof activePhone != 'string'" v-for="phone in activePhone">{{phone}}</h4>
-            <h4>{{customer.email}}</h4>-->
+            <div class="row card-action" v-if="activeCustomer.company">
+              <div class="col s4">
+                <h4>{{activeCustomer.company}}</h4>
+              </div>
+              <div class="col s4">
+                <h4 v-if="typeof activePhone != 'string'">{{selectedPhoneNum}}</h4>
+                <h4 v-if="typeof activePhone == 'string'">{{activePhone}}</h4>
+                <h4 v-if="activePhone.length == 1">{{activePhone[0]}}</h4>
+              </div>
+              <div class="col s4">
+                <h4>{{activeCustomer.name}}</h4>
+              </div>
+            </div>
+            <div class="row card-action" v-if="!activeCustomer.company">
+              <div class="col s6">
+                <h4>{{activeCustomer.name}}</h4>
+              </div>
+              <div class="col s6">
+                <h4 v-if="typeof activePhone != 'string'">{{selectedPhoneNum}}</h4>
+                <h4 v-if="typeof activePhone == 'string'">{{activePhone}}</h4>
+              </div>
+            </div>
+            <div class="card-action row">
+              <div class="col s6">
+                <h4>Make: <b>{{activeJob.make}}</b></h4>
+              </div>
+              <div class="col s6">
+                <h4>Model: <b>{{activeJob.model}}</b></h4>
+              </div>
+              <div class="row">
+                <div class="col s12">
+                  <h4>Type: <b>{{activeJob.type1}}</b></h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s6">
+                  <h4>Tune-up/Repair: <b>{{activeJob.tUpRepExp}}</b></h4>
+                </div>
+                <div class="col s6">
+                  <h4>Notes: <b>{{activeJob.customerNotes}}</b></h4>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="card-action">
-            <router-link :to="'/ServiceRequest'"><a>Is Correct</a></router-link>
-            <a @click="show = !show">Is Not Correct</a>
+            <div class="row">
+              <div class="col s4" @click="returnSelectionNew()">
+                <router-link :to="'/ServiceRequest'" ><a>Correct Add Another</a></router-link>
+              </div>
+              <div class="col s4">
+                <a @click="confirm = !confirm">Change</a>
+              </div>
+              <div class="col s4" @click="returnSelection()">
+                <a>Correct Finish</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -23,8 +68,9 @@
     <div class="service-request" v-if="!confirm">
       <h1>{{msg}}</h1>
       <h3 v-if="typeof activePhone == typeof 'string'">{{this.$root.$data.store.state.activePhone}}</h3>
-      <form @submit.prevent="returnSelectionNew()">
-        <div class="input-field col s12" v-if="typeof activePhone != typeof 'string'">
+      <h3 v-if="activePhone.length == 1">{{this.$root.$data.store.state.activePhone[0]}}</h3>
+      <form>
+        <div class="input-field col s12" v-if="typeof activePhone != typeof 'string' && activePhone.length > 1">
           <label class="selectLabel">Please Select Phone Number</label>
           <select v-model="selectedPhoneNum">
         <option v-for="(phone, i) in activePhone">{{phone}}</option>
@@ -76,8 +122,7 @@
               <div class="col s12">
                 <!--<button>Submit</button>-->
                 <div v-show="showSubmitButton" class="submitButton">
-                  <button class="waves-effect waves-light btn " type="submit">Submit and New</button>
-                  <button @click="returnSelection()" class="waves-effect waves-light btn ">Submit and Close</button>
+                  <a class="waves-effect waves-light btn " @click.prevent="confirmation()">Submit and New</a>
                 </div>
               </div>
             </div>
@@ -179,19 +224,24 @@
       selectedPhoneNum() {
         return this.$root.store.state.activePhone
       },
-      activeJob(){
+      activeJob() {
         return this.$root.store.state.activeJob
+      },
+      activeCustomer() {
+        return this.$root.store.state.activeCustomer
       }
     },
     mounted() {
+      setInterval(function () {
+        $('.service-request .dropdown-button').dropdown()
+        console.log('JQuery')
+      }, 3000)
       $('.service-request .dropdown-button').dropdown()
-      // $(document).ready(function () {
-      //   $('select').material_select();
-      // });
 
     },
 
     methods: {
+
       setPhone(phone) {
         console.log("setPhone")
       },
@@ -318,28 +368,12 @@
         }
       },
       //this is a placeholder function to report out the values that are to be sent on submit.
-      returnSelection: function () {
-        console.log(!Array.isArray(this.activePhone))
-        if (typeof this.activePhone == typeof 'string') {
-          var object = {
-            type1: this.equipmentTypeValue || null,
-            type2: this.RegularValue,
-            make: this.MakeValue,
-            model: this.ModelValue,
-            email: this.$root.$data.store.state.activeCustomer.email,
-            tUpRepExp: this.TuneValue,
-            jobNumber: 1001,
-            customerNotes: this.notesValue,
-            cellPhone: this.activePhone,
-            customerId: this.$root.$data.store.state.activeCustomer._id,
-            jobStatus: this.jobStatus,
-            whereAmI: this.whereAmI
-          }
-          this.$root.store.state.activeJob = object
-          this.confirm = true
-          // this.$root.$data.store.actions.postJob(object)
-          // this.$router.push('/home')
-        } else if (typeof this.selectedPhoneNum == typeof 'sting') {
+      confirmation() {
+        if (this.ModelValue === '') {
+          Materialize.toast('Please Enter Model', 4000)
+        }
+        else if (this.selectedPhoneNum != null) {
+          console.log(this.selectedPhoneNum)
           var object = {
             type1: this.equipmentTypeValue || null,
             type2: this.RegularValue,
@@ -356,15 +390,114 @@
           }
           this.$root.store.state.activeJob = object
           this.confirm = true
-          // this.$root.$data.store.actions.postJob(object)
-          // this.$router.push('/home')
+        }
+        else if (this.activePhone != '' && !Array.isArray(this.activePhone)) {
+          console.log(this.activePhone)
+          var object = {
+            type1: this.equipmentTypeValue || null,
+            type2: this.RegularValue,
+            make: this.MakeValue,
+            model: this.ModelName,
+            email: this.$root.$data.store.state.activeCustomer.email,
+            tUpRepExp: this.TuneValue,
+            jobNumber: 1001,
+            customerNotes: this.notesValue,
+            cellPhone: this.activePhone,
+            customerId: this.$root.$data.store.state.activeCustomer._id,
+            jobStatus: this.jobStatus,
+            whereAmI: this.whereAmI
+          }
+          this.$root.store.state.activeJob = object
+          this.confirm = true
+        }
+        else if (this.activePhone.length == 1) {
+          console.log(this.activePhone)
+          var object = {
+            type1: this.equipmentTypeValue || null,
+            type2: this.RegularValue,
+            make: this.MakeValue,
+            model: this.ModelValue,
+            email: this.$root.$data.store.state.activeCustomer.email,
+            tUpRepExp: this.TuneValue,
+            jobNumber: 1001,
+            customerNotes: this.notesValue,
+            cellPhone: this.activePhone[0],
+            customerId: this.$root.$data.store.state.activeCustomer._id,
+            jobStatus: this.jobStatus,
+            whereAmI: this.whereAmI
+          }
+          this.$root.store.state.activeJob = object
+          this.confirm = true
+        }
+        else {
+          Materialize.toast('Please Select Phone Number', 4000)
+        }
+      },
+      returnSelection: function () {
+        console.log(!Array.isArray(this.activePhone))
+        if (this.activePhone != '' && !Array.isArray(this.activePhone)) {
+          var object = {
+            type1: this.equipmentTypeValue || null,
+            type2: this.RegularValue,
+            make: this.MakeValue,
+            model: this.ModelValue,
+            email: this.$root.$data.store.state.activeCustomer.email,
+            tUpRepExp: this.TuneValue,
+            jobNumber: 1001,
+            customerNotes: this.notesValue,
+            cellPhone: this.activePhone,
+            customerId: this.$root.$data.store.state.activeCustomer._id,
+            jobStatus: this.jobStatus,
+            whereAmI: this.whereAmI
+          }
+          this.$root.store.state.activeJob = object
+          this.confirm = false
+          this.$root.$data.store.actions.postJob(object)
+          this.$router.push('/home')
+        } else if (this.selectedPhoneNum != null) {
+          var object = {
+            type1: this.equipmentTypeValue || null,
+            type2: this.RegularValue,
+            make: this.MakeValue,
+            model: this.ModelValue,
+            email: this.$root.$data.store.state.activeCustomer.email,
+            tUpRepExp: this.TuneValue,
+            jobNumber: 1001,
+            customerNotes: this.notesValue,
+            cellPhone: this.selectedPhoneNum,
+            customerId: this.$root.$data.store.state.activeCustomer._id,
+            jobStatus: this.jobStatus,
+            whereAmI: this.whereAmI
+          }
+          this.confirm = false
+          this.$root.$data.store.actions.postJob(object)
+          this.$router.push('/home')
+        }
+        else if (this.activePhone.length == 1) {
+          console.log(this.activePhone)
+          var object = {
+            type1: this.equipmentTypeValue || null,
+            type2: this.RegularValue,
+            make: this.MakeValue,
+            model: this.ModelValue,
+            email: this.$root.$data.store.state.activeCustomer.email,
+            tUpRepExp: this.TuneValue,
+            jobNumber: 1001,
+            customerNotes: this.notesValue,
+            cellPhone: this.activePhone[0],
+            customerId: this.$root.$data.store.state.activeCustomer._id,
+            jobStatus: this.jobStatus,
+            whereAmI: this.whereAmI
+          }
+          this.confirm = false
+          this.$root.$data.store.actions.postJob(object)
+          this.$router.push('/home')
         } else {
-          window.alert("Please Select a Phone Num from the Drop Down List")
+          Materialize.toast('Please Select Phone Number', 4000)
         }
       },
       returnSelectionNew: function () {
-        console.log(!Array.isArray(this.activePhone))
-        if (typeof this.activePhone == typeof 'string') {
+        if (this.activePhone != '' && !Array.isArray(this.activePhone)) {
           console.log('here')
           var object = {
             type1: this.equipmentTypeValue || null,
@@ -380,17 +513,13 @@
             jobStatus: this.jobStatus,
             whereAmI: this.whereAmI
           }
-          this.$root.store.state.activeJob = object
-          this.confirm = true
-          // this.$root.$data.store.actions.postJob(object)
-          // this.showExpressButton = false
-          // this.showSubmitButton = false
-          // this.notesValue = ''
-          // this.ModelValue = ''
-          // this.resetAButton()
-          // this.resetBButton()
-          // this.resetCButton()
-        } else if (typeof this.selectedPhoneNum == typeof 'sting') {
+          this.confirm = false
+          this.$root.$data.store.actions.postJob(object)
+          this.showExpressButton = false
+          this.showSubmitButton = false
+          this.notesValue = ''
+          this.ModelValue = ''
+        } else if (this.selectedPhoneNum != null) {
           var object = {
             type1: this.equipmentTypeValue || null,
             type2: this.RegularValue,
@@ -405,18 +534,37 @@
             jobStatus: this.jobStatus,
             whereAmI: this.whereAmI
           }
-          this.$root.store.state.activeJob = object
-          this.confirm = true
-          // this.$root.$data.store.actions.postJob(object)
-          // this.showExpressButton = false
-          // this.showSubmitButton = false
-          // this.notesValue = ''
-          // this.ModelValue = ''
-          // this.resetAButton()
-          // this.resetBButton()
-          // this.resetCButton()
+          this.confirm = false
+          this.$root.$data.store.actions.postJob(object)
+          this.showExpressButton = false
+          this.showSubmitButton = false
+          this.notesValue = ''
+          this.ModelValue = ''
+        }
+        else if (this.activePhone.length == 1) {
+          console.log(this.activePhone)
+          var object = {
+            type1: this.equipmentTypeValue || null,
+            type2: this.RegularValue,
+            make: this.MakeValue,
+            model: this.ModelValue,
+            email: this.$root.$data.store.state.activeCustomer.email,
+            tUpRepExp: this.TuneValue,
+            jobNumber: 1001,
+            customerNotes: this.notesValue,
+            cellPhone: this.activePhone[0],
+            customerId: this.$root.$data.store.state.activeCustomer._id,
+            jobStatus: this.jobStatus,
+            whereAmI: this.whereAmI
+          }
+          this.confirm = false
+          this.$root.$data.store.actions.postJob(object)
+          this.showExpressButton = false
+          this.showSubmitButton = false
+          this.notesValue = ''
+          this.ModelValue = ''
         } else {
-          window.alert("Please Select a Phone Num from the Drop Down List")
+          Materialize.toast('Please Select Phone Number', 4000)
         }
       },
       hideButtonsForSharp: function () {
@@ -441,7 +589,7 @@
         this.showSubmitButton = false //default to false
       },
       resetAButton: function () {
-        console.log("Reseting the selections made on the B button.")
+        console.log("Reseting the selections made on the A button.")
         //grab the button element from the dom 
         var dom_but01 = document.getElementById("btn01")
         //Set it to red
@@ -459,7 +607,7 @@
         dom_but02.innerText = "MAKE";
       },
       resetCButton: function () {
-        console.log("Reseting the selections made on the B button.")
+        console.log("Reseting the selections made on the C button.")
         //grab the button element from the dom 
         var dom_but03 = document.getElementById("btn03")
         //Set it to red
@@ -476,11 +624,20 @@
     display: block !important;
   }
   
+  h4 {
+    color: black
+  }
+  
+  b {
+    color: white
+  }
+  
   .input-field label.selectLabel {
     position: relative;
     top: 0;
   }
-    .placeholder {
+  
+  .placeholder {
     font-size: 36px
   }
   
@@ -498,7 +655,7 @@
     color: #d0cdfa;
     text-transform: uppercase;
     text-transform: uppercase;
-    text-align: center;
+    text-align: left;
   }
   
   input {
