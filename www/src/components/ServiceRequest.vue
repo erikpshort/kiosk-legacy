@@ -581,6 +581,7 @@
             this.resetAButton()
             this.resetBButton()
             this.resetCButton()
+            this.showButtons()
           } else {
             Materialize.toast('Please Select Phone Number', 4000)
           }
@@ -613,6 +614,8 @@
         var dom_but01 = document.getElementById("btn01")
         //Set it to red
         dom_but01.setAttribute('class', 'dropdown-button btn red')
+        //Indicate it is not red - must be green for submit button to show 
+        this.equipmentTypeGreen = false
         //Change the name on the button back to MAKE.
         dom_but01.innerText = "Equipment Type";
       },
@@ -622,6 +625,8 @@
         var dom_but02 = document.getElementById("btn02")
         //Set it to red
         dom_but02.setAttribute('class', 'dropdown-button btn red')
+        //Indicate it is not red - must be green for submit button to show 
+        this.MakeGreen = false
         //Change the name on the button back to MAKE.
         dom_but02.innerText = "MAKE";
       },
@@ -632,8 +637,22 @@
         console.log(dom_but03)
         //Set it to red
         dom_but03.setAttribute('class', 'dropdown-button btn red')
+        //Indicate it is not red - must be green for submit button to show 
+        this.TuneGreen = false
         //Change the name on the button back to MAKE.
         dom_but03.innerText = "TUNE/Repair";
+      },
+      resetDButton: function () {
+        console.log("Reseting the selections made on the D button.")
+        //grab the button element from the dom 
+        var btn04 = document.getElementById("btn04")
+        console.log(btn04)
+        //Set it to red
+        btn04.setAttribute('class', 'dropdown-button btn red')
+        //Indicate it is not red - must be green for submit button to show 
+        this.Regular=  false
+        //Change the name on the button back to Regular.
+        btn04.innerText = "Regular";
       },
     },
   }
