@@ -125,21 +125,6 @@
     <div class="row" v-if="showPendingParts">
       <div id="pendingPartsToOrder" class="col s6 purple workRow" @drop="pendingPartsToOrderDrop" @dragover.prevent>Jobs for which parts need to be ordered.
 
-        <div v-for="job in pendingPartsToOrder(activeJobs)" draggable="true" @dragstart.capture="drag(job)">
-
-          <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">
-            <div class="col s4">
-              {{job.created | age}}
-            </div>
-            <div class="col s4">
-              {{job.make}} DB: jobStatus {{job.jobStatus}}
-            </div>
-            <div class="col s4">
-              {{job.model}}
-            </div>
-          </div>
-
-
         <div v-for="job in pendingOrderParts(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart.capture="drag(job)">
           <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
             <div class="col s1">
@@ -303,14 +288,14 @@
         })
         return this.out_array;
       },
-      pendingPartsToOrder: function (arr_jobs) {
+      pendingOrderParts: function (arr_jobs) {
         this.out_array = arr_jobs.filter(function (element) {
           if (element.archive == false && element.jobStatus == 'pendingPartsToOrder') { return true }
           else { return false }
         })
         return this.out_array;
       },
-      pendingPartsToReceive: function (arr_jobs) {
+      pendingRecieveParts: function (arr_jobs) {
         this.out_array = arr_jobs.filter(function (element) {
           if (element.archive == false && element.jobStatus == 'parts on order') { return true }
           else { return false }

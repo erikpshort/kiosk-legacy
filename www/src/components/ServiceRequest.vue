@@ -471,7 +471,7 @@
   }
 
 </script>
-<style>
+<style scoped>
   select {
     display: block !important;
   }
