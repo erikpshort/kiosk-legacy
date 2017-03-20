@@ -581,6 +581,7 @@
             this.resetAButton()
             this.resetBButton()
             this.resetCButton()
+            this.showButtons()
           } else {
             Materialize.toast('Please Select Phone Number', 4000)
           }
