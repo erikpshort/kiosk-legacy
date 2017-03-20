@@ -52,7 +52,7 @@
           <div class="card-action">
             <div class="row">
               <div class="col s4" @click="returnSelectionNew()">
-                <router-link :to="'/ServiceRequest'" ><a>Correct Add Another</a></router-link>
+                <router-link :to="'/ServiceRequest'"><a>Correct Add Another</a></router-link>
               </div>
               <div class="col s4">
                 <a @click="confirm = !confirm">Change</a>
@@ -232,21 +232,14 @@
       }
     },
     mounted() {
-      setInterval(function () {
-        $('.service-request .dropdown-button').dropdown()
-        console.log('JQuery')
-      }, 3000)
+      // setInterval(function () {
+      //   $('.service-request .dropdown-button').dropdown()
+      // }, 1500)
       $('.service-request .dropdown-button').dropdown()
 
     },
 
     methods: {
-
-      setPhone(phone) {
-        console.log("setPhone")
-      },
-      addJob() {
-      },
       makeLi: function (dropText) {
         //This function creates the elements to be used in the dropdown for the second, "B" button.
         //dropText is the text to be shown in the dropdown menu.
@@ -259,7 +252,6 @@
         return new_li
       },
       clearButtonBDropDownList: function (dropText) {
-        console.debug("Inside clearButtonBDropDownList")
         var ul02 = document.getElementById('dropdown2')
         while (ul02.childElementCount > 0) {  //while there is a child element (i.e. something in the dropdown)
           ul02.removeChild(ul02.childNodes[0])  //remove it.
@@ -267,7 +259,6 @@
         this.ModelValue = ''
       },
       populateButtonBDropDownList: function (model) {
-        console.debug("Inside populateButtonBDropDownList")
         var ul02 = document.getElementById('dropdown2')
         for (var i = 0; i < model.manufact.length; i++) {
           //populate the choices avaiable on the second button.
@@ -278,7 +269,6 @@
       },
       //This function called when a selection is made in the dropdown for the first, "A" button.
       A_Clicked: function (model) {
-        console.info("The " + model.name + " has been selected.")
         //Set the value of the selection in the local data section.
         this.equipmentTypeValue = model.name;
         //Indicate a selection has been made on this button and check if we should show the submit button.
@@ -289,9 +279,7 @@
         //Change the title of the "A" button.
         var dom_but01 = document.getElementById("btn01")
         dom_but01.innerText = model.name;
-        console.debug("Inner HTML:", dom_but01.innerHTML)
         dom_but01.innerHTML = dom_but01.innerHTML + ' ' + '<i class="fa fa-caret-down" aria-hidden="true"></i>';
-        console.debug("Inner HTML:", dom_but01.innerHTML)
         if (model.argument != 'ChainBlade' && model.argument != 'Other') {
           this.showButtons()
           this.clearButtonBDropDownList()
@@ -335,7 +323,6 @@
       },
       //This function called when a selection is made in the dropdown for the third, "C" button.
       C_Clicked: function (code) {
-        console.debug("C_Clicked")
         this.TuneValue = code;
         this.TuneGreen = true;
         var dom_but03 = document.getElementById("btn03")
@@ -369,6 +356,21 @@
       },
       //this is a placeholder function to report out the values that are to be sent on submit.
       confirmation() {
+        var object = {
+          type1: this.equipmentTypeValue || null,
+          type2: this.RegularValue,
+          make: this.MakeValue,
+          model: this.ModelValue,
+          email: this.$root.$data.store.state.activeCustomer.email,
+          tUpRepExp: this.TuneValue,
+          jobNumber: 1001,
+          customerNotes: this.notesValue,
+          cellPhone: this.selectedPhoneNum,
+          customerId: this.$root.$data.store.state.activeCustomer._id,
+          jobStatus: this.jobStatus,
+          whereAmI: this.whereAmI
+        }
+        console.log(object)
         if (this.ModelValue === '') {
           Materialize.toast('Please Enter Model', 4000)
         }
@@ -497,75 +499,92 @@
         }
       },
       returnSelectionNew: function () {
-        if (this.activePhone != '' && !Array.isArray(this.activePhone)) {
-          console.log('here')
-          var object = {
-            type1: this.equipmentTypeValue || null,
-            type2: this.RegularValue,
-            make: this.MakeValue,
-            model: this.ModelValue,
-            email: this.$root.$data.store.state.activeCustomer.email,
-            tUpRepExp: this.TuneValue,
-            jobNumber: 1001,
-            customerNotes: this.notesValue,
-            cellPhone: this.activePhone,
-            customerId: this.$root.$data.store.state.activeCustomer._id,
-            jobStatus: this.jobStatus,
-            whereAmI: this.whereAmI
+        this.confirm = false
+        $(document).ready(() => {
+          jQuery('.service-request .dropdown-button').dropdown()
+          console.log(document.getElementById("btn01"))
+          if (this.activePhone != '' && !Array.isArray(this.activePhone)) {
+            console.log('here')
+            var object = {
+              type1: this.equipmentTypeValue,
+              type2: this.RegularValue,
+              make: this.MakeValue,
+              model: this.ModelValue,
+              email: this.$root.$data.store.state.activeCustomer.email,
+              tUpRepExp: this.TuneValue,
+              jobNumber: 1001,
+              customerNotes: this.notesValue,
+              cellPhone: this.activePhone,
+              customerId: this.$root.$data.store.state.activeCustomer._id,
+              jobStatus: this.jobStatus,
+              whereAmI: this.whereAmI
+            }
+            this.confirm = false
+            this.$root.$data.store.actions.postJob(object)
+            this.showExpressButton = false
+            this.showSubmitButton = false
+            this.notesValue = ''
+            this.ModelValue = ''
+            this.TuneValue = ''
+            this.resetAButton()
+            this.resetBButton()
+            this.resetCButton()
+          } else if (this.selectedPhoneNum != null) {
+            var object = {
+              type1: this.equipmentTypeValue,
+              type2: this.RegularValue,
+              make: this.MakeValue,
+              model: this.ModelValue,
+              email: this.$root.$data.store.state.activeCustomer.email,
+              tUpRepExp: this.TuneValue,
+              jobNumber: 1001,
+              customerNotes: this.notesValue,
+              cellPhone: this.selectedPhoneNum,
+              customerId: this.$root.$data.store.state.activeCustomer._id,
+              jobStatus: this.jobStatus,
+              whereAmI: this.whereAmI
+            }
+            this.confirm = false
+            this.$root.$data.store.actions.postJob(object)
+            this.showExpressButton = false
+            this.showSubmitButton = false
+            this.notesValue = ''
+            this.ModelValue = ''
+            this.TuneValue = ''
+            this.resetAButton()
+            this.resetBButton()
+            this.resetCButton()
           }
-          this.confirm = false
-          this.$root.$data.store.actions.postJob(object)
-          this.showExpressButton = false
-          this.showSubmitButton = false
-          this.notesValue = ''
-          this.ModelValue = ''
-        } else if (this.selectedPhoneNum != null) {
-          var object = {
-            type1: this.equipmentTypeValue || null,
-            type2: this.RegularValue,
-            make: this.MakeValue,
-            model: this.ModelValue,
-            email: this.$root.$data.store.state.activeCustomer.email,
-            tUpRepExp: this.TuneValue,
-            jobNumber: 1001,
-            customerNotes: this.notesValue,
-            cellPhone: this.selectedPhoneNum,
-            customerId: this.$root.$data.store.state.activeCustomer._id,
-            jobStatus: this.jobStatus,
-            whereAmI: this.whereAmI
+          else if (this.activePhone.length == 1) {
+            console.log(this.activePhone)
+            var object = {
+              type1: this.equipmentTypeValue,
+              type2: this.RegularValue,
+              make: this.MakeValue,
+              model: this.ModelValue,
+              email: this.$root.$data.store.state.activeCustomer.email,
+              tUpRepExp: this.TuneValue,
+              jobNumber: 1001,
+              customerNotes: this.notesValue,
+              cellPhone: this.activePhone[0],
+              customerId: this.$root.$data.store.state.activeCustomer._id,
+              jobStatus: this.jobStatus,
+              whereAmI: this.whereAmI
+            }
+            this.confirm = false
+            this.$root.$data.store.actions.postJob(object)
+            this.showExpressButton = false
+            this.showSubmitButton = false
+            this.notesValue = ''
+            this.ModelValue = ''
+            this.TuneValue = ''
+            this.resetAButton()
+            this.resetBButton()
+            this.resetCButton()
+          } else {
+            Materialize.toast('Please Select Phone Number', 4000)
           }
-          this.confirm = false
-          this.$root.$data.store.actions.postJob(object)
-          this.showExpressButton = false
-          this.showSubmitButton = false
-          this.notesValue = ''
-          this.ModelValue = ''
-        }
-        else if (this.activePhone.length == 1) {
-          console.log(this.activePhone)
-          var object = {
-            type1: this.equipmentTypeValue || null,
-            type2: this.RegularValue,
-            make: this.MakeValue,
-            model: this.ModelValue,
-            email: this.$root.$data.store.state.activeCustomer.email,
-            tUpRepExp: this.TuneValue,
-            jobNumber: 1001,
-            customerNotes: this.notesValue,
-            cellPhone: this.activePhone[0],
-            customerId: this.$root.$data.store.state.activeCustomer._id,
-            jobStatus: this.jobStatus,
-            whereAmI: this.whereAmI
-          }
-          this.confirm = false
-          this.$root.$data.store.actions.postJob(object)
-          this.showExpressButton = false
-          this.showSubmitButton = false
-          this.notesValue = ''
-          this.ModelValue = ''
-        } else {
-          Materialize.toast('Please Select Phone Number', 4000)
-        }
+        })
       },
       hideButtonsForSharp: function () {
         console.log("Since sharpening has been selected we hide buttons.")
@@ -610,6 +629,7 @@
         console.log("Reseting the selections made on the C button.")
         //grab the button element from the dom 
         var dom_but03 = document.getElementById("btn03")
+        console.log(dom_but03)
         //Set it to red
         dom_but03.setAttribute('class', 'dropdown-button btn red')
         //Change the name on the button back to MAKE.

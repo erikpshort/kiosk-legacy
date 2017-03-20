@@ -23,12 +23,12 @@
       <span @click="toggleBacklog" id='showBacklog' class='dropdown-button btn red'>Hide Backlog</span>
     </div>
     <div class="row" v-if="showBacklog" @drop="workingDropBackLog" @dragover.prevent>
-      <div id="fourStroke" class="col s4 orange pendingRow">Orange (four-stroke) Jobs
+      <div id="fourStroke" class="col s4  pendingRow">Orange (four-stroke) Jobs
         <modal v-if="showModal"></modal>
         <div v-for="job in fourStroke(activeJobs)" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{express:job.tUpRepExp=='Express'}">
 
 
-          <div class="row">
+          <div class="row card orange darken-1">
             <div class="col s1">
               {{job.created | age}}
             </div>
