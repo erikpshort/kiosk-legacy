@@ -480,7 +480,6 @@
         showWorking: true,
         showPendingParts: true,
         showPendingPickup: true,
-
         fs_css: {
           "Homeowner Walk Behind": true,
           "Homeowner Zero Turn": true,
@@ -489,7 +488,6 @@
           "HomeOwnerZeroTurn": true,
           "HomeownerTractor": true
         },
-
         com_css: {
           "Commercial Walk": true,
           "Commercial Deck": true,
@@ -499,7 +497,6 @@
           "CommericalRider": true
         },
         ts_css: { "HandheldPower": true },
-
       }
     },
     methods: {
@@ -542,7 +539,6 @@
           "HomeOwnerZeroTurn": true,
           "HomeownerTractor": true
         };
-
         this.out_array = arr_jobs.filter(function (element) {
           if ((element.type1 in fs) && element.archive == false && element.jobStatus == 'pending') { return true }
           else { return false }
@@ -609,7 +605,6 @@
       },
       removeFromWorking: function (jobId) {
         //loop through the active jobs array to find the object with this id and change the job.archive field to false        
-
         var arr_activeJobs = this.$root.store.state.activeJobs
         for (var i = 0; i < arr_activeJobs.length; i++) {
           var job = arr_activeJobs[i];
@@ -686,7 +681,7 @@
       toggleWorking: function () {
         this.showWorking = !this.showWorking
         var buttonText = ''
-        if (this.showBacklog)
+        if (this.showWorking)
         { buttonText = 'Hide Working' }
         else
         { buttonText = 'Show Working' }
@@ -758,7 +753,6 @@
       });
     }
   }
-
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
