@@ -30,7 +30,7 @@
         @drop="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</span>
       <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingPickup" @click="showPendingPickup=!showPendingPickup"
         @drop="pendingPickupDrop" @dragover.prevent>Ready for Pickup</span>
-      <span class="col s2 card grey darken-3 white-text grow" @drop="archiveDrop()" @dragover.prevent><i class="material-icons">archive</i>&nbsp;&nbsp;&nbsp;&nbsp;Complete&nbsp;&nbsp;&nbsp;&nbsp;<i class="material-icons">archive</i></span>
+      <span class="col s2 card blue darken-4 white-text grow" @drop="archiveDrop()" @dragover.prevent><i class="material-icons">archive</i>&nbsp;&nbsp;&nbsp;&nbsp;Complete&nbsp;&nbsp;&nbsp;&nbsp;<i class="material-icons">archive</i></span>
     </div>
     <!--this is the start of the worklog board-->
     <div class="row">
