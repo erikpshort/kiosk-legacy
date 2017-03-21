@@ -2,7 +2,7 @@ let Jobs = require('../models/job')
 let Users = require('../models/user')
 let Parts = require('../models/part')
 let io = require('socket.io')
-let twilio = require('twilio');
+let twilio = require('twilio')
 
 // var edge = require('edge');
 // var fs = require('fs');
@@ -11,7 +11,7 @@ let twilio = require('twilio');
 
 //commeted out at dave's suggestion to successfully build server. 
 //On a proper server these variables will be supplied by server environment.
-// let client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+let client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
 // will need this for text messaging
 
 export default {

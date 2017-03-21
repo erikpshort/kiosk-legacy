@@ -19,7 +19,7 @@
       </div>
       <div class="row">
         <a class="waves-effect waves-light btn">
-          <router-link :to="'/companyDirectory'">Find By Company Name</router-link>
+          <router-link :to="'/companyDirectory'" class="white-text">Find By Company Name</router-link>
         </a>
       </div>
 <!--
