@@ -1,8 +1,8 @@
 <template>
-    <transition name="modal">
+    <transition name="modal" @click.delete="showModal()">
         <div class="modal-mask">
             <div class="modal-wrapper">
-                <div class="modal-container">
+                <div class="modal-container" >
                     <div class="modal-header">
                         <div class="row">
                             <label>
@@ -56,7 +56,7 @@
                                 <input type="number" v-model="part.partPrice" @blur="editPart( part )" placeholder="$Price">
                             </div>
                             <div class="col s1">
-                                <button v-on:click="archivePart(part)">-</button>
+                                <button class="waves-effect waves-teal btn-flat" @click="archivePart(part)"><i class="material-icons left">delete</i></button>
                             </div>
                         </div>
                     </div>
@@ -74,11 +74,11 @@
                             <input type="number" v-model="partPrice" placeholder="$Price">
                         </div>
                         <div class="col s1">
-                            <button @click="addParts()">+</button>
+                            <button class="waves-effect waves-teal btn-flat" @click="addParts()"><i class="material-icons">add_circle</i></button>
                         </div>
                     </div>
                     <div class="modal-body row">
-                        <button>Submit and Close</button>
+                        <button class="waves-effect waves-teal btn-flat" @click="showModal()">Close</button>
                     </div>
                     <br>
                     <br>
@@ -103,11 +103,6 @@
                             {{activeCustomer.email}}
                         </div>
                     </div>
-                    <br>
-                    <footer class="row">
-                        <div class="col s12"></div>
-                        <span @click="showModal()">Cancel</span>
-                    </footer>
                 </div>
             </div>
         </div>
