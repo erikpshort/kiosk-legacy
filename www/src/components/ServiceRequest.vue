@@ -55,7 +55,7 @@
                 <router-link :to="'/ServiceRequest'"><a>Correct Add Another</a></router-link>
               </div>
               <div class="col s4">
-                <a @click="confirm = !confirm">Change</a>
+                <a @click="notConfirmed()">Change</a>
               </div>
               <div class="col s4" @click="returnSelection()">
                 <a>Correct Finish</a>
@@ -104,6 +104,7 @@
               <li><span @click="C_Clicked('Repair')">Repair</span></li>
             </ul>
           </div>
+          <input v-if="showOther" type="text" class="col s2" placeHolder="Make" v-model="makeForOther">
           <div v-show="showExpressButton" class="col s2">
             <span id='btn04' class='dropdown-button btn red' href='#' data-activates='dropdown4'>Regular / Rush</span>
             <!-- Dropdown Structure -->
@@ -138,6 +139,8 @@
     name: 'test',
     data() {
       return {
+        showOther: false,
+        makeForOther: '',
         confirm: false,
         selectedPhoneNum: null,
         debugMode: true, //used to hard code options for debugging -- set to false in prod.
@@ -179,15 +182,15 @@
             name: 'Handheld Power',
             argument: 'HandheldPower'
           },
-          HomeOwnerWalkBehind: {
+          HomeownerWalkBehind: {
             manufact: ['Toro', 'Honda', 'Craftsman', 'Yardman', 'Husquvarna', 'John Deere', 'Exmark', 'Cub Cadet', 'other'],
             name: 'Homeowner Walk Behind',
-            argument: 'HomeOwnerWalkBehind'
+            argument: 'HomeownerWalkBehind'
           },
-          HomeOwnerZeroTurn: {
+          HomeownerZeroTurn: {
             manufact: ['Toro', 'Honda', 'Craftsman', 'Yardman', 'Husquvarna', 'John Deere', 'Exmark', 'Cub Cadet', 'other'],
             name: 'Homeowner Zero Turn',
-            argument: 'HomeOwnerZeroTurn'
+            argument: 'HomeownerZeroTurn'
           },
           HomeownerTractor: {
             manufact: ['Toro', 'Honda', 'Craftsman', 'Yardman', 'Husquvarna', 'John Deere', 'Exmark', 'Cub Cadet', 'other'],
@@ -256,7 +259,6 @@
         while (ul02.childElementCount > 0) {  //while there is a child element (i.e. something in the dropdown)
           ul02.removeChild(ul02.childNodes[0])  //remove it.
         }
-        this.ModelValue = ''
       },
       populateButtonBDropDownList: function (model) {
         var ul02 = document.getElementById('dropdown2')
@@ -278,6 +280,7 @@
         this.resetBButton()
         //Change the title of the "A" button.
         var dom_but01 = document.getElementById("btn01")
+        var dom_but02 = document.getElementById("btn02")
         dom_but01.innerText = model.name;
         dom_but01.innerHTML = dom_but01.innerHTML + ' ' + '<i class="fa fa-caret-down" aria-hidden="true"></i>';
         if (model.argument != 'ChainBlade' && model.argument != 'Other') {
@@ -301,10 +304,12 @@
         else if (model.argument == 'Other')  //for the monent this has same response as other but will need additioanl business logic, probalby?
         {
           dom_but01.innerText = model.name;
+          dom_but02.innerText = "Type"
           this.clearButtonBDropDownList()
           this.populateButtonBDropDownList(model)
           //Per buseiness logic hide other buttons. 
-          this.hideButtonsForSharp()
+          // this.hideButtonsForSharp()
+          this.showOther = true
         }
       },
       //This function called when a selection is made in the dropdown for the second, "B" button.
@@ -354,7 +359,14 @@
           }
         }
       },
-      //this is a placeholder function to report out the values that are to be sent on submit.
+      notConfirmed() {
+        this.confirm = false
+        $(document).ready(() => {
+          $('.service-request .dropdown-button').dropdown()
+          var x = this.equipmentTypeValue.split(' ').join('')
+          this.A_Clicked(this.equipment[x])
+        })
+      },
       confirmation() {
         var object = {
           type1: this.equipmentTypeValue || null,
@@ -436,7 +448,6 @@
         }
       },
       returnSelection: function () {
-        console.log(!Array.isArray(this.activePhone))
         if (this.activePhone != '' && !Array.isArray(this.activePhone)) {
           var object = {
             type1: this.equipmentTypeValue || null,
@@ -501,7 +512,7 @@
       returnSelectionNew: function () {
         this.confirm = false
         $(document).ready(() => {
-          jQuery('.service-request .dropdown-button').dropdown()
+          $('.service-request .dropdown-button').dropdown()
           console.log(document.getElementById("btn01"))
           if (this.activePhone != '' && !Array.isArray(this.activePhone)) {
             console.log('here')
@@ -620,7 +631,7 @@
         dom_but01.innerText = "Equipment Type";
       },
       resetBButton: function () {
-        console.log("Reseting the selections made on the B button.")
+        this.showOther = false
         //grab the button element from the dom 
         var dom_but02 = document.getElementById("btn02")
         //Set it to red
@@ -650,7 +661,7 @@
         //Set it to red
         btn04.setAttribute('class', 'dropdown-button btn red')
         //Indicate it is not red - must be green for submit button to show 
-        this.Regular=  false
+        this.Regular = false
         //Change the name on the button back to Regular.
         btn04.innerText = "Regular";
       },
@@ -690,7 +701,7 @@
   }
   
    ::-webkit-input-placeholder {
-    font-size: 36px;
+    /*font-size: 36px;*/
     color: #d0cdfa;
     text-transform: uppercase;
     text-transform: uppercase;

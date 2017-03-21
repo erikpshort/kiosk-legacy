@@ -26,7 +26,7 @@
       <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
         @drop="pendingPartsToOrderDrop" @dragover.prevent>Need to Order Parts</span>
       <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
-        @drop="pendingPartsToOrderDrop" @dragover.prevent>Awaiting Parts</span>
+        @drop="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</span>
       <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingPickup" @click="showPendingPickup=!showPendingPickup"
         @drop="pendingPickupDrop" @dragover.prevent>Ready for Pickup</span>
       <span class="col s2 card grey darken-3 white-text grow" @drop="archiveDrop()" @dragover.prevent><i class="material-icons">archive</i>&nbsp;&nbsp;&nbsp;&nbsp;Complete&nbsp;&nbsp;&nbsp;&nbsp;<i class="material-icons">archive</i></span>
@@ -520,14 +520,7 @@
         }
       },
       classSelection2(job, i) {
-        if ((i % 2 != 0 || i % 2 == 0) && job.tUpRepExp != 'Express') {
-          return true
-        } else {
-          return false
-        }
-      },
-      classSelection3(job, i) {
-        if (i % 2 != 0 && job.tUpRepExp != 'Express') {
+        if (job.tUpRepExp != 'Express') {
           return true
         } else {
           return false
@@ -705,7 +698,7 @@
       },
       workingJobsCommercial() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "working" && (job.type1 == "CommericalWalk" || job.type1 == "CommericalDeck" || job.type1 == "CommericalRider")
+          return job.jobStatus == "working" && (job.type1 == "Other" || job.type1 == "CommericalWalk" || job.type1 == "CommericalDeck" || job.type1 == "CommericalRider")
         })
       },
       finishedJobsFourStroke() {
@@ -720,7 +713,7 @@
       },
       finishedJobsCommercial() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "ready for pickup" && (job.type1 == "CommericalWalk" || job.type1 == "CommericalDeck" || job.type1 == "CommericalRider")
+          return job.jobStatus == "ready for pickup" && (job.type1 == "Other" ||job.type1 == "CommericalWalk" || job.type1 == "CommericalDeck" || job.type1 == "CommericalRider")
         })
       }
     },
