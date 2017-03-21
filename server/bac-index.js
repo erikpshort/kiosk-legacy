@@ -58,11 +58,11 @@ setTimeout(function () {
         };
 
         // A print object;
-        console.log("right before print job starts")
-        dymo.print(printArgs, function(err, res){
-            if (err) throw err;
-            console.log("Print job created.");
-        });
+        // console.log("right before print job starts")
+        // dymo.print(printArgs, function(err, res){
+        //     if (err) throw err;
+        //     console.log("Print job created.");
+        // });
 
     });
 
@@ -73,15 +73,15 @@ setTimeout(function () {
 // var client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
 
 // Send the text message.
-// client.sendMessage({
-//   to: '+12088901309',
-//   from: process.env.TWILIO_PHONE_NUMBER,
-//   body: 'Phone number added to Legacy Feed & Fuel'
-// }, function (err, message) {
-//   if (err) {
-//     console.error(err.message);
-//   }
-// });
+//client.sendMessage({
+//  to: '+12088901309',
+//  from: process.env.TWILIO_PHONE_NUMBER,
+//  body: 'Phone number added to Legacy Feed & Fuel'
+//}, function (err, message) {
+//  if (err) {
+//    console.error(err.message);
+//  }
+//});
 
 
 // require the Twilio module and create a REST client
