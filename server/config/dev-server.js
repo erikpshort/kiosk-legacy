@@ -46,7 +46,7 @@ let io = require('socket.io')(server, {
 
 
 let ioon = function(){
-    console.log('finally Ran')
+    ('finally Ran')
     io.on('connection', Sock.on)}
 
 

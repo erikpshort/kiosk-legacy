@@ -2,6 +2,7 @@ let session = require('express-session');
 let MongoDBStore = require('connect-mongodb-session')(session);
 import env from '../config/env'
 
+console.log("Connecting to the following database: ")
 console.log(process.env.CONNECTIONSTRING)
 
 let store = new MongoDBStore(

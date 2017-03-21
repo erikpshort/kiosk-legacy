@@ -132,7 +132,7 @@ export default {
     reqType: 'post',
     method(req, res, next) {
       let action = 'Sending SMS'
-      console.log(req.body)
+      //console.log(req.body)
       client.sendMessage({
         to: req.body.to,
         from: process.env.TWILIO_PHONE_NUMBER,
@@ -154,7 +154,7 @@ export default {
     method(req, res, next) {
       let action = 'Printing Label'
       console.log('at start of printqr route!')
-      console.log(req.body)
+      //console.log(req.body)
 
       fs.unlink('customerfile.png', function (err) {
         if (err) return console.log(err);
