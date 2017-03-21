@@ -18,24 +18,43 @@
 
 <template>
   <div class="AdminBoard">
-    <h1>{{ msg }}</h1>
     <div class="row">
-      <span @click="toggleBacklog" id='showBacklog' class='dropdown-button btn red'>Hide Backlog</span>
+      <h4 class="col s4 offset-s4" v-if="showBacklog">WorkLog</h4>
+      <span class="col s1 offset-s3" v-if="showBacklog" @click="toggleBacklog" id='showBacklog'>Hide</span>
+      <span class="col s1 offset-s11 card grey darken-3 white-text" v-if="!showBacklog" @click="toggleBacklog" id='showBacklog'
+        @drop="workingDropBackLog" @dragover.prevent>WorkLog</span>
     </div>
-    <div class="row" v-if="showBacklog" @drop="workingDropBackLog" @dragover.prevent>
-      <div id="fourStroke" class="col s4  pendingRow">Orange (four-stroke) Jobs
+    <div class="row  card grey cardRow" v-if="showBacklog" @drop="workingDropBackLog" @dragover.prevent>
+      <div id="fourStroke space" class="col s4  pendingRow">
         <modal v-if="showModal"></modal>
-        <div v-for="job in fourStroke(activeJobs)" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{express:job.tUpRepExp=='Express'}">
+        <div class="row card blue-grey darken-2 white-text border margin grow">
+          <div class="col s1">
+            Age
+          </div>
+          <div class="col s5">
+            Make
+          </div>
+          <div class="col s2">
+            Job #
+          </div>
+          <div class="col s3">
+            Model
+          </div>
+        </div>
+        <div v-for="(job,i) in fourStroke(activeJobs)" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{'row card red grow':job.tUpRepExp=='Express'}">
 
 
-          <div class="row card orange darken-1">
+          <div :class="{'row card orange lighten-1 grow':classSelection2(job, i),'row card orange darken-4 grow':classSelection(job, i)}">
             <div class="col s1">
               {{job.created | age}}
             </div>
             <div class="col s5">
-              {{job.make}} {{job.jobStatus}}
+              {{job.make}}
             </div>
-            <div class="col s5">
+            <div class="col s2">
+              {{job.jobNumber}}
+            </div>
+            <div class="col s3">
               {{job.model}}
             </div>
             <div class="col s1" @click="toggleModal(job)">
@@ -46,18 +65,35 @@
         </div>
       </div>
 
-      <div id="twoStroke" class="col s4 green pendingRow" @drop="workingDropBackLog" @dragover.prevent>Green (two-stroke) Jobs
-        <div v-for="job in twoStroke(activeJobs)" draggable="true" @dragstart="drag(job)" v-bind:class="{express:job.tUpRepExp=='Express'}">
+      <div id="twoStroke space" class="col s4 pendingRow" @drop="workingDropBackLog" @dragover.prevent>
+        <div class="row card blue-grey darken-2 white-text border grow margin">
+          <div class="col s1">
+            Age
+          </div>
+          <div class="col s5">
+            Make
+          </div>
+          <div class="col s2">
+            Job #
+          </div>
+          <div class="col s3">
+            Model
+          </div>
+        </div>
+        <div v-for="(job, i) in twoStroke(activeJobs)" draggable="true" @dragstart="drag(job)">
 
 
-          <div class="row">
+          <div :class="{'row card green lighten-1 grow':classSelection2(job, i),'row card green darken-3 grow':classSelection(job, i)}">
             <div class="col s1">
               {{job.created | age}}
             </div>
             <div class="col s5">
               {{job.make}}
             </div>
-            <div class="col s5">
+            <div class="col s2">
+              {{job.jobNumber}}
+            </div>
+            <div class="col s3">
               {{job.model}}
             </div>
             <div class="col s1" @click="toggleModal(job)">
@@ -68,16 +104,33 @@
 
         </div>
       </div>
-      <div id="commercial" class="col s4 blue pendingRow" @drop="workingDropBackLog" @dragover.prevent>Commerical Jobs
-        <div v-for="job in comerical(activeJobs)" draggable="true" @dragstart="drag(job)" v-bind:class="{express:job.tUpRepExp=='Express'}">
-          <div class="row">
+      <div id="commercial space" class="col s4 pendingRow" @drop="workingDropBackLog" @dragover.prevent>
+        <div class="row card blue-grey darken-2 white-text border grow margin">
+          <div class="col s1">
+            Age
+          </div>
+          <div class="col s5">
+            Make
+          </div>
+          <div class="col s2">
+            Job #
+          </div>
+          <div class="col s3">
+            Model
+          </div>
+        </div>
+        <div v-for="(job, i) in comerical(activeJobs)" draggable="true" @dragstart="drag(job)">
+          <div :class="{'row card cyan lighten-1 grow':classSelection2(job, i),'row card cyan darken-4 grow':classSelection(job, i)}">
             <div class="col s1">
               {{job.created | age}}
             </div>
             <div class="col s5">
               {{job.make}}
             </div>
-            <div class="col s5">
+            <div class="col s2">
+              {{job.jobNumber}}
+            </div>
+            <div class="col s3">
               {{job.model}}
             </div>
             <div class="col s1" @click="toggleModal(job)">
@@ -88,52 +141,160 @@
       </div>
     </div>
     <div class="row">
-      <span @click="toggleWorking" id='showWorking' class='dropdown-button btn red'>Hide Working</span></div>
-
-    <div class="row" v-if="showWorking">
-      <div id="workingBoard" class="col s12 grey workRow" @drop.capture="workingDropToDo" @dragover.prevent>Jobs Being Worked On
-
-        <div>
-          <div class="row">
-            <div class="col s4" v-for="job in working(activeJobs)" @dragstart="drag(job)" draggable="true">
-              <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
-                <div class="col s1">
-                  {{job.created | age}}
-                </div>
-                <div class="col s5">
-                  {{job.make}}
-                </div>
-                <div class="col s5">
-                  {{job.model}}
-                </div>
-                <div class="col s1" @click="toggleModal(job)">
-                  <a>+</a>
-                </div>
-              </div>
+      <h4 class="col s4 offset-s4" v-if="showWorking">In Progress</h4>
+      <span class="col s1 offset-s3" v-if="showWorking" @click="toggleWorking" id='showBacklog'>Hide</span>
+      <span class="col s1 offset-s11" v-if="!showWorking" @click="toggleWorking" id='showBacklog'>In Progress</span>
+    </div>
+    <div v-if="showWorking" id="workingBoard" class="row card blue-grey cardRow" @drop.capture="workingDropToDo" @dragover.prevent>
+      <div id="fourStroke space" class="col s4  pendingRow">
+        <modal v-if="showModal"></modal>
+        <div class="row card blue-grey darken-2 white-text border margin grow">
+          <div class="col s1">
+            Age
+          </div>
+          <div class="col s5">
+            Make
+          </div>
+          <div class="col s2">
+            Job #
+          </div>
+          <div class="col s3">
+            Model
+          </div>
+        </div>
+        <div v-for="(job,i) in workingJobsFourStroke" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{'row card red grow':job.tUpRepExp=='Express'}">
+          <div :class="{'row card orange lighten-1 grow':classSelection2(job, i),'row card orange darken-4 grow':classSelection(job, i)}">
+            <div class="col s1">
+              {{job.created | age}}
+            </div>
+            <div class="col s5">
+              {{job.make}}
+            </div>
+            <div class="col s2">
+              {{job.jobNumber}}
+            </div>
+            <div class="col s3">
+              {{job.model}}
+            </div>
+            <div class="col s1" @click="toggleModal(job)">
+              <a>+</a>
             </div>
           </div>
 
         </div>
       </div>
-    </div>
 
+      <div id="twoStroke space" class="col s4 pendingRow">
+        <div class="row card blue-grey darken-2 white-text border grow margin">
+          <div class="col s1">
+            Age
+          </div>
+          <div class="col s5">
+            Make
+          </div>
+          <div class="col s2">
+            Job #
+          </div>
+          <div class="col s3">
+            Model
+          </div>
+        </div>
+        <div v-for="(job, i) in workingJobsTwoStroke" draggable="true" @dragstart="drag(job)">
+
+
+          <div :class="{'row card green lighten-1 grow':classSelection2(job, i),'row card green darken-3 grow':classSelection(job, i)}">
+            <div class="col s1">
+              {{job.created | age}}
+            </div>
+            <div class="col s5">
+              {{job.make}}
+            </div>
+            <div class="col s2">
+              {{job.jobNumber}}
+            </div>
+            <div class="col s3">
+              {{job.model}}
+            </div>
+            <div class="col s1" @click="toggleModal(job)">
+              <a>+</a>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <div id="commercial space" class="col s4 pendingRow">
+        <div class="row card blue-grey darken-2 white-text border grow margin">
+          <div class="col s1">
+            Age
+          </div>
+          <div class="col s5">
+            Make
+          </div>
+          <div class="col s2">
+            Job #
+          </div>
+          <div class="col s3">
+            Model
+          </div>
+        </div>
+        <div v-for="(job, i) in workingJobsCommercial" draggable="true" @dragstart="drag(job)">
+          <div :class="{'row card cyan lighten-1 grow':classSelection2(job, i),'row card cyan darken-4 grow':classSelection(job, i)}">
+            <div class="col s1">
+              {{job.created | age}}
+            </div>
+            <div class="col s5">
+              {{job.make}}
+            </div>
+            <div class="col s2">
+              {{job.jobNumber}}
+            </div>
+            <div class="col s3">
+              {{job.model}}
+            </div>
+            <div class="col s1" @click="toggleModal(job)">
+              <a>+</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--This is the start of the parts board-->
     <div class="row">
-      <span @click="togglePendingParts" id='showPendingParts' class='dropdown-button btn red'>Hide Pending Parts</span>
+      <h4 class="col s4 offset-s1" v-if="showPendingParts">Parts to be Ordered</h4>
+      <h4 class="col s4 offset-s2" v-if="showPendingParts">Awaiting Parts</h4>
+      <span class="col s1" v-if="showPendingParts" @click="togglePendingParts">Hide</span>
+      <span class="col s1 offset-s11" v-if="!showPendingParts" @click="togglePendingParts">Parts</span>
     </div>
 
-    <div class="row" v-if="showPendingParts">
-      <div id="pendingPartsToOrder" class="col s6 purple pendingRow" @drop="pendingPartsToOrderDrop" @dragover.prevent>Jobs for which parts need to be ordered.
-
+    <div class="row card grey cardRow" v-if="showPendingParts">
+      <div id="pendingPartsToOrder" class="col s6 " @drop="pendingPartsToOrderDrop" @dragover.prevent>
+        <div class="row card blue-grey darken-2 white-text border grow margin">
+          <div class="col s1">
+            Age
+          </div>
+          <div class="col s5">
+            Make
+          </div>
+          <div class="col s2">
+            Job #
+          </div>
+          <div class="col s3">
+            Model
+          </div>
+        </div>
         <div v-for="job in pendingOrderParts(activeJobs)" @click=addToWorking(job._id) draggable="true" @dragstart.capture="drag(job)">
-          <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
+          <div class="row" v-bind:class="{'row card orange lighten-1 grow': job.type1 in fs_css, 'row card cyan lighten-1 grow': job.type1 in com_css, 'row card green lighten-1 grow': job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
             <div class="col s1">
               {{job.created | age}}
             </div>
             <div class="col s5">
               {{job.make}}
             </div>
-            <div class="col s5">
+            <div class="col s2">
+              {{job.jobNumber}}
+            </div>
+            <div class="col s3">
               {{job.model}}
             </div>
             <div class="col s1" @click="toggleModal(job)">
@@ -142,16 +303,33 @@
           </div>
         </div>
       </div>
-      <div id="pendingPartsToReceive" class="col s6 brown pendingRow" @drop="pendingPartsToReceiveDrop" @dragover.prevent>Jobs for which we are waiting on recieveing parts
+      <div id="pendingPartsToReceive" class="col s6 grey pendingRow" @drop="pendingPartsToReceiveDrop" @dragover.prevent>
+        <div class="row card blue-grey darken-2 white-text border grow margin">
+          <div class="col s1">
+            Age
+          </div>
+          <div class="col s5">
+            Make
+          </div>
+          <div class="col s2">
+            Job #
+          </div>
+          <div class="col s3">
+            Model
+          </div>
+        </div>
         <div v-for="job in pendingPartsToReceive(activeJobs)" draggable="true" @dragstart="drag(job)">
-          <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
+          <div class="row" v-bind:class="{'row card orange lighten-1 grow': job.type1 in fs_css, 'row card cyan lighten-1 grow': job.type1 in com_css, 'row card green lighten-1 grow': job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
             <div class="col s1">
               {{job.created | age}}
             </div>
             <div class="col s5">
               {{job.make}}
             </div>
-            <div class="col s5">
+            <div class="col s2">
+              {{job.jobNumber}}
+            </div>
+            <div class="col s3">
               {{job.model}}
             </div>
             <div class="col s1" @click="toggleModal(job)">
@@ -165,36 +343,127 @@
     <!--This is the end of the parts board-->
 
     <!--This is the end of the awating pickup board-->
-
     <div class="row">
-      <span @click="togglePendingPickup" id='showPendingPickup' class='dropdown-button btn red'>Hide Pending Pickup</span></div>
-    <div class="row" v-if="showPendingPickup">
-      <div id="showPendingPickup" class="col s12 grey workRow" @drop="pendingPickupDrop" @dragover.prevent>Jobs Pending Pickp-up
+      <h4 class="col s4 offset-s4" v-if="showPendingPickup">Ready for Pick-up</h4>
+      <span class="col s1 offset-s3" v-if="showPendingPickup" @click="togglePendingPickup" id='showBacklog'>Hide</span>
+      <span class="col s1 offset-s11" v-if="!showPendingPickup" @click="togglePendingPickup" id='showBacklog'>Ready for Pickup</span>
+    </div>
+    <div class="row  card grey cardRow" v-if="showPendingPickup" @drop="workingDropBackLog" @dragover.prevent>
+      <div id="fourStroke space" class="col s4  pendingRow">
+        <modal v-if="showModal"></modal>
+        <div class="row card blue-grey darken-2 white-text border margin grow">
+          <div class="col s1">
+            Age
+          </div>
+          <div class="col s5">
+            Make
+          </div>
+          <div class="col s2">
+            Job #
+          </div>
+          <div class="col s3">
+            Model
+          </div>
+        </div>
+        <div v-for="(job,i) in pendingPickup(activeJobs)" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{'row card red grow':job.tUpRepExp=='Express'}">
 
-        <div>
-          <div class="row">
-            <div class="col s4" v-for="job in pendingPickup(activeJobs)" @dragstart="drag(job)" draggable="true">
-              <div class="row" v-bind:class="{fourStroke: job.type1 in fs_css, commercial: job.type1 in com_css, twoStroke: job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
-                <div class="col s1">
-                  {{job.created | age}}
-                </div>
-                <div class="col s5">
-                  {{job.make}}
-                </div>
-                <div class="col s5">
-                  {{job.model}}
-                </div>
-                <div class="col s1" @click="toggleModal(job)">
-                  <a>+</a>
-                </div>
-              </div>
+
+          <div :class="{'row card orange lighten-1 grow':classSelection2(job, i),'row card orange darken-4 grow':classSelection(job, i)}">
+            <div class="col s1">
+              {{job.created | age}}
+            </div>
+            <div class="col s5">
+              {{job.make}}
+            </div>
+            <div class="col s2">
+              {{job.jobNumber}}
+            </div>
+            <div class="col s3">
+              {{job.model}}
+            </div>
+            <div class="col s1" @click="toggleModal(job)">
+              <a>+</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="twoStroke space" class="col s4 pendingRow" @drop="workingDropBackLog" @dragover.prevent>
+        <div class="row card blue-grey darken-2 white-text border grow margin">
+          <div class="col s1">
+            Age
+          </div>
+          <div class="col s5">
+            Make
+          </div>
+          <div class="col s2">
+            Job #
+          </div>
+          <div class="col s3">
+            Model
+          </div>
+        </div>
+        <div v-for="(job,i) in pendingPickup(activeJobs)" draggable="true" @dragstart="drag(job)">
+
+
+          <div :class="{'row card green lighten-1 grow':classSelection2(job, i),'row card green darken-3 grow':classSelection(job, i)}">
+            <div class="col s1">
+              {{job.created | age}}
+            </div>
+            <div class="col s5">
+              {{job.make}}
+            </div>
+            <div class="col s2">
+              {{job.jobNumber}}
+            </div>
+            <div class="col s3">
+              {{job.model}}
+            </div>
+            <div class="col s1" @click="toggleModal(job)">
+              <a>+</a>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <div id="commercial space" class="col s4 pendingRow" @drop="workingDropBackLog" @dragover.prevent>
+        <div class="row card blue-grey darken-2 white-text border grow margin">
+          <div class="col s1">
+            Age
+          </div>
+          <div class="col s5">
+            Make
+          </div>
+          <div class="col s2">
+            Job #
+          </div>
+          <div class="col s3">
+            Model
+          </div>
+        </div>
+        <div v-for="(job,i) in pendingPickup(activeJobs)" draggable="true" @dragstart="drag(job)">
+          <div :class="{'row card cyan lighten-1 grow':classSelection2(job, i),'row card cyan darken-4 grow':classSelection(job, i)}">
+            <div class="col s1">
+              {{job.created | age}}
+            </div>
+            <div class="col s5">
+              {{job.make}}
+            </div>
+            <div class="col s2">
+              {{job.jobNumber}}
+            </div>
+            <div class="col s3">
+              {{job.model}}
+            </div>
+            <div class="col s1" @click="toggleModal(job)">
+              <a>+</a>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  </div>
   </div>
 </template>
 <script>
@@ -207,7 +476,6 @@
         modalJob: {},
         showModal: false,
         msg: 'This is the Admin Board',
-
         showBacklog: true,
         showWorking: true,
         showPendingParts: true,
@@ -235,6 +503,27 @@
       }
     },
     methods: {
+      classSelection(job, i) {
+        if (job.tUpRepExp == 'Express') {
+          return true
+        } else {
+          return false
+        }
+      },
+      classSelection2(job, i) {
+        if ((i % 2 != 0 || i % 2 == 0) && job.tUpRepExp != 'Express') {
+          return true
+        } else {
+          return false
+        }
+      },
+      classSelection3(job, i) {
+        if (i % 2 != 0 && job.tUpRepExp != 'Express') {
+          return true
+        } else {
+          return false
+        }
+      },
       toggleModal(job) {
         console.log(job.customerId)
         this.$root.store.actions.getSingleCustomer("58b9f7638f4f33979c7054b9")
@@ -434,6 +723,22 @@
     computed: {
       activeJobs() {
         return this.$root.store.state.activeJobs
+      },
+      workingJobsFourStroke() {
+        return this.$root.store.state.activeJobs.filter((job) => {
+          return job.jobStatus == "working" && job.type1 == ("HomeOwnerWalkBehind" || "HomeOwnerZeroTurn" ||
+            "HomeownerTractor")
+        })
+      },
+      workingJobsTwoStroke() {
+        return this.$root.store.state.activeJobs.filter((job) => {
+          return job.jobStatus == "working" && job.type1 == "HandheldPower"
+        })
+      },
+      workingJobsCommercial() {
+        return this.$root.store.state.activeJobs.filter((job) => {
+          return job.jobStatus == "working" && job.type1 == ("CommericalWalk" || "CommericalDeck"|| "CommericalRider")
+        })
       }
     },
     filters: {
@@ -457,11 +762,41 @@
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .pendingRow {
+  /*div {
+    margin:0px;
+  }*/
+  
+  .grow {
+    margin: 0px;
+    font-size: 23px;
+    border: 1px solid grey;
+  }
+  
+  .margin {
+    margin-bottom: 1%;
+  }
+  
+  span {
+    float: right
+  }
+  
+  .border {
+    border: 2px solid white;
+  }
+  
+  .cardRow {
     color: black;
     /*min-height: calc(50vh);
-    max-height: calc(100vh - 30px);*/
-    height: 50vh;
+    max-height: calc(100vh - 400px);*/
+    /*max-height: 100vh;*/
+    overflow: auto;
+    border: 2px solid white;
+  }
+  
+  .pendingRow {
+    color: black;
+    min-height: calc(50vh);
+    max-height: calc(75vh - 100px);
     /*max-height: 100vh;*/
     overflow: auto;
   }
@@ -476,7 +811,7 @@
   }
   
   .commercial {
-    background-color: cornflowerblue;
+    border: 5px solid white !important;
   }
   
   .sharpen {
