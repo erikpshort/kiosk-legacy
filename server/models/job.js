@@ -3,6 +3,9 @@ import {models} from '../config/constants.js'
 let mongoose = require('mongoose')
 let ObjectId = mongoose.Schema.ObjectId
 let Schema = mongoose.Schema
+let autoIncrement = require('mongoose-auto-increment');
+let connection = mongoose.connection;
+autoIncrement.initialize(connection);
 
 var schema = new Schema({
     // REQUIRED
@@ -44,5 +47,6 @@ var schema = new Schema({
     },
 });
 
+schema.plugin(autoIncrement.plugin, 'Job')
 module.exports = mongoose.model(models.job.name, schema);
 
