@@ -5,10 +5,11 @@ let env = {
 	DBPROTOCOL: 'mongodb',
 	DBUSERNAME: 'legacy',
 	DBPASSWORD: 'feedandfuel',
-	DBHOST: 'ds058369.mlab.com:58369',
-	DBNAME: 'legacycounter',
+	DBHOST: 'ds060009.mlab.com:60009',
+	DBNAME: 'legacy',
 	SERVERNAME: 'dev-server'
 }
+mongodb://<dbuser>:<dbpassword>@ds060009.mlab.com:60009/legacy
 // mongodb://<dbuser>:<dbpassword>@ds058369.mlab.com:58369/legacycounter
 
 // MAPS env TO ACTUAL ENVIRONMENT
