@@ -82,11 +82,11 @@
                             <option>On Bench</option>
                             <option>Parts On Order</option>
                             <option>Parts Recieved</option>
-                            <option>Parts Recieved</option>
                             <option>Complete</option>
+                            <option>Custom</option>
                         </select>
                         <button type="submit" @click.prevent="text" class="col s4 waves-effect waves-teal btn-flat">Send Text</button>
-                        <input type="text" placeholder="Days to Completion" class="col s4">
+                        <input type="text" placeholder="Days to Completion" class="col s4" v-model="daysPriceCustom">
                     </div>
                     <div class="modal-body row">
                         <button class="waves-effect waves-teal btn-flat" @click="showModal()">Close</button>
@@ -125,6 +125,7 @@
         name: 'modal',
         data() {
             return {
+                daysPriceCustom: null,
                 selected: '',
                 partDescription: '',
                 partNumber: '',
@@ -176,28 +177,40 @@
         methods: {
             text() {
                 if (this.selected == "On Bench") {
-                    console.log(this.modalJob.make, this.modalJob.model, this.modalJob.cellPhone)
                     var body = {
-                        to: "208-250-1154",
-                        body: "Your " + this.modalJob.make + " " + this.modalJob.model + " has hit the bench and should be completed in 1-2 Days!"
+                        to: "208-841-2659",
+                        body: "Your " + this.modalJob.make + " " + this.modalJob.model + " has hit the bench and is now being worked on!"
                     }
                     this.$root.store.actions.sms(body)
                 }
                 else if (this.selected == 'Parts On Order') {
                     var body = {
-                        to: "208-250-1154",
-                        body: "We have ordered parts for your " + this.modalJob.make + " " + this.modalJob.model + " and will let you know when they have been recieved!"
-                    }
-                    this.$root.store.actions.sms(body)
-                } 
-                else if (this.selected == 'Parts On Order') {
-                    var body = {
-                        to: "208-250-1154",
+                        to: "208-841-2659",
                         body: "We have ordered parts for your " + this.modalJob.make + " " + this.modalJob.model + " and will let you know when they have been recieved!"
                     }
                     this.$root.store.actions.sms(body)
                 }
-
+                else if (this.selected == 'Parts Recieved') {
+                    var body = {
+                        to: "208-841-2659",
+                        body: "We have recieved the parts for your " + this.modalJob.make + " " + this.modalJob.model + " and will let you know when it has been completed!"
+                    }
+                    this.$root.store.actions.sms(body)
+                }
+                else if (this.selected == 'Complete') {
+                    var body = {
+                        to: "208-841-2659",
+                        body: "Your Job # is: " + this.modalJob.jobNumber + ". Your " + this.modalJob.make + " " + this.modalJob.model + " is complete. Please pickup at Legacy Feed and Fuel at your earliest convenience. Your total is: $" + this.daysPriceCustom
+                    }
+                    this.$root.store.actions.sms(body)
+                }
+                else if (this.selected == 'Custom') {
+                    var body = {
+                        to: "208-841-2659",
+                        body: this.daysPriceCustom
+                    }
+                    this.$root.store.actions.sms(body)
+                }
             },
             showModal() {
                 if (this.$parent.showModal) {
