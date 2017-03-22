@@ -1,4 +1,6 @@
-import { server } from './config/dev-server'
+
+import {server, app} from './config/dev-server'
+let io = require('socket.io')(server)
 
 let mongoose = require('mongoose')
 let autoIncrement = require('mongoose-auto-increment');
@@ -17,6 +19,10 @@ connection.on('error', console.error.bind(console, 'connection error:'));
 
 connection.once('open', function () {
 	server.listen(process.env.PORT, function () {
-		console.log(`Running on port: ${process.env.PORT}`);
+		console.log(`Server running comfortably on port: ${process.env.PORT}`);
 	})
 });
+
+io.on('connection', function(socket){
+	console.log('Hello')
+})

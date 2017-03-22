@@ -40,15 +40,15 @@ app.use(Validate)
 app.use('/api', api)
 app.use('/', defaultErrorHandler)
 
-let io = require('socket.io')(server, {
-    origins: '*:*'
-})
+// let io = require('socket.io')(server, {
+//     origins: '*:*'
+// })
 
 
-let ioon = function(){
-    console.log('finally Ran')
-    io.on('connection', Sock.on)}
+// let ioon = function(){
+//     ('finally Ran')
+//     io.on('connection', Sock.on)}
 
 
 
-export {server, ioon }
+export {server, app }

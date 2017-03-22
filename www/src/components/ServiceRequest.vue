@@ -540,6 +540,7 @@
             this.resetAButton()
             this.resetBButton()
             this.resetCButton()
+            this.showButtons()
           } else if (this.selectedPhoneNum != null) {
             var object = {
               type1: this.equipmentTypeValue,
@@ -565,6 +566,7 @@
             this.resetAButton()
             this.resetBButton()
             this.resetCButton()
+            this.showButtons()
           }
           else if (this.activePhone.length == 1) {
             console.log(this.activePhone)

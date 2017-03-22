@@ -18,6 +18,7 @@
 
 <template>
   <div>
+    <modal v-if="showModal"></modal>
     <div class="row flexing">
       <span class="col s2 card grey darken-3 white-text grow" v-if="!showBacklog" @click="showBacklog = !showBacklog" id='showBacklog'
         @drop="workingDropBackLog" @dragover.prevent>WorkLog</span>
@@ -29,7 +30,7 @@
         @drop="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</span>
       <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingPickup" @click="showPendingPickup=!showPendingPickup"
         @drop="pendingPickupDrop" @dragover.prevent>Ready for Pickup</span>
-      <span class="col s2 card grey darken-3 white-text grow" @drop="archiveDrop()" @dragover.prevent><i class="material-icons">archive</i>&nbsp;&nbsp;&nbsp;&nbsp;Complete&nbsp;&nbsp;&nbsp;&nbsp;<i class="material-icons">archive</i></span>
+      <span class="col s2 card blue darken-4 white-text grow" @drop="archiveDrop()" @dragover.prevent><i class="material-icons">archive</i>&nbsp;&nbsp;&nbsp;&nbsp;Complete&nbsp;&nbsp;&nbsp;&nbsp;<i class="material-icons">archive</i></span>
     </div>
     <!--this is the start of the worklog board-->
     <div class="row">
@@ -38,8 +39,7 @@
 
     </div>
     <div class="row  card grey pendingRow" v-if="showBacklog" @drop="workingDropBackLog" @dragover.prevent>
-      <div id="fourStroke space" class="col s4">
-        <modal v-if="showModal"></modal>
+      <div id="fourStroke space" class="col s4 pendingRow">
         <div class="row card blue-grey darken-2 white-text border margin grow">
           <div class="col s1">
             Age
@@ -54,8 +54,7 @@
             Model
           </div>
         </div>
-        <div v-for="(job,i) in fourStroke(activeJobs)" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{'row card red grow':job.tUpRepExp=='Express'}">
-
+        <div v-for="(job,i) in fourStroke(activeJobs)" draggable="true" @dragstart.capture="drag(job)">
 
           <div :class="{'row card orange lighten-1 grow':classSelection2(job, i),'row card orange darken-4 grow':classSelection(job, i)}">
             <div class="col s1">
@@ -160,7 +159,6 @@
     </div>
     <div class="row card blue-grey pendingRow" v-if="showWorking" @drop.capture="workingDropToDo" @dragover.prevent>
       <div id="fourStroke space" class="col s4  pendingRow">
-        <modal v-if="showModal"></modal>
         <div class="row card blue-grey darken-2 white-text border margin grow">
           <div class="col s1">
             Age
@@ -362,7 +360,6 @@
     <!--Start of Pickup Board-->
     <div class="row  card grey pendingRow" v-if="showPendingPickup" @drop="pendingPickupDrop" @dragover.prevent>
       <div id="fourStroke space" class="col s4  pendingRow">
-        <modal v-if="showModal"></modal>
         <div class="row card blue-grey darken-2 white-text border margin grow">
           <div class="col s1">
             Age
@@ -527,6 +524,7 @@
         }
       },
       toggleModal(job) {
+        
         console.log(job.customerId)
         this.$root.store.actions.getSingleCustomer("58b9f7638f4f33979c7054b9")
         this.$root.store.state.modalJob = job

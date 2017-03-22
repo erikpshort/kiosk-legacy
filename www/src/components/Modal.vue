@@ -2,7 +2,7 @@
     <transition name="modal" @click.delete="showModal()">
         <div class="modal-mask">
             <div class="modal-wrapper">
-                <div class="modal-container" >
+                <div class="modal-container">
                     <div class="modal-header">
                         <div class="row">
                             <label>
@@ -50,7 +50,7 @@
                                 <input type="text" v-model="part.partDescription" @blur="editPart( part )" placeholder="Part Description">
                             </div>
                             <div class="col s2">
-                                <input type="number" v-model="part.partQty"  @blur="editPart( part )" placeholder="Qty">
+                                <input type="number" v-model="part.partQty" @blur="editPart( part )" placeholder="Qty">
                             </div>
                             <div class="col s2">
                                 <input type="number" v-model="part.partPrice" @blur="editPart( part )" placeholder="$Price">
@@ -76,6 +76,17 @@
                         <div class="col s1">
                             <button class="waves-effect waves-teal btn-flat" @click="addParts()"><i class="material-icons">add_circle</i></button>
                         </div>
+                    </div>
+                    <div class="row">
+                        <select class="col s4" v-model="selected">
+                            <option>On Bench</option>
+                            <option>Parts On Order</option>
+                            <option>Parts Recieved</option>
+                            <option>Complete</option>
+                            <option>Custom</option>
+                        </select>
+                        <button type="submit" @click.prevent="text" class="col s4 waves-effect waves-teal btn-flat">Send Text</button>
+                        <input type="text" placeholder="Days to Completion" class="col s4" v-model="daysPriceCustom">
                     </div>
                     <div class="modal-body row">
                         <button class="waves-effect waves-teal btn-flat" @click="showModal()">Close</button>
@@ -114,6 +125,8 @@
         name: 'modal',
         data() {
             return {
+                daysPriceCustom: null,
+                selected: '',
                 partDescription: '',
                 partNumber: '',
                 partQty: null,
@@ -125,6 +138,17 @@
                 // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
                 $('.modal').modal();
             });
+            $('.service-request .dropdown-button').dropdown()
+            $('.dropdown-button').dropdown({
+                inDuration: 300,
+                outDuration: 225,
+                constrainWidth: false, // Does not change width of dropdown to that of the activator
+                gutter: 0, // Spacing from edge
+                belowOrigin: false, // Displays dropdown below the button
+                alignment: 'left', // Displays dropdown with edge aligned to the left of button
+                stopPropagation: false // Stops event propagation
+            }
+            );
         },
         filters: {
             age: function (createdInMs) {
@@ -151,6 +175,43 @@
             },
         },
         methods: {
+            text() {
+                if (this.selected == "On Bench") {
+                    var body = {
+                        to: "208-841-2659",
+                        body: "Your " + this.modalJob.make + " " + this.modalJob.model + " has hit the bench and is now being worked on!"
+                    }
+                    this.$root.store.actions.sms(body)
+                }
+                else if (this.selected == 'Parts On Order') {
+                    var body = {
+                        to: "208-841-2659",
+                        body: "We have ordered parts for your " + this.modalJob.make + " " + this.modalJob.model + " and will let you know when they have been recieved!"
+                    }
+                    this.$root.store.actions.sms(body)
+                }
+                else if (this.selected == 'Parts Recieved') {
+                    var body = {
+                        to: "208-841-2659",
+                        body: "We have recieved the parts for your " + this.modalJob.make + " " + this.modalJob.model + " and will let you know when it has been completed!"
+                    }
+                    this.$root.store.actions.sms(body)
+                }
+                else if (this.selected == 'Complete') {
+                    var body = {
+                        to: "208-841-2659",
+                        body: "Your Job # is: " + this.modalJob.jobNumber + ". Your " + this.modalJob.make + " " + this.modalJob.model + " is complete. Please pickup at Legacy Feed and Fuel at your earliest convenience. Your total is: $" + this.daysPriceCustom
+                    }
+                    this.$root.store.actions.sms(body)
+                }
+                else if (this.selected == 'Custom') {
+                    var body = {
+                        to: "208-841-2659",
+                        body: this.daysPriceCustom
+                    }
+                    this.$root.store.actions.sms(body)
+                }
+            },
             showModal() {
                 if (this.$parent.showModal) {
                     this.$parent.showModal = false
@@ -274,5 +335,43 @@
         position: relative;
         width: 100%;*/
         color: blue
+    }
+    /*Erik*/
+    
+    select {
+        display: block !important;
+    }
+    
+    h4 {
+        color: black
+    }
+    
+    b {
+        color: white
+    }
+    
+    .input-field label.selectLabel {
+        position: relative;
+        top: 0;
+    }
+    
+    .placeholder {
+        font-size: 36px
+    }
+    
+    .validate {
+        font-size: 36px
+    }
+    
+     ::-webkit-input-placeholder {
+        /*font-size: 36px;*/
+        color: #d0cdfa;
+        text-transform: uppercase;
+        text-transform: uppercase;
+        text-align: left;
+    }
+    
+    input {
+        text-align: center;
     }
 </style>
