@@ -505,7 +505,7 @@
           "CommericalDeck": true,
           "CommericalRider": true
         },
-        ts_css: { "HandheldPower": true },
+        ts_css: { "Handheld Power": true },
       }
     },
     methods: {
@@ -526,7 +526,7 @@
       toggleModal(job) {
         
         console.log(job.customerId)
-        this.$root.store.actions.getSingleCustomer("58b9f7638f4f33979c7054b9")
+        this.$root.store.actions.getSingleCustomer(job.customerId)
         this.$root.store.state.modalJob = job
         if (!this.showModal) {
           this.showModal = true
@@ -552,7 +552,7 @@
         //takes in an array of job objects, and returns an array of only those where the type is two-stroke.
         this.out_array = arr_jobs.filter(function (element) {
           //the ts object holds the catagoreis for the two stroke board. 
-          var ts = { "HandheldPower": true };
+          var ts = { "Handheld Power": true };
           if (element.type1 in ts && element.archive == false && element.jobStatus == 'pending') { return true }
           else { return false }
         })
@@ -706,7 +706,7 @@
       },
       finishedJobsTwoStroke() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "ready for pickup" && job.type1 == "HandheldPower"
+          return job.jobStatus == "ready for pickup" && job.type1 == "Handheld Power"
         })
       },
       finishedJobsCommercial() {
