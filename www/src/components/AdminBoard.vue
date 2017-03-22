@@ -34,7 +34,7 @@
     </div>
     <!--this is the start of the worklog board-->
     <div class="row">
-      <h4 class="col s4 offset-s4" v-if="showBacklog">WorkLog</h4>
+      <h4 class="col s4 offset-s4" v-if="showBacklog" @click="showBacklog = !showBacklog">WorkLog</h4>
       <span class="col s1 offset-s3" v-if="showBacklog" @click="showBacklog = !showBacklog" id='showBacklog'>Hide</span>
 
     </div>
@@ -154,7 +154,7 @@
     </div>
     <!--this is the start of the todo board-->
     <div class="row">
-      <h4 class="col s4 offset-s4" v-if="showWorking">In Progress</h4>
+      <h4 class="col s4 offset-s4" v-if="showWorking" @click="showWorking = !showWorking">In Progress</h4>
       <span class="col s1 offset-s3" v-if="showWorking" @click="showWorking = !showWorking" id='showBacklog'>Hide</span>
     </div>
     <div class="row card blue-grey pendingRow" v-if="showWorking" @drop.capture="workingDropToDo" @dragover.prevent>
@@ -271,7 +271,7 @@
       </div>
     </div>
     <!--This is the start of the parts board-->
-    <div class="row">
+    <div class="row" @click="showPendingParts=!showPendingParts">
       <h4 class="col s4 offset-s1" v-if="showPendingParts">Need to Order Parts</h4>
       <h4 class="col s4 offset-s2" v-if="showPendingParts">Awaiting Parts</h4>
       <span class="col s1" v-if="showPendingParts" @click="showPendingParts=!showPendingParts">Hide</span>
@@ -354,7 +354,7 @@
 
     <!--This is the end of the awating pickup board-->
     <div class="row">
-      <h4 class="col s4 offset-s4" v-if="showPendingPickup">Ready for Pick-up</h4>
+      <h4 class="col s4 offset-s4" v-if="showPendingPickup" @click="showPendingPickup=!showPendingPickup">Ready for Pick-up</h4>
       <span class="col s1 offset-s3" v-if="showPendingPickup" @click="showPendingPickup=!showPendingPickup">Hide</span>
     </div>
     <!--Start of Pickup Board-->
@@ -691,7 +691,7 @@
       },
       workingJobsTwoStroke() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "working" && job.type1 == "HandheldPower"
+          return job.jobStatus == "working" && job.type1 == "Handheld Power"
         })
       },
       workingJobsCommercial() {
