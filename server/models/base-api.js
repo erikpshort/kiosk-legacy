@@ -17,6 +17,7 @@ function API(model, schema) {
   }
 
   function get(req, res, next) {
+        console.log("Base Api")
     if(!req.session.uid){
       return res.status(401).send(handleResponse(actions.find, null, new Error("User not authenticated")))
     }
@@ -49,6 +50,7 @@ function API(model, schema) {
   }
 
   function create(req, res, next) {
+        console.log("Base Api")
     var action = actions.create
 
     let model = new schema(req.body)
@@ -64,13 +66,13 @@ function API(model, schema) {
   }
 
   function update(req, res, next) {
+        console.log("Base Api")
     var action = actions.update
     var id = req.params.id || req.query.id || '';
 
     if (!id) {
       return next(handleResponse(action, null, { error: { message: 'Invalid request no id provided' } }))
     }
-    console.log("Base Api")
     schema.findOneAndUpdate({ _id: id }, req.body)
       .then(data => {
         return res.send(handleResponse(action, { message: 'Successfully updated' }))
@@ -81,6 +83,7 @@ function API(model, schema) {
   }
 
   function remove(req, res, next) {
+        console.log("Base Api")
     var action = actions.remove
     var id = req.params.id || req.query.id || '';
 

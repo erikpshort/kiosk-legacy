@@ -64,7 +64,7 @@
               {{job.make}}
             </div>
             <div class="col s2">
-              {{job.jobNumber}}
+              {{job._id}}
             </div>
             <div class="col s3">
               {{job.model}}
@@ -103,7 +103,7 @@
               {{job.make}}
             </div>
             <div class="col s2">
-              {{job.jobNumber}}
+              {{job._id}}
             </div>
             <div class="col s3">
               {{job.model}}
@@ -140,7 +140,7 @@
               {{job.make}}
             </div>
             <div class="col s2">
-              {{job.jobNumber}}
+              {{job._id}}
             </div>
             <div class="col s3">
               {{job.model}}
@@ -173,7 +173,7 @@
             Model
           </div>
         </div>
-        <div v-for="(job,i) in workingJobsFourStroke" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{'row card red grow':job.tUpRepExp=='Express'}">
+        <div v-for="(job,i) in workingJobsFourStroke" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{'row card red grow':job.type2=='Express'}">
           <div :class="{'row card orange lighten-1 grow':classSelection2(job, i),'row card orange darken-4 grow':classSelection(job, i)}">
             <div class="col s1">
               {{job.created | age}}
@@ -182,7 +182,7 @@
               {{job.make}}
             </div>
             <div class="col s2">
-              {{job.jobNumber}}
+              {{job._id}}
             </div>
             <div class="col s3">
               {{job.model}}
@@ -221,7 +221,7 @@
               {{job.make}}
             </div>
             <div class="col s2">
-              {{job.jobNumber}}
+              {{job._id}}
             </div>
             <div class="col s3">
               {{job.model}}
@@ -258,7 +258,7 @@
               {{job.make}}
             </div>
             <div class="col s2">
-              {{job.jobNumber}}
+              {{job._id}}
             </div>
             <div class="col s3">
               {{job.model}}
@@ -294,7 +294,7 @@
           </div>
         </div>
         <div v-for="job in pendingOrderParts(activeJobs)" draggable="true" @dragstart.capture="drag(job)">
-          <div class="row" v-bind:class="{'row card orange lighten-1 grow': job.type1 in fs_css, 'row card cyan lighten-1 grow': job.type1 in com_css, 'row card green lighten-1 grow': job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
+          <div class="row" v-bind:class="{'row card orange lighten-1 grow': job.type1 in fs_css, 'row card cyan lighten-1 grow': job.type1 in com_css, 'row card green lighten-1 grow': job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">
             <div class="col s1">
               {{job.created | age}}
             </div>
@@ -302,7 +302,7 @@
               {{job.make}}
             </div>
             <div class="col s2">
-              {{job.jobNumber}}
+              {{job._id}}
             </div>
             <div class="col s3">
               {{job.model}}
@@ -329,7 +329,7 @@
           </div>
         </div>
         <div v-for="job in pendingPartsToReceive(activeJobs)" draggable="true" @dragstart="drag(job)">
-          <div class="row" v-bind:class="{'row card orange lighten-1 grow': job.type1 in fs_css, 'row card cyan lighten-1 grow': job.type1 in com_css, 'row card green lighten-1 grow': job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.tUpRepExp=='Express'}">
+          <div class="row" v-bind:class="{'row card orange lighten-1 grow': job.type1 in fs_css, 'row card cyan lighten-1 grow': job.type1 in com_css, 'row card green lighten-1 grow': job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">
             <div class="col s1">
               {{job.created | age}}
             </div>
@@ -337,7 +337,7 @@
               {{job.make}}
             </div>
             <div class="col s2">
-              {{job.jobNumber}}
+              {{job._id}}
             </div>
             <div class="col s3">
               {{job.model}}
@@ -374,7 +374,7 @@
             Model
           </div>
         </div>
-        <div v-for="(job,i) in finishedJobsFourStroke" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{'row card red grow':job.tUpRepExp=='Express'}">
+        <div v-for="(job,i) in finishedJobsFourStroke" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{'row card red grow':job.type2=='Express'}">
 
 
           <div :class="{'row card orange lighten-1 grow':classSelection2(job, i),'row card orange darken-4 grow':classSelection(job, i)}">
@@ -385,7 +385,7 @@
               {{job.make}}
             </div>
             <div class="col s2">
-              {{job.jobNumber}}
+              {{job._id}}
             </div>
             <div class="col s3">
               {{job.model}}
@@ -424,7 +424,7 @@
               {{job.make}}
             </div>
             <div class="col s2">
-              {{job.jobNumber}}
+              {{job._id}}
             </div>
             <div class="col s3">
               {{job.model}}
@@ -461,7 +461,7 @@
               {{job.make}}
             </div>
             <div class="col s2">
-              {{job.jobNumber}}
+              {{job._id}}
             </div>
             <div class="col s3">
               {{job.model}}
@@ -493,38 +493,32 @@
           "Homeowner Walk Behind": true,
           "Homeowner Zero Turn": true,
           "Homeowner Tractor": true,
-          "HomeOwnerWalkBehind": true,
-          "HomeOwnerZeroTurn": true,
-          "HomeownerTractor": true
         },
         com_css: {
           "Commercial Walk": true,
           "Commercial Deck": true,
           "Commercial Rider": true,
-          "CommericalWalk": true,
-          "CommericalDeck": true,
-          "CommericalRider": true
         },
         ts_css: { "Handheld Power": true },
       }
     },
     methods: {
       classSelection(job, i) {
-        if (job.tUpRepExp == 'Express') {
+        if (job.type2 == 'Express') {
           return true
         } else {
           return false
         }
       },
       classSelection2(job, i) {
-        if (job.tUpRepExp != 'Express') {
+        if (job.type2 != 'Express') {
           return true
         } else {
           return false
         }
       },
       toggleModal(job) {
-        
+
         console.log(job.customerId)
         this.$root.store.actions.getSingleCustomer(job.customerId)
         this.$root.store.state.modalJob = job
@@ -538,9 +532,9 @@
       fourStroke: function (arr_jobs) {
         //this object holds the type1 catagories that belong on the fourStroke board.
         var fs = {
-          "HomeOwnerWalkBehind": true,
-          "HomeOwnerZeroTurn": true,
-          "HomeownerTractor": true
+          "Homeowner Walk Behind": true,
+          "Homeowner Zero Turn": true,
+          "Homeowner Tractor": true,
         };
         this.out_array = arr_jobs.filter(function (element) {
           if ((element.type1 in fs) && element.archive == false && element.jobStatus == 'pending') { return true }
@@ -568,7 +562,11 @@
       comerical: function (arr_jobs) {
         //the com object holds the the type1 values for the commerical board. 
         //We will need to change this when we deal with actual data  Commercial is spelled wrong
-        var com = { "CommericalWalk": true, "CommericalDeck": true, "CommericalRider": true }
+        var com = {
+          "Commercial Walk": true,
+          "Commercial Deck": true,
+          "Commercial Rider": true,        
+}
         this.out_array = arr_jobs.filter(function (element) {
           if ((element.type1 in com) && element.archive == false && element.jobStatus == 'pending') { return true }
           else { return false }
@@ -686,7 +684,7 @@
       },
       workingJobsFourStroke() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "working" && (job.type1 == "HomeOwnerWalkBehind" || job.type1 == "HomeOwnerZeroTurn" || job.type1 == "HomeownerTractor")
+          return job.jobStatus == "working" && (job.type1 == "Homeowner Walk Behind" || job.type1 == "HomeOwner Zero Turn" || job.type1 == "Homeowner Tractor")
         })
       },
       workingJobsTwoStroke() {
@@ -696,12 +694,12 @@
       },
       workingJobsCommercial() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "working" && (job.type1 == "Other" || job.type1 == "CommericalWalk" || job.type1 == "CommericalDeck" || job.type1 == "CommericalRider")
+          return job.jobStatus == "working" && (job.type1 == "Other" || job.type1 == "Commercial Walk" || job.type1 == "Commercial Deck" || job.type1 == "Commercial Rider")
         })
       },
       finishedJobsFourStroke() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "ready for pickup" && (job.type1 == "HomeOwnerWalkBehind" || job.type1 == "HomeOwnerZeroTurn" || job.type1 == "HomeownerTractor")
+          return job.jobStatus == "ready for pickup" && (job.type1 == "Homeowner Walk Behind" || job.type1 == "Homeowner Zero Turn" || job.type1 == "Homeowner Tractor")
         })
       },
       finishedJobsTwoStroke() {
@@ -711,7 +709,7 @@
       },
       finishedJobsCommercial() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "ready for pickup" && (job.type1 == "Other" ||job.type1 == "CommericalWalk" || job.type1 == "CommericalDeck" || job.type1 == "CommericalRider")
+          return job.jobStatus == "ready for pickup" && (job.type1 == "Other" || job.type1 == "Commercial Walk" || job.type1 == "Commercial Deck" || job.type1 == "Commercial Rider")
         })
       }
     },
@@ -739,6 +737,7 @@
   .flexing {
     display: flex;
     justify-content: space-between;
+    text-align: bottom !important;
   }
   
   .grow {

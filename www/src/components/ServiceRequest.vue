@@ -255,6 +255,7 @@
         return new_li
       },
       clearButtonBDropDownList: function (dropText) {
+        this.RegularValue = ''
         var ul02 = document.getElementById('dropdown2')
         while (ul02.childElementCount > 0) {  //while there is a child element (i.e. something in the dropdown)
           ul02.removeChild(ul02.childNodes[0])  //remove it.
@@ -365,6 +366,11 @@
           $('.service-request .dropdown-button').dropdown()
           var x = this.equipmentTypeValue.split(' ').join('')
           this.A_Clicked(this.equipment[x])
+          this.confirm = false
+          this.showExpressButton = false
+          this.showSubmitButton = false
+          this.TuneValue = ''
+          this.RegularValue = ''
         })
       },
       confirmation() {
@@ -464,8 +470,14 @@
             whereAmI: this.whereAmI
           }
           this.$root.store.state.activeJob = object
-          this.confirm = false
           this.$root.$data.store.actions.postJob(object)
+          this.confirm = false
+          this.showExpressButton = false
+          this.showSubmitButton = false
+          this.notesValue = ''
+          this.ModelValue = ''
+          this.TuneValue = ''
+          this.RegularValue = ''
           this.$router.push('/home')
         } else if (this.selectedPhoneNum != null) {
           var object = {
@@ -482,8 +494,15 @@
             jobStatus: this.jobStatus,
             whereAmI: this.whereAmI
           }
-          this.confirm = false
+          this.$root.store.state.activeJob = object
           this.$root.$data.store.actions.postJob(object)
+          this.confirm = false
+          this.showExpressButton = false
+          this.showSubmitButton = false
+          this.notesValue = ''
+          this.ModelValue = ''
+          this.TuneValue = ''
+          this.RegularValue = ''
           this.$router.push('/home')
         }
         else if (this.activePhone.length == 1) {
@@ -502,8 +521,15 @@
             jobStatus: this.jobStatus,
             whereAmI: this.whereAmI
           }
-          this.confirm = false
+          this.$root.store.state.activeJob = object
           this.$root.$data.store.actions.postJob(object)
+          this.confirm = false
+          this.showExpressButton = false
+          this.showSubmitButton = false
+          this.notesValue = ''
+          this.ModelValue = ''
+          this.TuneValue = ''
+          this.RegularValue = ''
           this.$router.push('/home')
         } else {
           Materialize.toast('Please Select Phone Number', 4000)
@@ -537,9 +563,11 @@
             this.notesValue = ''
             this.ModelValue = ''
             this.TuneValue = ''
+            this.RegularValue = ''
             this.resetAButton()
             this.resetBButton()
             this.resetCButton()
+            this.resetDButton()
             this.showButtons()
           } else if (this.selectedPhoneNum != null) {
             var object = {
@@ -563,9 +591,11 @@
             this.notesValue = ''
             this.ModelValue = ''
             this.TuneValue = ''
+            this.RegularValue = ''
             this.resetAButton()
             this.resetBButton()
             this.resetCButton()
+            this.resetDButton()
             this.showButtons()
           }
           else if (this.activePhone.length == 1) {
@@ -591,9 +621,11 @@
             this.notesValue = ''
             this.ModelValue = ''
             this.TuneValue = ''
+            this.RegularValue = ''
             this.resetAButton()
             this.resetBButton()
             this.resetCButton()
+            this.resetDButton()
             this.showButtons()
           } else {
             Materialize.toast('Please Select Phone Number', 4000)
@@ -601,6 +633,7 @@
         })
       },
       hideButtonsForSharp: function () {
+        this.RegularValue = ''
         console.log("Since sharpening has been selected we hide buttons.")
         //Per business logic if the Chain / Blade Sharpen has been selected by the 
         //customer, there is no need for them to use the other three buttons so we 
@@ -664,8 +697,9 @@
         btn04.setAttribute('class', 'dropdown-button btn red')
         //Indicate it is not red - must be green for submit button to show 
         this.Regular = false
-        //Change the name on the button back to Regular.
-        btn04.innerText = "Regular";
+        this.RegularValue = '',
+          //Change the name on the button back to Regular.
+          btn04.innerText = "Regular";
       },
     },
   }
