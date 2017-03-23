@@ -14,11 +14,11 @@ let noApi = axios.create({
 
 })
 
-//console.warn("makeing a post with hard coded login information.")
-// api.post('http://localhost:3000/api/login', {
-//     email: 'erik@hotmail.com',
-//     password: 'pw123'
-// })
+console.warn("makeing a post with hard coded login information.")
+api.post('http://localhost:3000/api/login', {
+    email: 'legacyfeed@outlook.com',
+    password: 'pw123'
+})
 
 
 
@@ -154,13 +154,13 @@ export default {
         getCustomerJobs(custId) {
             api('users/' + custId + '/jobs').then(res => {
                 state.customerJobs = res.data.data
-                console.log(state.activeCustomer)
+                //console.log(state.activeCustomer)
             }).catch(handleError)
         },
         getParts() {
             api('part').then(res => {
                 state.parts = res.data.data
-                console.log(state.parts)
+                //console.log(state.parts)
             }).catch(handleError)
         },
         //POST
