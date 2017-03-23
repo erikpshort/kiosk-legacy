@@ -78,6 +78,11 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col offset-s9">
+                        <span>Parts Total: {{partsRequired | sum}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
                         <select class="col s4" v-model="selected">
                             <option>On Bench</option>
                             <option>Parts On Order</option>
@@ -162,6 +167,17 @@
                 var ageInMs = now - createdInMs;
                 var ageInDays = (ageInMs / (1000 * 60 * 60 * 24))
                 return Math.floor(ageInDays);
+            },
+            sum: function(arr_parts){
+                //arr_parts is an array of parts objects.
+                //the relevant fields are partQty and partPrice.
+                let sum = 0;
+                for (let i = 0; i < arr_parts.length; i++)
+                {
+                    let lineItem = arr_parts[i];  
+                    sum += lineItem.partQty * lineItem.partPrice;
+                }
+                return "$" + sum.toFixed(2);
             }
         },
         computed: {
