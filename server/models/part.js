@@ -8,7 +8,7 @@ let  Schema  =  mongoose.Schema
 var schema = new Schema({  
     archive:{type: Boolean, required: true, default: false},
     customerId: { type: ObjectId, ref: models.customer, required: true },
-    jobId: { type: ObjectId, ref: models.customer, required: true },
+    jobId: { type: String, required: true },
     partNumber:  String,
     partQty:  Number,  
     partDescription:  String, 

@@ -29,4 +29,8 @@ io.on('connection', function (socket) {
 		console.log('yes')
 		io.emit('jobAdded')
 	})
+	socket.on('storeChange', function(){
+		console.log('AddedPartServer Hit')
+		io.emit('stateChange')
+	} )
 })

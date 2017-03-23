@@ -481,10 +481,9 @@
     name: 'adminBoard',
     components: { modal },
     sockets: {
-      jobAdded() {
-        this.$root.$data.store.actions.getActiveJobs()
-        this.$root.$data.store.actions.getParts()
-      }
+      stateChange() {
+        this.$root.$data.store.actions.stateChange()
+      },
     },
     data() {
       return {

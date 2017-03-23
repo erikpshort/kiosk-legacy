@@ -1,6 +1,5 @@
 import router from '../router'
 import axios from 'axios'
-
 let api = axios.create({
     baseURL: 'http://localhost:3000/api/',
     timeout: 20000,
@@ -45,6 +44,8 @@ let state = {
     modalJob: {},
     parts: {},
     error: {},
+    connect: false,
+    message: null
 
 }
 
@@ -53,11 +54,16 @@ let handleError = (err) => {
 }
 
 export default {
-
     //ALL DATA LIVES IN THE STATE
     state,
     //ACTIONS ARE RESPONSIBLE FOR MAKING ALL ASYNC CALLSf
     actions: {
+        stateChange(){
+            this.getActiveJobs();
+            this.getActiveAdmins();
+            this.getActiveCustomers();
+            this.getParts();
+        },
         sms(body) {
             api.post('sms', body)
                 .then(res => {
@@ -141,7 +147,6 @@ export default {
             }).catch(handleError)
         },
         getArchivedCustomers() {
-
             api('archivedcustomers').then(res => {
                 state.archivedCustomers = res.data.data
             }).catch(handleError)
@@ -163,20 +168,21 @@ export default {
             api.post('user', body).then(res => {
                 this.activeCustomer = res.data.data
                 this.getActiveJobs()
-                console.log(this.activeCustomer)
+                router.app.$socket.emit('storeChange')
             }).catch(handleError)
         },
         postJob(body) {
             api.post('job', body).then(res => {
                 this.activeJob = res.data.data
                 this.getActiveJobs()
+                router.app.$socket.emit('storeChange')
             }).catch(handleError)
         },
         postParts(body) {
             api.post('part', body).then(res => {
-                console.log(res.data.data)
                 this.activePart = res.data.data
                 this.getParts()
+                router.app.$socket.emit('storeChange')
             }).catch(handleError)
         },
         changeUser(userId, body) {
@@ -184,18 +190,23 @@ export default {
                 state.activeCustomer = body
                 this.activeAdmin()
                 this.activeCustomers()
+                router.app.$socket.emit('storeChange')
             }).catch(handleError)
         },
         changeJob(jobId, body) {
             api.put('job/' + jobId, body).then(res => {
                 this.getActiveJobs()
+                router.app.$socket.emit('storeChange')
             }).catch(handleError)
         },
         changePart(partId, body) {
             api.put('part/' + partId, body).then(res => {
                 state.activePart = res.data.data
                 this.getParts()
+                router.app.$socket.emit('storeChange')
             }).catch(handleError)
         }
     }
 }
+
+

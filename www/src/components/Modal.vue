@@ -123,6 +123,12 @@
 <script>
     export default {
         name: 'modal',
+        sockets: {
+            stateChange() {
+                this.$root.$data.store.actions.stateChange()
+                console.log('Modal state change')
+            }
+        },
         data() {
             return {
                 daysPriceCustom: null,

@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import VueSocketio from 'vue-socket.io'
-
+Vue.use(store)
 Vue.use(VueSocketio, ':3000')
 Vue.config.productionTip = false
 

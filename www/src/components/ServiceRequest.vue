@@ -371,6 +371,7 @@
           this.showSubmitButton = false
           this.TuneValue = ''
           this.RegularValue = ''
+          this.jobStatus = 'pending'
         })
       },
       confirmation() {
@@ -474,10 +475,13 @@
           this.confirm = false
           this.showExpressButton = false
           this.showSubmitButton = false
-          this.notesValue = ''
+          this.equipmentTypeValue = ''
+          this.MakeValue = ''
           this.ModelValue = ''
           this.TuneValue = ''
           this.RegularValue = ''
+          this.notesValue = ''
+          this.jobStatus = 'pending'
           this.$router.push('/home')
         } else if (this.selectedPhoneNum != null) {
           var object = {
@@ -499,10 +503,13 @@
           this.confirm = false
           this.showExpressButton = false
           this.showSubmitButton = false
-          this.notesValue = ''
+          this.equipmentTypeValue = ''
+          this.MakeValue = ''
           this.ModelValue = ''
           this.TuneValue = ''
           this.RegularValue = ''
+          this.notesValue = ''
+          this.jobStatus = 'pending'
           this.$router.push('/home')
         }
         else if (this.activePhone.length == 1) {
@@ -521,15 +528,18 @@
             jobStatus: this.jobStatus,
             whereAmI: this.whereAmI
           }
-          this.$root.store.state.activeJob = object
+           this.$root.store.state.activeJob = object
           this.$root.$data.store.actions.postJob(object)
           this.confirm = false
           this.showExpressButton = false
           this.showSubmitButton = false
-          this.notesValue = ''
+          this.equipmentTypeValue = ''
+          this.MakeValue = ''
           this.ModelValue = ''
           this.TuneValue = ''
           this.RegularValue = ''
+          this.notesValue = ''
+          this.jobStatus = 'pending'
           this.$router.push('/home')
         } else {
           Materialize.toast('Please Select Phone Number', 4000)
@@ -556,7 +566,6 @@
               jobStatus: this.jobStatus,
               whereAmI: this.whereAmI
             }
-            this.$socket.emit('addedJob')
             this.confirm = false
             this.$root.$data.store.actions.postJob(object)
             this.showExpressButton = false
@@ -585,7 +594,6 @@
               jobStatus: this.jobStatus,
               whereAmI: this.whereAmI
             }
-            this.$socket.emit('addedJob')
             this.confirm = false
             this.$root.$data.store.actions.postJob(object)
             this.showExpressButton = false
@@ -616,7 +624,6 @@
               jobStatus: this.jobStatus,
               whereAmI: this.whereAmI
             }
-            this.$socket.emit('addedJob')
             this.confirm = false
             this.$root.$data.store.actions.postJob(object)
             this.showExpressButton = false
