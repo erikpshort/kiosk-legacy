@@ -9,7 +9,7 @@
                                 {{modalJob.created | age}} Days Old
                             </label>
                             <h3>
-                                {{modalJob.jobNumber}}
+                                {{modalJob._id}}
                             </h3>
                         </div>
                         <div class="row">

@@ -32,5 +32,8 @@ io.on('connection', function (socket) {
 	socket.on('storeChange', function(){
 		console.log('AddedPartServer Hit')
 		io.emit('stateChange')
-	} )
+	})
+	socket.on('changePending', function(){
+		io.emit('pendingHasChanged')
+	})
 })

@@ -96,6 +96,9 @@
           <div v-show="showModelButton" class="col s2">
             <input v-model="ModelValue" placeholder="Model" id="Model" type="text">
           </div>
+          <div class="col s2" v-if="showQty">
+            <input type="number" placeholder="Qty">
+          </div>
           <div v-show="showTuneButton" class="col s2">
             <a id='btn03' class='dropdown-button btn red' href='#' data-activates='dropdown3'>Tune / Repair</a>
             <!-- Dropdown Structure -->
@@ -139,6 +142,7 @@
     name: 'test',
     data() {
       return {
+        showQty: false,
         showOther: false,
         makeForOther: '',
         confirm: false,
@@ -172,7 +176,7 @@
         //At some point will this data live in the database and not need to be hard coded?
         equipment: {
           ChainBlade: {
-            manufact: ['N/A'],
+            manufact: ['On Equipment', 'Off Equipment'],
             name: 'Sharpen',
             argument: 'ChainBlade',
           },
@@ -324,6 +328,9 @@
         //Expose the Express/Regular service if the store can support it.
         if (this.express_manufact.includes(make))
         { this.showExpressButton = true }
+        else if (this.showQty) {
+          this.showSubmitButton = true
+        }
         else
         { this.showExpressButton = false }
       },
@@ -365,13 +372,27 @@
         $(document).ready(() => {
           $('.service-request .dropdown-button').dropdown()
           var x = this.equipmentTypeValue.split(' ').join('')
-          this.A_Clicked(this.equipment[x])
-          this.confirm = false
-          this.showExpressButton = false
-          this.showSubmitButton = false
-          this.TuneValue = ''
-          this.RegularValue = ''
-          this.jobStatus = 'pending'
+          console.log(x)
+          if (this.equipmentTypeValue.split(' ').join('') == undefined) {
+            this.confirm = false
+            this.showExpressButton = false
+            this.showSubmitButton = false
+            this.TuneValue = ''
+            this.RegularValue = ''
+            this.jobStatus = 'pending'
+            this.showQty = false
+          }
+          else {
+            
+            this.A_Clicked(this.equipment[x])
+            this.confirm = false
+            this.showExpressButton = false
+            this.showSubmitButton = false
+            this.TuneValue = ''
+            this.RegularValue = ''
+            this.jobStatus = 'pending'
+            this.showQty = false
+          }
         })
       },
       confirmation() {
@@ -528,7 +549,7 @@
             jobStatus: this.jobStatus,
             whereAmI: this.whereAmI
           }
-           this.$root.store.state.activeJob = object
+          this.$root.store.state.activeJob = object
           this.$root.$data.store.actions.postJob(object)
           this.confirm = false
           this.showExpressButton = false
@@ -644,16 +665,15 @@
       },
       hideButtonsForSharp: function () {
         this.RegularValue = ''
-        console.log("Since sharpening has been selected we hide buttons.")
-        //Per business logic if the Chain / Blade Sharpen has been selected by the 
-        //customer, there is no need for them to use the other three buttons so we 
-        //hide them here.
+        this.showQty = true
         this.showTypeButton = true
-        this.showMakeButton = false;
+        this.showMakeButton = true;
+        var dom_but02 = document.getElementById("btn02")
+        dom_but02.innerText = "ON/OFF";
         this.showModelButton = false
         this.showTuneButton = false
         this.showExpressButton = false
-        this.showSubmitButton = true
+        this.showSubmitButton = false
       },
       showButtons: function () {
         console.log("Since sharpening has not been selected we show buttons.")

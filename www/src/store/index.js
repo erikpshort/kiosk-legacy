@@ -1,25 +1,11 @@
 import router from '../router'
 import axios from 'axios'
 let api = axios.create({
-    baseURL: 'http://localhost:3000/api/',
+    baseURL: 'http://192.168.0.39:3000/api/',
     timeout: 20000,
     withCredentials: true
 
 })
-
-let noApi = axios.create({
-    baseURL: 'http://localhost:3000/',
-    timeout: 20000,
-    withCredentials: true
-
-})
-
-//console.warn("makeing a post with hard coded login information.")
-// api.post('http://localhost:3000/api/login', {
-//     email: 'erik@hotmail.com',
-//     password: 'pw123'
-// })
-
 
 
 //REGISTER ALL DATA HERE
@@ -43,7 +29,7 @@ let state = {
     loggedInData: {},
     modalJob: {},
     parts: {},
-    error: {},
+    error: null,
     connect: false,
     message: null
 

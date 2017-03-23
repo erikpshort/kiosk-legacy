@@ -9,8 +9,8 @@
                     <span> <img src="../assets/legacyLogo.png"></span>
                 </div>
             </div>
-            
-        <router-view></router-view>
+            <h1 v-if="loggedIn != null">{{notLoggedIn}}</h1>
+        <router-view v-if="loggedIn == null"></router-view>
 
         </div>
     </div>
@@ -26,9 +26,15 @@
         data() {
             return {
                 msg: 'Home',
-                phone: ''
+                notLoggedIn: 'Please Login to Continue!',
+                phone: '',
             }
         },
+        computed:{
+            loggedIn(){
+                return this.$root.store.state.error
+            }
+        }
     }
 
 </script>

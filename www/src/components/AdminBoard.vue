@@ -21,21 +21,21 @@
     <modal v-if="showModal"></modal>
     <div class="row flexing">
       <span class="col s2 card grey darken-3 white-text grow" v-if="!showBacklog" @click="showBacklog = !showBacklog" id='showBacklog'
-        @drop="workingDropBackLog" @dragover.prevent>WorkLog</span>
+        @drop.capture="workingDropBackLog" @dragover.prevent>WorkLog</span>
+      <span class="col s2 card grey darken-3 white-text grow" v-if="!showPrep" @click="showPrep=!showPrep" @drop.capture="pendingPrepDrop"
+        @dragover.prevent>Prep</span>
       <span class="col s2 card grey darken-3 white-text grow" v-if="!showWorking" @click="showWorking = !showWorking" id='showBacklog'
         @drop.capture="workingDropToDo" @dragover.prevent>In Progress</span>
       <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
-        @drop="pendingPartsToOrderDrop" @dragover.prevent>Need to Order Parts</span>
+        @drop.capture="pendingPartsToOrderDrop" @dragover.prevent>Need to Order Parts</span>
       <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
-        @drop="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</span>
+        @drop.capture="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</span>
       <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingPickup" @click="showPendingPickup=!showPendingPickup"
-        @drop="pendingPickupDrop" @dragover.prevent>Ready for Pickup</span>
-      <span class="col s2 card blue darken-4 white-text grow" @drop="archiveDrop()" @dragover.prevent><i class="material-icons">archive</i>&nbsp;&nbsp;&nbsp;&nbsp;Complete&nbsp;&nbsp;&nbsp;&nbsp;<i class="material-icons">archive</i></span>
+        @drop.capture="pendingPickupDrop" @dragover.prevent>Ready for Pickup</span>
     </div>
     <!--this is the start of the worklog board-->
     <div class="row">
       <h4 class="col s4 offset-s4" v-if="showBacklog" @click="showBacklog = !showBacklog">WorkLog</h4>
-      <span class="col s1 offset-s3" v-if="showBacklog" @click="showBacklog = !showBacklog" id='showBacklog'>Hide</span>
 
     </div>
     <div class="row  card grey pendingRow" v-if="showBacklog" @drop="workingDropBackLog" @dragover.prevent>
@@ -152,10 +152,84 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <h4 class="col s4 offset-s4" v-if="showPrep" @click="showPrep = !showPrep" @drop="pendingPrepDrop" @dragover.prevent>Prep</h4>
+    </div>
+    <div class="row" v-if="showPrep">
+      <div id="chainBladePrep" class="col s6 card grey pendingRow">
+        <div class="row card blue-grey darken-2 white-text border grow margin">
+          <div class="col s1">
+            Age
+          </div>
+          <div class="col s5">
+            Make
+          </div>
+          <div class="col s2">
+            Job #
+          </div>
+          <div class="col s3">
+            Model
+          </div>
+        </div>
+        <div v-for="job in chainBladeJobs" draggable="true" @dragstart.capture="drag(job)">
+          <div class="row card yellow grow margin">
+            <div class="col s1">
+              {{job.created | age}}
+            </div>
+            <div class="col s5">
+              {{job.make}}
+            </div>
+            <div class="col s2">
+              {{job._id}}
+            </div>
+            <div class="col s3">
+              {{job.model}}
+            </div>
+            <div class="col s1" @click="toggleModal(job)">
+              <a>+</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="pendingPartsToReceive" class="col s6 card grey pendingRow" @drop="pendingPrepDrop" @dragover.prevent>
+        <div class="row card blue-grey darken-2 white-text border grow margin">
+          <div class="col s1">
+            Age
+          </div>
+          <div class="col s5">
+            Make
+          </div>
+          <div class="col s2">
+            Job #
+          </div>
+          <div class="col s3">
+            Model
+          </div>
+        </div>
+        <div v-for="job in prepJobs" draggable="true" @dragstart="drag(job)">
+          <div class="row" v-bind:class="{'row card orange lighten-1 grow': job.type1 in fs_css, 'row card cyan lighten-1 grow': job.type1 in com_css, 'row card green lighten-1 grow': job.type1 in ts_css, sharpen: job.type1=='Sharpen', express:job.type2=='Express'}">
+            <div class="col s1">
+              {{job.created | age}}
+            </div>
+            <div class="col s5">
+              {{job.make}}
+            </div>
+            <div class="col s2">
+              {{job._id}}
+            </div>
+            <div class="col s3">
+              {{job.model}}
+            </div>
+            <div class="col s1" @click="toggleModal(job)">
+              <a>+</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--this is the start of the todo board-->
     <div class="row">
       <h4 class="col s4 offset-s4" v-if="showWorking" @click="showWorking = !showWorking">In Progress</h4>
-      <span class="col s1 offset-s3" v-if="showWorking" @click="showWorking = !showWorking" id='showBacklog'>Hide</span>
     </div>
     <div class="row card blue-grey pendingRow" v-if="showWorking" @drop.capture="workingDropToDo" @dragover.prevent>
       <div id="fourStroke space" class="col s4  pendingRow">
@@ -272,13 +346,12 @@
     </div>
     <!--This is the start of the parts board-->
     <div class="row" @click="showPendingParts=!showPendingParts">
-      <h4 class="col s4 offset-s1" v-if="showPendingParts">Need to Order Parts</h4>
-      <h4 class="col s4 offset-s2" v-if="showPendingParts">Awaiting Parts</h4>
-      <span class="col s1" v-if="showPendingParts" @click="showPendingParts=!showPendingParts">Hide</span>
+      <h4 class="col s4 offset-s1" v-if="showPendingParts" @drop="pendingPartsToOrderDrop" @dragover.prevent>Need to Order Parts</h4>
+      <h4 class="col s4 offset-s2" v-if="showPendingParts" @drop="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</h4>
     </div>
 
-    <div class="row card grey pendingRow" v-if="showPendingParts">
-      <div id="pendingPartsToOrder" class="col s6 " @drop="pendingPartsToOrderDrop" @dragover.prevent>
+    <div class="row" v-if="showPendingParts">
+      <div id="pendingPartsToOrder" class="col s6 card grey pendingRow " @drop="pendingPartsToOrderDrop" @dragover.prevent>
         <div class="row card blue-grey darken-2 white-text border grow margin">
           <div class="col s1">
             Age
@@ -313,7 +386,7 @@
           </div>
         </div>
       </div>
-      <div id="pendingPartsToReceive" class="col s6" @drop="pendingPartsToReceiveDrop" @dragover.prevent>
+      <div id="pendingPartsToReceive" class="col s6 card grey pendingRow" @drop="pendingPartsToReceiveDrop" @dragover.prevent>
         <div class="row card blue-grey darken-2 white-text border grow margin">
           <div class="col s1">
             Age
@@ -355,7 +428,6 @@
     <!--This is the end of the awating pickup board-->
     <div class="row">
       <h4 class="col s4 offset-s4" v-if="showPendingPickup" @click="showPendingPickup=!showPendingPickup">Ready for Pick-up</h4>
-      <span class="col s1 offset-s3" v-if="showPendingPickup" @click="showPendingPickup=!showPendingPickup">Hide</span>
     </div>
     <!--Start of Pickup Board-->
     <div class="row  card grey pendingRow" v-if="showPendingPickup" @drop="pendingPickupDrop" @dragover.prevent>
@@ -473,6 +545,9 @@
         </div>
       </div>
     </div>
+    <a id="scale-demo" class="btn-floating btn-large scale-transition" @drop.capture="archiveDrop()" @dragover.prevent>
+      <i class="material-icons">archive</i>
+    </a>
   </div>
 </template>
 <script>
@@ -487,6 +562,7 @@
     },
     data() {
       return {
+        showPrep: true,
         modalJob: {},
         showModal: false,
         msg: 'This is the Admin Board',
@@ -620,101 +696,113 @@
         }
       },
       drag: function (job) {
-        console.debug("In drag with job: ", job)
-        //console.debug("In event)
+        //console.log("In event)
         event.dataTransfer.setData('text/javascript', JSON.stringify(job))
       },
-      workingDropBackLog() {
-        console.debug("In working drop backog.")
+      pendingPrepDrop() {
         var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
-        console.debug("Job: ", job)
+        if (job.type1 != 'Sharpen') {
+          job.jobStatus = 'Prep'
+          console.log(job)
+          this.$root.$data.store.actions.changeJob(job._id, job)
+        }
+      },
+      workingDropBackLog() {
+        var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
+        console.log("Job: ", job)
         //This is because of Business Logic.  They want these done right away
         if (job.make != 'chainBlade') {
-          console.debug("Job Status: ", job.jobStatus)
-          console.debug("Changing job status to pending.")
           job.jobStatus = 'pending'
-          console.debug("Job Status: ", job.jobStatus)
           //console.log(job)
           this.$root.$data.store.actions.changeJob(job._id, job)
         }
       },
       archiveDrop() {
         var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
-        console.debug("Job Status: ", job.archive)
         job.archive = true,
-          console.debug("Job Status: ", job.archive)
-        console.log("Job Object just before being sent to store: ", job)
+          console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
       },
       workingDropToDo() {
-        console.debug("In working drop todo.")
+        console.log("In working drop todo.")
         var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
-        console.debug("Job Status: ", job.jobStatus)
+        console.log("Job Status: ", job.jobStatus)
         job.jobStatus = 'working',
-          console.debug("Job Status: ", job.jobStatus)
+          console.log("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
       },
       pendingPartsToOrderDrop() {
-        console.debug("In pending parts to order drop")
+        console.log("In pending parts to order drop")
         var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
-        console.debug("Job Status: ", job.jobStatus)
+        console.log("Job Status: ", job.jobStatus)
         job.jobStatus = 'pendingPartsToOrder',
-          console.debug("Job Status: ", job.jobStatus)
+          console.log("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
       },
       pendingPartsToReceiveDrop() {
-        console.debug("In pending parts to recieve drop")
+        console.log("In pending parts to recieve drop")
         var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
-        console.debug("Job Status: ", job.jobStatus)
+        console.log("Job Status: ", job.jobStatus)
         job.jobStatus = 'parts on order',
-          console.debug("Job Status: ", job.jobStatus)
+          console.log("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
       },
       pendingPickupDrop() {
-        console.debug("In pending parts to recieve drop")
+        this.$socket.emit('changePending')
+        console.log("In pending parts to recieve drop")
         var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
-        console.debug("Job Status: ", job.jobStatus)
+        console.log("Job Status: ", job.jobStatus)
         job.jobStatus = 'ready for pickup',
-          console.debug("Job Status: ", job.jobStatus)
+          console.log("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
       }
     },
     computed: {
+      prepJobs() {
+        return this.$root.store.state.activeJobs.filter((job) => {
+          return job.jobStatus == 'Prep' && !job.archive
+        })
+      },
+      chainBladeJobs() {
+        return this.$root.store.state.activeJobs.filter((job) => {
+          return job.type1 == 'Sharpen' && !job.archive
+        })
+      },
       activeJobs() {
         return this.$root.store.state.activeJobs
       },
       workingJobsFourStroke() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "working" && (job.type1 == "Homeowner Walk Behind" || job.type1 == "HomeOwner Zero Turn" || job.type1 == "Homeowner Tractor")
+          return job.jobStatus == "working" && (job.type1 == "Homeowner Walk Behind" || job.type1 == "HomeOwner Zero Turn" || job.type1 == "Homeowner Tractor") && !job.archive
         })
       },
       workingJobsTwoStroke() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "working" && job.type1 == "Handheld Power"
+          return job.jobStatus == "working" && job.type1 == "Handheld Power" && !job.archive
         })
       },
       workingJobsCommercial() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "working" && (job.type1 == "Other" || job.type1 == "Commercial Walk" || job.type1 == "Commercial Deck" || job.type1 == "Commercial Rider")
+          return job.jobStatus == "working" && (job.type1 == "Other" || job.type1 == "Commercial Walk" || job.type1 == "Commercial Deck" || job.type1 == "Commercial Rider") && !job.archive
         })
       },
       finishedJobsFourStroke() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "ready for pickup" && (job.type1 == "Homeowner Walk Behind" || job.type1 == "Homeowner Zero Turn" || job.type1 == "Homeowner Tractor")
+          return job.jobStatus == "ready for pickup" && (job.type1 == "Homeowner Walk Behind" || job.type1 == "Homeowner Zero Turn" || job.type1 == "Homeowner Tractor") && !job.archive
         })
       },
       finishedJobsTwoStroke() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "ready for pickup" && job.type1 == "Handheld Power"
+          return job.jobStatus == "ready for pickup" && job.type1 == "Handheld Power" && !job.archive
         })
       },
       finishedJobsCommercial() {
         return this.$root.store.state.activeJobs.filter((job) => {
-          return job.jobStatus == "ready for pickup" && (job.type1 == "Other" || job.type1 == "Commercial Walk" || job.type1 == "Commercial Deck" || job.type1 == "Commercial Rider")
+          return job.jobStatus == "ready for pickup" && (job.type1 == "Other" || job.type1 == "Commercial Walk" || job.type1 == "Commercial Deck" || job.type1 == "Commercial Rider") && !job.archive
         })
       }
     },
@@ -739,6 +827,13 @@
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  #scale-demo {
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+    margin: 5px;
+  }
+  
   .flexing {
     display: flex;
     justify-content: space-between;
