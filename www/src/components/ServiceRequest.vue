@@ -556,6 +556,7 @@
               jobStatus: this.jobStatus,
               whereAmI: this.whereAmI
             }
+            this.$socket.emit('addedJob')
             this.confirm = false
             this.$root.$data.store.actions.postJob(object)
             this.showExpressButton = false
@@ -584,6 +585,7 @@
               jobStatus: this.jobStatus,
               whereAmI: this.whereAmI
             }
+            this.$socket.emit('addedJob')
             this.confirm = false
             this.$root.$data.store.actions.postJob(object)
             this.showExpressButton = false
@@ -614,6 +616,7 @@
               jobStatus: this.jobStatus,
               whereAmI: this.whereAmI
             }
+            this.$socket.emit('addedJob')
             this.confirm = false
             this.$root.$data.store.actions.postJob(object)
             this.showExpressButton = false

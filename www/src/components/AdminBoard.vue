@@ -480,6 +480,12 @@
   export default {
     name: 'adminBoard',
     components: { modal },
+    sockets: {
+      jobAdded() {
+        this.$root.$data.store.actions.getActiveJobs()
+        this.$root.$data.store.actions.getParts()
+      }
+    },
     data() {
       return {
         modalJob: {},
@@ -565,8 +571,8 @@
         var com = {
           "Commercial Walk": true,
           "Commercial Deck": true,
-          "Commercial Rider": true,        
-}
+          "Commercial Rider": true,
+        }
         this.out_array = arr_jobs.filter(function (element) {
           if ((element.type1 in com) && element.archive == false && element.jobStatus == 'pending') { return true }
           else { return false }

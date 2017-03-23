@@ -1,12 +1,12 @@
 
-import {server, app} from './config/dev-server'
+import { server, app } from './config/dev-server'
 let io = require('socket.io')(server)
 
 let mongoose = require('mongoose')
 let autoIncrement = require('mongoose-auto-increment');
 let connection = mongoose.connection;
 // autoIncrement.initialize(connection);
-
+mongoose.Promise = global.Promise;
 // Establishes MongoDb Connection
 mongoose.connect(process.env.CONNECTIONSTRING, {
 	server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
@@ -23,6 +23,10 @@ connection.once('open', function () {
 	})
 });
 
-io.on('connection', function(socket){
-	console.log('Hello')
+io.on('connection', function (socket) {
+	console.log('hello')
+	socket.on('addedJob', function () {
+		console.log('yes')
+		io.emit('jobAdded')
+	})
 })

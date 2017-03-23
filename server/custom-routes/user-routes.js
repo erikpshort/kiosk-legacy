@@ -11,7 +11,7 @@ let twilio = require('twilio')
 
 //commeted out at dave's suggestion to successfully build server. 
 //On a proper server these variables will be supplied by server environment.
-let client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+// let client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
 // will need this for text messaging
 
 export default {
