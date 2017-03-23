@@ -3,9 +3,9 @@
 
 
 
-    <div class="row">
-      <div class="container" v-if="show">
-        <div class="col s12">
+    <div class="">
+      <div class="" v-if="show">
+        <div class="">
           <div class="card blue-grey darken-1">
             <div class="card-content white-text">
               <p>Please verify that the information below is correct.</p>
@@ -17,9 +17,10 @@
               <h4 v-if="typeof activePhone != 'string'" v-for="phone in activePhone">{{phone}}</h4>
               <h4>{{customer.email}}</h4>
             </div>
-            <div class="card-action">
-              <router-link :to="'/ServiceRequest'"><a>Is Correct</a></router-link>
-              <a @click="show = !show">Is Not Correct</a>
+            <div class="row card-action">
+              <router-link class="col s4" :to="'/ServiceRequest'"><a>Looks good</a></router-link>
+              <a class="col s4" @click="show = !show">Need to edit</a>
+              <router-link class="col s3" :to="'/CompanyDirectory'"><a>Not you?</a></router-link>
             </div>
           </div>
         </div>
