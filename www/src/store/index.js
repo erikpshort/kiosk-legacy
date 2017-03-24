@@ -37,7 +37,8 @@ let state = {
     parts: {},
     error: null,
     connect: false,
-    message: null
+    message: null,
+    archiveModalJob: {},
 
 }
 

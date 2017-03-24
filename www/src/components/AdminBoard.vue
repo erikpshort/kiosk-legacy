@@ -36,8 +36,8 @@
       </div>
     </div>
     <!--this is the start of the worklog board-->
-    <div class="row">
-      <h4 class="col s4 offset-s4" v-if="showBacklog" @click="showBacklog = !showBacklog" @drop="workingDropBackLog" @dragover.prevent>WorkLog</h4>
+    <div class="row" v-if="showBacklog">
+      <h4 class="col s4 offset-s4"  @click="showBacklog = !showBacklog" @drop="workingDropBackLog" @dragover.prevent>WorkLog</h4>
 
     </div>
     <div class="row  card grey pendingRow" v-if="showBacklog" @drop="workingDropBackLog" @dragover.prevent>
@@ -154,8 +154,8 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <h4 class="col s4 offset-s4" v-if="showPrep" @click="showPrep = !showPrep" @drop="pendingPrepDrop" @dragover.prevent>Prep</h4>
+    <div class="row" v-if="showPrep">
+      <h4 class="col s4 offset-s4"  @click="showPrep = !showPrep" @drop="pendingPrepDrop" @dragover.prevent>Prep</h4>
     </div>
     <div class="row" v-if="showPrep">
       <div id="chainBladePrep" class="col s6 card grey pendingRow">
@@ -230,8 +230,8 @@
       </div>
     </div>
     <!--this is the start of the todo board-->
-    <div class="row">
-      <h4 class="col s4 offset-s4" v-if="showWorking" @click="showWorking = !showWorking" @drop.capture="workingDropToDo" @dragover.prevent>In Progress</h4>
+    <div class="row" v-if="showWorking">
+      <h4 class="col s4 offset-s4"  @click="showWorking = !showWorking" @drop.capture="workingDropToDo" @dragover.prevent>In Progress</h4>
     </div>
     <div class="row card blue-grey pendingRow" v-if="showWorking" @drop.capture="workingDropToDo" @dragover.prevent>
       <div id="fourStroke space" class="col s4  pendingRow">
@@ -347,9 +347,9 @@
       </div>
     </div>
     <!--This is the start of the parts board-->
-    <div class="row" @click="showPendingParts=!showPendingParts">
-      <h4 class="col s4 offset-s1" v-if="showPendingParts" @drop="pendingPartsToOrderDrop" @dragover.prevent>Need to Order Parts</h4>
-      <h4 class="col s4 offset-s2" v-if="showPendingParts" @drop="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</h4>
+    <div class="row" @click="showPendingParts=!showPendingParts" v-if="showPendingParts">
+      <h4 class="col s4 offset-s1"  @drop="pendingPartsToOrderDrop" @dragover.prevent>Need to Order Parts</h4>
+      <h4 class="col s4 offset-s2" @drop="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</h4>
     </div>
 
     <div class="row" v-if="showPendingParts">
@@ -428,8 +428,8 @@
     <!--This is the end of the parts board-->
 
     <!--This is the end of the awating pickup board-->
-    <div class="row">
-      <h4 class="col s4 offset-s4" v-if="showPendingPickup" @click="showPendingPickup=!showPendingPickup" @drop="pendingPickupDrop"
+    <div class="row" v-if="showPendingPickup" >
+      <h4 class="col s4 offset-s4" @click="showPendingPickup=!showPendingPickup" @drop="pendingPickupDrop"
         @dragover.prevent>Ready for Pick-up</h4>
     </div>
     <!--Start of Pickup Board-->
@@ -551,13 +551,15 @@
     <a id="scale-demo" class="btn-floating btn-large scale-transition" @drop.capture="archiveDrop()" @dragover.prevent>
       <i class="material-icons">archive</i>
     </a>
+    <archiveModal v-if="showArchiveModal"></archiveModal>
   </div>
 </template>
 <script>
   import modal from './Modal.vue'
+  import archiveModal from './ArchiveModal.vue'
   export default {
     name: 'adminBoard',
-    components: { modal },
+    components: { modal, archiveModal },
     sockets: {
       stateChange() {
         this.$root.$data.store.actions.stateChange()
@@ -565,6 +567,7 @@
     },
     data() {
       return {
+        showArchiveModal: false,
         showPrep: true,
         modalJob: {},
         showModal: false,
@@ -724,9 +727,9 @@
       },
       archiveDrop() {
         var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
-        job.archive = true,
-          console.log("Job Object just before being sent to store: ", job)
-        this.$root.$data.store.actions.changeJob(job._id, job)
+        this.$root.store.state.archiveJob = job
+        this.showArchiveModal = true
+
       },
       workingDropToDo() {
         console.log("In working drop todo.")
