@@ -708,7 +708,7 @@
           job.jobStatus = 'Prep'
           console.log(job)
           this.$root.$data.store.actions.changeJob(job._id, job)
-          Materialize.toast("Dropped in Prep", 3000)
+          Materialize.toast("Dropped in Prep", 5000)
         }
       },
       workingDropBackLog() {
@@ -719,6 +719,7 @@
           job.jobStatus = 'pending'
           //console.log(job)
           this.$root.$data.store.actions.changeJob(job._id, job)
+          Materialize.toast("Dropped to WorkLog Board", 5000)
         }
       },
       archiveDrop() {
@@ -735,6 +736,7 @@
           console.log("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
+        Materialize.toast("Dropped to In Progress", 5000)
       },
       pendingPartsToOrderDrop() {
         console.log("In pending parts to order drop")
@@ -744,6 +746,7 @@
           console.log("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
+        Materialize.toast("Dropped to Need to Order Parts", 5000)
       },
       pendingPartsToReceiveDrop() {
         console.log("In pending parts to recieve drop")
@@ -753,6 +756,7 @@
           console.log("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
+        Materialize.toast("Dropped to Awaiting Parts", 5000)
       },
       pendingPickupDrop() {
         this.$socket.emit('changePending')
@@ -763,6 +767,7 @@
           console.log("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
+        Materialize.toast("Dropped to Pending Pickup", 5000)
       }
     },
     computed: {
