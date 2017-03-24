@@ -19,8 +19,8 @@
 <template>
   <div>
     <modal v-if="showModal"></modal>
-    <div class="fixed">
-      <div class="flexing">
+    <div class="fixed ">
+      <div class="flexing ">
         <span class="card grey darken-3 white-text grow header" v-if="!showBacklog" @click="showBacklog = !showBacklog" id='showBacklog'
           @drop.capture="workingDropBackLog" @dragover.prevent>WorkLog</span>
         <span class="card grey darken-3 white-text grow header" v-if="!showPrep" @click="showPrep=!showPrep" @drop.capture="pendingPrepDrop"
@@ -36,8 +36,13 @@
       </div>
     </div>
     <!--this is the start of the worklog board-->
+<<<<<<< HEAD
     <div class="row" v-if="showBacklog">
       <h4 class="col s4 offset-s4"  @click="showBacklog = !showBacklog" @drop="workingDropBackLog" @dragover.prevent>WorkLog</h4>
+=======
+    <div class="row working-row-margin">
+      <h4 class="col s4 offset-s4" v-if="showBacklog" @click="showBacklog = !showBacklog" @drop="workingDropBackLog" @dragover.prevent>WorkLog</h4>
+>>>>>>> 530e1fe4e87d38fad3a7505b05b01026ec98526c
 
     </div>
     <div class="row  card grey pendingRow" v-if="showBacklog" @drop="workingDropBackLog" @dragover.prevent>
@@ -849,7 +854,22 @@
     display: flex;
     justify-content: space-around;
   }
-  
+
+  .fixed{
+        position: fixed;
+    top: 0;
+    /* bottom: 0; */
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding-bottom: 0rem;
+    z-index: 3;
+    /* overflow: hidden; */
+    background: white;
+    /* height: 5rem; */
+    margin-bottom: 7px;
+    
+  }  
   .header {
     width: 16.6%;
   }
@@ -860,6 +880,9 @@
     border: 1px solid grey;
   }
   
+  .working-row-margin{
+    margin-top: 35px;
+  }
   .margin {
     margin-bottom: 1%;
   }
