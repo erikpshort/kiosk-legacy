@@ -225,7 +225,7 @@
     <div class="row working-row-margin " v-if="showWorking ">
       <h4 class="col s4 offset-s4" v-if="showWorking" @click="showWorking = !showWorking" @drop.capture="workingDropToDo" @dragover.prevent>In Progress</h4>
     </div>
-    <div class="row card blue-grey pendingRow" v-if="showWorking" @drop.capture="workingDropToDo" @dragover.prevent>
+    <div class="row card grey pendingRow" v-if="showWorking" @drop.capture="workingDropToDo" @dragover.prevent>
       <div id="fourStroke space" class="col s4  pendingRow">
         <div class="row card blue-grey darken-2 white-text border margin grow">
           <div class="col s1">
