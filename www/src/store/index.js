@@ -62,7 +62,7 @@ export default {
                     console.log(res)
                 }).catch(handleError)
         },
-        printqr(body) {
+        printQr(body) {
             api.post('printqr', body)
                 .then(res => {
                     console.log(res)
@@ -166,6 +166,18 @@ export default {
         postJob(body) {
             api.post('job', body).then(res => {
                 this.activeJob = res.data.data
+                var jobWebsite = "www.google.com/" + body._id
+                var NewBody ={
+                    _id: body._id,
+                    name: this.activeCustomer.name,
+                    company: this.activeCustomer.name,
+                    cellPhone: body.cellPhone,
+                    make: body.make,
+                    model: body.model,
+                    jobStatus: body.jobStatus,
+                    website: jobWebsite
+                }
+                this.printQr(newBody)
                 this.getActiveJobs()
                 router.app.$socket.emit('storeChange')
             }).catch(handleError)
