@@ -1,7 +1,7 @@
 import router from '../router'
 import axios from 'axios'
 let api = axios.create({
-    baseURL: 'http://192.168.0.39:3000/api/',
+    baseURL: 'http://localhost:3000/api/',
     timeout: 20000,
     withCredentials: true
 

@@ -35,7 +35,7 @@
     </div>
     <!--this is the start of the worklog board-->
     <div class="row">
-      <h4 class="col s4 offset-s4" v-if="showBacklog" @click="showBacklog = !showBacklog">WorkLog</h4>
+      <h4 class="col s4 offset-s4" v-if="showBacklog" @click="showBacklog = !showBacklog" @drop="workingDropBackLog" @dragover.prevent>WorkLog</h4>
 
     </div>
     <div class="row  card grey pendingRow" v-if="showBacklog" @drop="workingDropBackLog" @dragover.prevent>
@@ -229,7 +229,7 @@
     </div>
     <!--this is the start of the todo board-->
     <div class="row">
-      <h4 class="col s4 offset-s4" v-if="showWorking" @click="showWorking = !showWorking">In Progress</h4>
+      <h4 class="col s4 offset-s4" v-if="showWorking" @click="showWorking = !showWorking" @drop.capture="workingDropToDo" @dragover.prevent>In Progress</h4>
     </div>
     <div class="row card blue-grey pendingRow" v-if="showWorking" @drop.capture="workingDropToDo" @dragover.prevent>
       <div id="fourStroke space" class="col s4  pendingRow">
@@ -427,7 +427,7 @@
 
     <!--This is the end of the awating pickup board-->
     <div class="row">
-      <h4 class="col s4 offset-s4" v-if="showPendingPickup" @click="showPendingPickup=!showPendingPickup">Ready for Pick-up</h4>
+      <h4 class="col s4 offset-s4" v-if="showPendingPickup" @click="showPendingPickup=!showPendingPickup" @drop="pendingPickupDrop" @dragover.prevent>Ready for Pick-up</h4>
     </div>
     <!--Start of Pickup Board-->
     <div class="row  card grey pendingRow" v-if="showPendingPickup" @drop="pendingPickupDrop" @dragover.prevent>
