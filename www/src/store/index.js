@@ -7,11 +7,11 @@ let api = axios.create({
 
 })
 
-console.warn("makeing a post with hard coded login information.")
-api.post('http://localhost:3000/api/login', {
-    email: 'legacyfeed@outlook.com',
-    password: 'pw123'
-})
+// console.warn("makeing a post with hard coded login information.")
+// api.post('http://localhost:3000/api/login', {
+//     email: 'legacyfeed@outlook.com',
+//     password: 'pw123'
+// })
 
 
 //REGISTER ALL DATA HERE
@@ -166,18 +166,21 @@ export default {
         postJob(body) {
             api.post('job', body).then(res => {
                 this.activeJob = res.data.data
-                var jobWebsite = "www.google.com/" + body._id
-                var NewBody ={
-                    _id: body._id,
-                    name: this.activeCustomer.name,
-                    company: this.activeCustomer.name,
-                    cellPhone: body.cellPhone,
-                    make: body.make,
-                    model: body.model,
-                    jobStatus: body.jobStatus,
+                var jobWebsite = "www.google.com/" + res.data.data._id
+                var name = body.name
+                var company = body.company
+                var NewBody = {
+                    _id: res.data.data._id,
+                    name: name,
+                    company: company,
+                    cellPhone: res.data.data.cellPhone,
+                    make: res.data.data.make,
+                    model: res.data.data.model,
+                    jobStatus: res.data.data.jobStatus,
                     website: jobWebsite
                 }
-                this.printQr(newBody)
+                console.log(NewBody)
+                this.printQr(NewBody)
                 this.getActiveJobs()
                 router.app.$socket.emit('storeChange')
             }).catch(handleError)

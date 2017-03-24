@@ -383,7 +383,7 @@
             this.showQty = false
           }
           else {
-            
+
             this.A_Clicked(this.equipment[x])
             this.confirm = false
             this.showExpressButton = false
@@ -408,7 +408,7 @@
           cellPhone: this.selectedPhoneNum,
           customerId: this.$root.$data.store.state.activeCustomer._id,
           jobStatus: this.jobStatus,
-          whereAmI: this.whereAmI
+          whereAmI: this.whereAmI,
         }
         console.log(object)
         if (this.ModelValue === '') {
@@ -489,7 +489,9 @@
             cellPhone: this.activePhone,
             customerId: this.$root.$data.store.state.activeCustomer._id,
             jobStatus: this.jobStatus,
-            whereAmI: this.whereAmI
+            whereAmI: this.whereAmI,
+            name: this.activeCustomer.name,
+            company: this.activeCustomer.company,
           }
           this.$root.store.state.activeJob = object
           this.$root.$data.store.actions.postJob(object)
@@ -517,7 +519,9 @@
             cellPhone: this.selectedPhoneNum,
             customerId: this.$root.$data.store.state.activeCustomer._id,
             jobStatus: this.jobStatus,
-            whereAmI: this.whereAmI
+            whereAmI: this.whereAmI,
+            name: this.activeCustomer.name,
+            company: this.activeCustomer.company,
           }
           this.$root.store.state.activeJob = object
           this.$root.$data.store.actions.postJob(object)
@@ -547,7 +551,9 @@
             cellPhone: this.activePhone[0],
             customerId: this.$root.$data.store.state.activeCustomer._id,
             jobStatus: this.jobStatus,
-            whereAmI: this.whereAmI
+            whereAmI: this.whereAmI,
+            name: this.activeCustomer.name,
+            company: this.activeCustomer.company,
           }
           this.$root.store.state.activeJob = object
           this.$root.$data.store.actions.postJob(object)
@@ -585,7 +591,9 @@
               cellPhone: this.activePhone,
               customerId: this.$root.$data.store.state.activeCustomer._id,
               jobStatus: this.jobStatus,
-              whereAmI: this.whereAmI
+              whereAmI: this.whereAmI,
+              name: this.activeCustomer.name,
+              company: this.activeCustomer.company,
             }
             this.confirm = false
             this.$root.$data.store.actions.postJob(object)
@@ -613,7 +621,9 @@
               cellPhone: this.selectedPhoneNum,
               customerId: this.$root.$data.store.state.activeCustomer._id,
               jobStatus: this.jobStatus,
-              whereAmI: this.whereAmI
+              whereAmI: this.whereAmI,
+              name: this.activeCustomer.name,
+              company: this.activeCustomer.company,
             }
             this.confirm = false
             this.$root.$data.store.actions.postJob(object)
@@ -643,7 +653,9 @@
               cellPhone: this.activePhone[0],
               customerId: this.$root.$data.store.state.activeCustomer._id,
               jobStatus: this.jobStatus,
-              whereAmI: this.whereAmI
+              whereAmI: this.whereAmI,
+              name: this.activeCustomer.name,
+              company: this.activeCustomer.company,
             }
             this.confirm = false
             this.$root.$data.store.actions.postJob(object)

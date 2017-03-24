@@ -5,9 +5,9 @@ let io = require('socket.io')
 let twilio = require('twilio')
 
 // var edge = require('edge');
-// var fs = require('fs');
+var fs = require('fs');
 // var dymo = require('dymo');
-// var qr = require('qr-image');
+var qr = require('qr-image');
 
 //commeted out at dave's suggestion to successfully build server. 
 //On a proper server these variables will be supplied by server environment.
