@@ -171,7 +171,6 @@ export default {
         req.body.cellPhone + "\n  " + 
         req.body.make + "\n  " + 
         req.body.model + "\n  " + 
-        req.body.jobStatus + "\n " + 
         req.body.website, 
         
         { type: 'png' });
