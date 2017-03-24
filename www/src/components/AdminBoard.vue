@@ -705,6 +705,7 @@
           job.jobStatus = 'Prep'
           console.log(job)
           this.$root.$data.store.actions.changeJob(job._id, job)
+          Materialize.toast("Dropped in Prep", 3000)
         }
       },
       workingDropBackLog() {

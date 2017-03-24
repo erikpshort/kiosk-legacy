@@ -179,7 +179,6 @@ export default {
                     jobStatus: res.data.data.jobStatus,
                     website: jobWebsite
                 }
-                console.log(NewBody)
                 this.printQr(NewBody)
                 this.getActiveJobs()
                 router.app.$socket.emit('storeChange')
