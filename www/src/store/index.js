@@ -7,15 +7,11 @@ let api = axios.create({
 
 })
 
-
-
 console.warn("makeing a post with hard coded login information.")
 api.post('http://localhost:3000/api/login', {
     email: 'legacyfeed@outlook.com',
     password: 'pw123'
 })
-
-
 
 
 //REGISTER ALL DATA HERE
