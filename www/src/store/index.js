@@ -7,14 +7,7 @@ let api = axios.create({
 
 })
 
-<<<<<<< HEAD
-=======
-let noApi = axios.create({
-    baseURL: 'http://localhost:3000/',
-    timeout: 20000,
-    withCredentials: true
 
-})
 
 console.warn("makeing a post with hard coded login information.")
 api.post('http://localhost:3000/api/login', {
@@ -23,7 +16,7 @@ api.post('http://localhost:3000/api/login', {
 })
 
 
->>>>>>> 983b854e8f1e4ccd05cfd80eaa3ef570d37a8171
+
 
 //REGISTER ALL DATA HERE
 let state = {
