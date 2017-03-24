@@ -5,11 +5,19 @@
                 <div class="modal-container">
                     <div class="modal-header">
                         <div class="row">
-                            <label>
+                            <div class="col s4">
+                                <h3>{{modalJob.jobStatus}}</h3>
+                            </div>
+                            <div class="col s4">
+                                <label>
                                 {{modalJob.created | age}} Days Old
-                            </label>
-                            <h3>
-                                {{modalJob._id}}
+                                </label>
+                                <h3>
+                                    {{modalJob._id}}
+                                </h3>
+                            </div>
+                            <h3 class="col s4">
+                                {{modalJob.tUpRepExp}}
                             </h3>
                         </div>
                         <div class="row">
@@ -79,7 +87,7 @@
                     </div>
                     <div class="row">
                         <div class="col offset-s9">
-                        <span>Parts Total: {{partsRequired | sum}}</span>
+                            <span>Parts Total: {{partsRequired | sum}}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -168,13 +176,12 @@
                 var ageInDays = (ageInMs / (1000 * 60 * 60 * 24))
                 return Math.floor(ageInDays);
             },
-            sum: function(arr_parts){
+            sum: function (arr_parts) {
                 //arr_parts is an array of parts objects.
                 //the relevant fields are partQty and partPrice.
                 let sum = 0;
-                for (let i = 0; i < arr_parts.length; i++)
-                {
-                    let lineItem = arr_parts[i];  
+                for (let i = 0; i < arr_parts.length; i++) {
+                    let lineItem = arr_parts[i];
                     sum += lineItem.partQty * lineItem.partPrice;
                 }
                 return "$" + sum.toFixed(2);

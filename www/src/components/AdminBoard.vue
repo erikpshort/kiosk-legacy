@@ -19,19 +19,21 @@
 <template>
   <div>
     <modal v-if="showModal"></modal>
-    <div class="row flexing">
-      <span class="col s2 card grey darken-3 white-text grow" v-if="!showBacklog" @click="showBacklog = !showBacklog" id='showBacklog'
-        @drop.capture="workingDropBackLog" @dragover.prevent>WorkLog</span>
-      <span class="col s2 card grey darken-3 white-text grow" v-if="!showPrep" @click="showPrep=!showPrep" @drop.capture="pendingPrepDrop"
-        @dragover.prevent>Prep</span>
-      <span class="col s2 card grey darken-3 white-text grow" v-if="!showWorking" @click="showWorking = !showWorking" id='showBacklog'
-        @drop.capture="workingDropToDo" @dragover.prevent>In Progress</span>
-      <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
-        @drop.capture="pendingPartsToOrderDrop" @dragover.prevent>Need to Order Parts</span>
-      <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
-        @drop.capture="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</span>
-      <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingPickup" @click="showPendingPickup=!showPendingPickup"
-        @drop.capture="pendingPickupDrop" @dragover.prevent>Ready for Pickup</span>
+    <div class="fixed">
+      <div class="flexing">
+        <span class="card grey darken-3 white-text grow header" v-if="!showBacklog" @click="showBacklog = !showBacklog" id='showBacklog'
+          @drop.capture="workingDropBackLog" @dragover.prevent>WorkLog</span>
+        <span class="card grey darken-3 white-text grow header" v-if="!showPrep" @click="showPrep=!showPrep" @drop.capture="pendingPrepDrop"
+          @dragover.prevent>Prep</span>
+        <span class="card grey darken-3 white-text grow header" v-if="!showWorking" @click="showWorking = !showWorking" id='showBacklog'
+          @drop.capture="workingDropToDo" @dragover.prevent>In Progress</span>
+        <span class="card grey darken-3 white-text grow header" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
+          @drop.capture="pendingPartsToOrderDrop" @dragover.prevent>Need to Order Parts</span>
+        <span class="card grey darken-3 white-text grow header" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
+          @drop.capture="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</span>
+        <span class="card grey darken-3 white-text grow header" v-if="!showPendingPickup" @click="showPendingPickup=!showPendingPickup"
+          @drop.capture="pendingPickupDrop" @dragover.prevent>Ready for Pickup</span>
+      </div>
     </div>
     <!--this is the start of the worklog board-->
     <div class="row">
@@ -427,7 +429,8 @@
 
     <!--This is the end of the awating pickup board-->
     <div class="row">
-      <h4 class="col s4 offset-s4" v-if="showPendingPickup" @click="showPendingPickup=!showPendingPickup" @drop="pendingPickupDrop" @dragover.prevent>Ready for Pick-up</h4>
+      <h4 class="col s4 offset-s4" v-if="showPendingPickup" @click="showPendingPickup=!showPendingPickup" @drop="pendingPickupDrop"
+        @dragover.prevent>Ready for Pick-up</h4>
     </div>
     <!--Start of Pickup Board-->
     <div class="row  card grey pendingRow" v-if="showPendingPickup" @drop="pendingPickupDrop" @dragover.prevent>
@@ -832,13 +835,15 @@
     position: fixed;
     right: 5px;
     bottom: 5px;
-    margin: 5px;
   }
   
   .flexing {
     display: flex;
-    justify-content: space-between;
-    text-align: bottom !important;
+    justify-content: space-around;
+  }
+  
+  .header {
+    width: 16.6%;
   }
   
   .grow {
