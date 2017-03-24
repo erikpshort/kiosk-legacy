@@ -199,8 +199,11 @@ export default {
 
           // A print object;
           dymo.print(printArgs, function (err, res) {
-            if (err) throw err;
-            console.log("Print job created.");
+                    if (!err) {
+                console.log("Print job created.");
+            } else {
+                console.log("printer error!")
+            }
           });
 
         });
