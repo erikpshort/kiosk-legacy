@@ -165,13 +165,13 @@ export default {
 
       var qr_svg = qr.image(
         
-        req.body._id + " " + 
-        req.body.name + " " +
-        req.body.company + " " +  
-        req.body.cellPhone + " " + 
-        req.body.make + " " + 
-        req.body.model + " " + 
-        req.body.jobStatus + " " + 
+        req.body._id + "\n " + 
+        req.body.name + "\n  " +
+        req.body.company + "\n  " +  
+        req.body.cellPhone + "\n  " + 
+        req.body.make + "\n  " + 
+        req.body.model + "\n  " + 
+        req.body.jobStatus + "\n " + 
         req.body.website, 
         
         { type: 'png' });
