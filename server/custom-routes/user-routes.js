@@ -160,13 +160,21 @@ export default {
         if (err) return console.log(err);
         console.log('file deleted successfully');
       });
-      var userinput = {
-        "phone": "208-111-2222",
-        "fullName": "john doe",
-      }
-      console.log(userinput)
+   
+      console.log(req.body)
 
-      var qr_svg = qr.image(userinput._id + " " + userinput.fullName, { type: 'png' });
+      var qr_svg = qr.image(
+        
+        req.body._id + " " + 
+        req.body.name + " " +
+        req.body.company + " " +  
+        req.body.cellPhone + " " + 
+        req.body.make + " " + 
+        req.body.model + " " + 
+        req.body.jobStatus + " " + 
+        req.body.website, 
+        
+        { type: 'png' });
       qr_svg.pipe(require('fs').createWriteStream('customerfile.png'));
 
       ///////////////  Printer testing
@@ -189,8 +197,10 @@ export default {
             printer: 'DYMO LabelWriter 450 Turbo',   //name of printer
             label: 'test.label',                        //path to label filename
             fields: {
-              title: userinput.fullName,
-              phone: userinput.phone
+              title: req.body._id,
+              phone: req.body.phone,
+              company: req.body.company,
+              customer: req.body.name
             },
             images: {
               photo: fs.readFileSync('customerfile.png')
