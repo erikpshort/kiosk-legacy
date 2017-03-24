@@ -6,9 +6,6 @@ let api = axios.create({
     withCredentials: true
 
 })
-
-<<<<<<< HEAD
-=======
 let noApi = axios.create({
     baseURL: 'http://localhost:3000/',
     timeout: 20000,
@@ -21,9 +18,6 @@ api.post('http://localhost:3000/api/login', {
     email: 'legacyfeed@outlook.com',
     password: 'pw123'
 })
-
-
->>>>>>> 983b854e8f1e4ccd05cfd80eaa3ef570d37a8171
 
 //REGISTER ALL DATA HERE
 let state = {
