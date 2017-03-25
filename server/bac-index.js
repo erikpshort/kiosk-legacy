@@ -46,7 +46,7 @@ setTimeout(function () {
         }
         console.log("before vars are set");
         var printArgs = {
-            printer: 'DYMO LabelWriter 450 Turbo',   //name of printer
+            printer: '\\\\KIOSK\\DYMO KioskPrinter',   //name of printer
             label: 'test.label',                        //path to label filename
             fields: {
                 title: userinput.fullName,
@@ -58,11 +58,11 @@ setTimeout(function () {
         };
 
         // A print object;
-        // console.log("right before print job starts")
-        // dymo.print(printArgs, function(err, res){
-        //     if (err) throw err;
-        //     console.log("Print job created.");
-        // });
+        console.log("right before print job starts")
+        dymo.print(printArgs, function(err, res){
+            if (err) throw err;
+            console.log("Print job created.");
+        });
 
     });
 
