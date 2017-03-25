@@ -160,18 +160,18 @@ export default {
         if (err) return console.log(err);
         console.log('file deleted successfully');
       });
-   
+
       console.log(req.body)
 
       var qr_svg = qr.image(
-        req.body._id + "\n " + 
+        req.body._id + "\n " +
         req.body.name + "\n  " +
-        req.body.company + "\n  " +  
-        req.body.cellPhone + "\n  " + 
-        req.body.make + "\n  " + 
-        req.body.model + "\n  " + 
-        req.body.website, 
-        
+        req.body.company + "\n  " +
+        req.body.cellPhone + "\n  " +
+        req.body.make + "\n  " +
+        req.body.model + "\n  " +
+        req.body.website,
+
         { type: 'png' });
       qr_svg.pipe(require('fs').createWriteStream('customerfile.png'));
 
@@ -198,7 +198,9 @@ export default {
               title: req.body._id,
               phone: req.body.phone,
               company: req.body.company,
-              customer: req.body.name
+              customer: req.body.name,
+              make: req.body.make,
+              model: req.body.model
             },
             images: {
               photo: fs.readFileSync('customerfile.png')
@@ -207,16 +209,17 @@ export default {
 
           // A print object;
           dymo.print(printArgs, function (err, res) {
-                    if (!err) {
-                console.log("Print job created.");
+            if (!err) {
+              console.log("Print job created.");
             } else {
-                console.log("printer error!")
+              console.log("printer error!")
             }
           });
 
         });
 
       }, 4000);
+      res.send(handleResponse(action, "SuccessFully Printed and Made QR Code"))
     }
   }
 }

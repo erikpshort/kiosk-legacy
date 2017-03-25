@@ -181,10 +181,11 @@ export default {
                     jobStatus: res.data.data.jobStatus,
                     website: jobWebsite
                 }
-                newText = {
+                var newText = {
                     to: res.data.data.cellPhone,
-                    body: "Your Job Number is: " + res.data.data._id + "\nWe will notify you when we have started working on your " + res.data.data.make + ' ' + res.data.data.model + '. \nYou will be notified if your cost goes above' + price + ', and agree to these costs. If you do not please talk to an employee. \n Thank You!.' 
+                    body: "Your Job Number is: " + res.data.data._id + "\nWe will notify you when we have started working on your " + res.data.data.make + ' ' + res.data.data.model + '. \nYou will be notified if your cost goes above $' + price + ', and agree to these costs. If you do not please talk to an employee. \n Thank You!.' 
                 }
+                console.log(newText)
                 this.printQr(NewBody)
                 this.sms(newText)
                 this.getActiveJobs()
