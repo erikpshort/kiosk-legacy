@@ -164,7 +164,6 @@ export default {
       console.log(req.body)
 
       var qr_svg = qr.image(
-        
         req.body._id + "\n " + 
         req.body.name + "\n  " +
         req.body.company + "\n  " +  

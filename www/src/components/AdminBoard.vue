@@ -19,26 +19,27 @@
 <template>
   <div>
     <modal v-if="showModal"></modal>
-    <div class="row flexing">
-      <span class="col s2 card grey darken-3 white-text grow" v-if="!showBacklog" @click="showBacklog = !showBacklog" id='showBacklog'
-        @drop.capture="workingDropBackLog" @dragover.prevent>WorkLog</span>
-      <span class="col s2 card grey darken-3 white-text grow" v-if="!showPrep" @click="showPrep=!showPrep" @drop.capture="pendingPrepDrop"
-        @dragover.prevent>Prep</span>
-      <span class="col s2 card grey darken-3 white-text grow" v-if="!showWorking" @click="showWorking = !showWorking" id='showBacklog'
-        @drop.capture="workingDropToDo" @dragover.prevent>In Progress</span>
-      <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
-        @drop.capture="pendingPartsToOrderDrop" @dragover.prevent>Need to Order Parts</span>
-      <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
-        @drop.capture="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</span>
-      <span class="col s2 card grey darken-3 white-text grow" v-if="!showPendingPickup" @click="showPendingPickup=!showPendingPickup"
-        @drop.capture="pendingPickupDrop" @dragover.prevent>Ready for Pickup</span>
+    <div class="fixed ">
+      <div class="flexing ">
+        <span class="card grey darken-3 white-text grow header" v-if="!showBacklog" @click="showBacklog = !showBacklog" id='showBacklog'
+          @drop.capture="workingDropBackLog" @dragover.prevent>WorkLog</span>
+        <span class="card grey darken-3 white-text grow header" v-if="!showPrep" @click="showPrep=!showPrep" @drop.capture="pendingPrepDrop"
+          @dragover.prevent>Prep</span>
+        <span class="card grey darken-3 white-text grow header" v-if="!showWorking" @click="showWorking = !showWorking" id='showBacklog'
+          @drop.capture="workingDropToDo" @dragover.prevent>In Progress</span>
+        <span class="card grey darken-3 white-text grow header" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
+          @drop.capture="pendingPartsToOrderDrop" @dragover.prevent>Need to Order Parts</span>
+        <span class="card grey darken-3 white-text grow header" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
+          @drop.capture="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</span>
+        <span class="card grey darken-3 white-text grow header" v-if="!showPendingPickup" @click="showPendingPickup=!showPendingPickup"
+          @drop.capture="pendingPickupDrop" @dragover.prevent>Ready for Pickup</span>
+      </div>
     </div>
     <!--this is the start of the worklog board-->
-    <div class="row">
-      <h4 class="col s4 offset-s4" v-if="showBacklog" @click="showBacklog = !showBacklog" @drop="workingDropBackLog" @dragover.prevent>WorkLog</h4>
-
+    <div class="row working-row-margin"  v-if="showBacklog">
+      <h4 class="col s4 offset-s4" @click="showBacklog = !showBacklog" @drop="workingDropBackLog" @dragover.prevent>WorkLog</h4>
     </div>
-    <div class="row  card grey pendingRow" v-if="showBacklog" @drop="workingDropBackLog" @dragover.prevent>
+    <div class="row  card grey pendingRow working-row-margin" v-if="showBacklog" @drop="workingDropBackLog" @dragover.prevent>
       <div id="fourStroke space" class="col s4 pendingRow">
         <div class="row card blue-grey darken-2 white-text border margin grow">
           <div class="col s1">
@@ -55,7 +56,6 @@
           </div>
         </div>
         <div v-for="(job,i) in fourStroke(activeJobs)" draggable="true" @dragstart.capture="drag(job)">
-
           <div :class="{'row card orange lighten-1 grow':classSelection2(job, i),'row card orange darken-4 grow':classSelection(job, i)}">
             <div class="col s1">
               {{job.created | age}}
@@ -73,10 +73,8 @@
               <a>+</a>
             </div>
           </div>
-
         </div>
       </div>
-
       <div id="twoStroke space" class="col s4 pendingRow">
         <div class="row card blue-grey darken-2 white-text border grow margin">
           <div class="col s1">
@@ -93,8 +91,6 @@
           </div>
         </div>
         <div v-for="(job, i) in twoStroke(activeJobs)" draggable="true" @dragstart="drag(job)">
-
-
           <div :class="{'row card green lighten-1 grow':classSelection2(job, i),'row card green darken-3 grow':classSelection(job, i)}">
             <div class="col s1">
               {{job.created | age}}
@@ -112,8 +108,6 @@
               <a>+</a>
             </div>
           </div>
-
-
         </div>
       </div>
       <div id="commercial space" class="col s4 pendingRow">
@@ -152,7 +146,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row working-row-margin" v-if="showPrep">
       <h4 class="col s4 offset-s4" v-if="showPrep" @click="showPrep = !showPrep" @drop="pendingPrepDrop" @dragover.prevent>Prep</h4>
     </div>
     <div class="row" v-if="showPrep">
@@ -171,8 +165,8 @@
             Model
           </div>
         </div>
-        <div v-for="job in chainBladeJobs" draggable="true" @dragstart.capture="drag(job)">
-          <div class="row card yellow grow margin">
+        <div draggable="true" v-for="job in chainBladeJobs" @dragstart.capture="drag(job)">
+          <div class="row card yellow grow"  >
             <div class="col s1">
               {{job.created | age}}
             </div>
@@ -228,10 +222,10 @@
       </div>
     </div>
     <!--this is the start of the todo board-->
-    <div class="row">
+    <div class="row working-row-margin " v-if="showWorking ">
       <h4 class="col s4 offset-s4" v-if="showWorking" @click="showWorking = !showWorking" @drop.capture="workingDropToDo" @dragover.prevent>In Progress</h4>
     </div>
-    <div class="row card blue-grey pendingRow" v-if="showWorking" @drop.capture="workingDropToDo" @dragover.prevent>
+    <div class="row card grey pendingRow" v-if="showWorking" @drop.capture="workingDropToDo" @dragover.prevent>
       <div id="fourStroke space" class="col s4  pendingRow">
         <div class="row card blue-grey darken-2 white-text border margin grow">
           <div class="col s1">
@@ -265,11 +259,9 @@
               <a>+</a>
             </div>
           </div>
-
         </div>
       </div>
-
-      <div id="twoStroke space" class="col s4 pendingRow">
+          <div id="twoStroke space" class="col s4 pendingRow">
         <div class="row card blue-grey darken-2 white-text border grow margin">
           <div class="col s1">
             Age
@@ -285,8 +277,6 @@
           </div>
         </div>
         <div v-for="(job, i) in workingJobsTwoStroke" draggable="true" @dragstart="drag(job)">
-
-
           <div :class="{'row card green lighten-1 grow':classSelection2(job, i),'row card green darken-3 grow':classSelection(job, i)}">
             <div class="col s1">
               {{job.created | age}}
@@ -304,8 +294,6 @@
               <a>+</a>
             </div>
           </div>
-
-
         </div>
       </div>
       <div id="commercial space" class="col s4 pendingRow">
@@ -345,11 +333,10 @@
       </div>
     </div>
     <!--This is the start of the parts board-->
-    <div class="row" @click="showPendingParts=!showPendingParts">
-      <h4 class="col s4 offset-s1" v-if="showPendingParts" @drop="pendingPartsToOrderDrop" @dragover.prevent>Need to Order Parts</h4>
-      <h4 class="col s4 offset-s2" v-if="showPendingParts" @drop="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</h4>
+    <div class="row working-row-margin" @click="showPendingParts=!showPendingParts" v-if="showPendingParts" >
+      <h4 class="col s4 offset-s1" @drop="pendingPartsToOrderDrop" @dragover.prevent>Need to Order Parts</h4>
+      <h4 class="col s4 offset-s2" @drop="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</h4>
     </div>
-
     <div class="row" v-if="showPendingParts">
       <div id="pendingPartsToOrder" class="col s6 card grey pendingRow " @drop="pendingPartsToOrderDrop" @dragover.prevent>
         <div class="row card blue-grey darken-2 white-text border grow margin">
@@ -422,12 +409,11 @@
         </div>
       </div>
     </div>
-
     <!--This is the end of the parts board-->
-
     <!--This is the end of the awating pickup board-->
-    <div class="row">
-      <h4 class="col s4 offset-s4" v-if="showPendingPickup" @click="showPendingPickup=!showPendingPickup" @drop="pendingPickupDrop" @dragover.prevent>Ready for Pick-up</h4>
+    <div class="row working-row-margin" v-if="showPendingPickup">
+      <h4 class="col s4 offset-s4"  @click="showPendingPickup=!showPendingPickup" @drop="pendingPickupDrop"
+        @dragover.prevent>Ready for Pick-up</h4>
     </div>
     <!--Start of Pickup Board-->
     <div class="row  card grey pendingRow" v-if="showPendingPickup" @drop="pendingPickupDrop" @dragover.prevent>
@@ -447,8 +433,6 @@
           </div>
         </div>
         <div v-for="(job,i) in finishedJobsFourStroke" draggable="true" @dragstart.capture="drag(job)" v-bind:class="{'row card red grow':job.type2=='Express'}">
-
-
           <div :class="{'row card orange lighten-1 grow':classSelection2(job, i),'row card orange darken-4 grow':classSelection(job, i)}">
             <div class="col s1">
               {{job.created | age}}
@@ -466,10 +450,8 @@
               <a>+</a>
             </div>
           </div>
-
         </div>
       </div>
-
       <div id="twoStroke space" class="col s4 pendingRow">
         <div class="row card blue-grey darken-2 white-text border grow margin">
           <div class="col s1">
@@ -486,8 +468,6 @@
           </div>
         </div>
         <div v-for="(job,i) in finishedJobsTwoStroke" draggable="true" @dragstart="drag(job)">
-
-
           <div :class="{'row card green lighten-1 grow':classSelection2(job, i),'row card green darken-3 grow':classSelection(job, i)}">
             <div class="col s1">
               {{job.created | age}}
@@ -505,8 +485,6 @@
               <a>+</a>
             </div>
           </div>
-
-
         </div>
       </div>
       <div id="commercial space" class="col s4 pendingRow">
@@ -548,13 +526,15 @@
     <a id="scale-demo" class="btn-floating btn-large scale-transition" @drop.capture="archiveDrop()" @dragover.prevent>
       <i class="material-icons">archive</i>
     </a>
+  <archiveModal v-if="showArchiveModal"> </archiveModal>
   </div>
 </template>
 <script>
   import modal from './Modal.vue'
+  import archiveModal from './ArchiveModal.vue'
   export default {
     name: 'adminBoard',
-    components: { modal },
+    components: { modal, archiveModal },
     sockets: {
       stateChange() {
         this.$root.$data.store.actions.stateChange()
@@ -562,6 +542,7 @@
     },
     data() {
       return {
+        showArchiveModal: false,
         showPrep: true,
         modalJob: {},
         showModal: false,
@@ -705,6 +686,7 @@
           job.jobStatus = 'Prep'
           console.log(job)
           this.$root.$data.store.actions.changeJob(job._id, job)
+          Materialize.toast("Dropped in Prep", 5000)
         }
       },
       workingDropBackLog() {
@@ -715,13 +697,14 @@
           job.jobStatus = 'pending'
           //console.log(job)
           this.$root.$data.store.actions.changeJob(job._id, job)
+          Materialize.toast("Dropped to WorkLog Board", 5000)
         }
       },
       archiveDrop() {
         var job = JSON.parse(event.dataTransfer.getData('text/javascript'))
-        job.archive = true,
-          console.log("Job Object just before being sent to store: ", job)
-        this.$root.$data.store.actions.changeJob(job._id, job)
+        this.$root.store.state.archiveJob = job
+        this.showArchiveModal = true
+
       },
       workingDropToDo() {
         console.log("In working drop todo.")
@@ -731,6 +714,7 @@
           console.log("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
+        Materialize.toast("Dropped to In Progress", 5000)
       },
       pendingPartsToOrderDrop() {
         console.log("In pending parts to order drop")
@@ -740,6 +724,7 @@
           console.log("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
+        Materialize.toast("Dropped to Need to Order Parts", 5000)
       },
       pendingPartsToReceiveDrop() {
         console.log("In pending parts to recieve drop")
@@ -749,6 +734,7 @@
           console.log("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
+        Materialize.toast("Dropped to Awaiting Parts", 5000)
       },
       pendingPickupDrop() {
         this.$socket.emit('changePending')
@@ -759,6 +745,7 @@
           console.log("Job Status: ", job.jobStatus)
         console.log("Job Object just before being sent to store: ", job)
         this.$root.$data.store.actions.changeJob(job._id, job)
+        Materialize.toast("Dropped to Pending Pickup", 5000)
       }
     },
     computed: {
@@ -831,19 +818,40 @@
     position: fixed;
     right: 5px;
     bottom: 5px;
-    margin: 5px;
   }
   
   .flexing {
     display: flex;
-    justify-content: space-between;
-    text-align: bottom !important;
+    justify-content: space-around;
+  }
+  
+  .fixed {
+    position: fixed;
+    top: 0;
+    /* bottom: 0; */
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding-bottom: 0rem;
+    z-index: 3;
+    /* overflow: hidden; */
+    background: lightgrey;
+    /* height: 5rem; */
+    margin-bottom: 7px;
+  }
+  
+  .header {
+    width: 16.6%;
   }
   
   .grow {
     margin: 0px;
     font-size: 23px;
     border: 1px solid grey;
+  }
+  
+  .working-row-margin {
+    margin-top: 35px;
   }
   
   .margin {

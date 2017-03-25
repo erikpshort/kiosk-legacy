@@ -37,7 +37,8 @@ let state = {
     parts: {},
     error: null,
     connect: false,
-    message: null
+    message: null,
+    archiveModalJob: {},
 
 }
 
@@ -179,7 +180,6 @@ export default {
                     jobStatus: res.data.data.jobStatus,
                     website: jobWebsite
                 }
-                console.log(NewBody)
                 this.printQr(NewBody)
                 this.getActiveJobs()
                 router.app.$socket.emit('storeChange')

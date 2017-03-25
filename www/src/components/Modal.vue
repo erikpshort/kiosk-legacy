@@ -5,11 +5,19 @@
                 <div class="modal-container">
                     <div class="modal-header">
                         <div class="row">
-                            <label>
+                            <div class="col s4">
+                                <h3>{{modalJob.jobStatus}}</h3>
+                            </div>
+                            <div class="col s4">
+                                <label>
                                 {{modalJob.created | age}} Days Old
-                            </label>
-                            <h3>
-                                {{modalJob._id}}
+                                </label>
+                                <h3>
+                                    {{modalJob._id}}
+                                </h3>
+                            </div>
+                            <h3 class="col s4">
+                                {{modalJob.tUpRepExp}}
                             </h3>
                         </div>
                         <div class="row">
@@ -79,7 +87,7 @@
                     </div>
                     <div class="row">
                         <div class="col offset-s9">
-                        <span>Parts Total: {{partsRequired | sum}}</span>
+                            <span>Parts Total: {{partsRequired | sum}}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -168,13 +176,12 @@
                 var ageInDays = (ageInMs / (1000 * 60 * 60 * 24))
                 return Math.floor(ageInDays);
             },
-            sum: function(arr_parts){
+            sum: function (arr_parts) {
                 //arr_parts is an array of parts objects.
                 //the relevant fields are partQty and partPrice.
                 let sum = 0;
-                for (let i = 0; i < arr_parts.length; i++)
-                {
-                    let lineItem = arr_parts[i];  
+                for (let i = 0; i < arr_parts.length; i++) {
+                    let lineItem = arr_parts[i];
                     sum += lineItem.partQty * lineItem.partPrice;
                 }
                 return "$" + sum.toFixed(2);
@@ -200,35 +207,35 @@
             text() {
                 if (this.selected == "On Bench") {
                     var body = {
-                        to: "208-841-2659",
+                        to: "208-250-1154",
                         body: "Your " + this.modalJob.make + " " + this.modalJob.model + " has hit the bench and is now being worked on!"
                     }
                     this.$root.store.actions.sms(body)
                 }
                 else if (this.selected == 'Parts On Order') {
                     var body = {
-                        to: "208-841-2659",
+                        to: "208-250-1154",
                         body: "We have ordered parts for your " + this.modalJob.make + " " + this.modalJob.model + " and will let you know when they have been recieved!"
                     }
                     this.$root.store.actions.sms(body)
                 }
                 else if (this.selected == 'Parts Recieved') {
                     var body = {
-                        to: "208-841-2659",
+                        to: "208-250-1154",
                         body: "We have recieved the parts for your " + this.modalJob.make + " " + this.modalJob.model + " and will let you know when it has been completed!"
                     }
                     this.$root.store.actions.sms(body)
                 }
                 else if (this.selected == 'Complete') {
                     var body = {
-                        to: "208-841-2659",
+                        to: "208-250-1154",
                         body: "Your Job # is: " + this.modalJob.jobNumber + ". Your " + this.modalJob.make + " " + this.modalJob.model + " is complete. Please pickup at Legacy Feed and Fuel at your earliest convenience. Your total is: $" + this.daysPriceCustom
                     }
                     this.$root.store.actions.sms(body)
                 }
                 else if (this.selected == 'Custom') {
                     var body = {
-                        to: "208-841-2659",
+                        to: "208-250-1154",
                         body: this.daysPriceCustom
                     }
                     this.$root.store.actions.sms(body)
