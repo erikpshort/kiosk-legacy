@@ -3,17 +3,17 @@
     <modal v-if="showModal"></modal>
     <div class="fixed ">
       <div class="flexing ">
-        <span class="card grey darken-3 white-text grow header" v-if="!showBacklog" @click="showBacklog = !showBacklog" id='showBacklog'
+        <span class="card grey darken-3 white-text grow header" @click="showBacklog = !showBacklog" id='showBacklog'
           @drop.capture="workingDropBackLog" @dragover.prevent>WorkLog</span>
-        <span class="card grey darken-3 white-text grow header" v-if="!showPrep" @click="showPrep=!showPrep" @drop.capture="pendingPrepDrop"
+        <span class="card grey darken-3 white-text grow header"  @click="showPrep=!showPrep" @drop.capture="pendingPrepDrop"
           @dragover.prevent>Prep</span>
-        <span class="card grey darken-3 white-text grow header" v-if="!showWorking" @click="showWorking = !showWorking" id='showBacklog'
+        <span class="card grey darken-3 white-text grow header"  @click="showWorking = !showWorking" id='showBacklog'
           @drop.capture="workingDropToDo" @dragover.prevent>In Progress</span>
-        <span class="card grey darken-3 white-text grow header" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
+        <span class="card grey darken-3 white-text grow header" @click="showPendingParts=!showPendingParts"
           @drop.capture="pendingPartsToOrderDrop" @dragover.prevent>Need to Order Parts</span>
-        <span class="card grey darken-3 white-text grow header" v-if="!showPendingParts" @click="showPendingParts=!showPendingParts"
+        <span class="card grey darken-3 white-text grow header" @click="showPendingParts=!showPendingParts"
           @drop.capture="pendingPartsToReceiveDrop" @dragover.prevent>Awaiting Parts</span>
-        <span class="card grey darken-3 white-text grow header" v-if="!showPendingPickup" @click="showPendingPickup=!showPendingPickup"
+        <span class="card grey darken-3 white-text grow header"  @click="showPendingPickup=!showPendingPickup"
           @drop.capture="pendingPickupDrop" @dragover.prevent>Ready for Pickup</span>
       </div>
     </div>

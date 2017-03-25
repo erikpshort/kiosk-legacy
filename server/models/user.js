@@ -6,7 +6,7 @@ const SALT_FACTOR = 10
 
 let schema = new Schema({
     name: { type: String, required: true },
-    company: { type: String, unique: true },
+    company: { type: String },
     cellPhone: [{
         type: String,
         unique: true,

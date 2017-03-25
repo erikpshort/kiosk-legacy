@@ -4,14 +4,14 @@ let Parts = require('../models/part')
 let io = require('socket.io')
 let twilio = require('twilio')
 
-// var edge = require('edge');
+var edge = require('edge');
 var fs = require('fs');
-// var dymo = require('dymo');
+var dymo = require('dymo');
 var qr = require('qr-image');
 
 //commeted out at dave's suggestion to successfully build server. 
 //On a proper server these variables will be supplied by server environment.
-// let client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+let client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
 // will need this for text messaging
 
 export default {
@@ -132,7 +132,7 @@ export default {
     reqType: 'post',
     method(req, res, next) {
       let action = 'Sending SMS'
-      //console.log(req.body)
+      console.log(req.body)
       client.sendMessage({
         to: req.body.to,
         from: process.env.TWILIO_PHONE_NUMBER,
@@ -160,18 +160,18 @@ export default {
         if (err) return console.log(err);
         console.log('file deleted successfully');
       });
-
+   
       console.log(req.body)
 
       var qr_svg = qr.image(
-        req.body._id + "\n " +
+        req.body._id + "\n " + 
         req.body.name + "\n  " +
-        req.body.company + "\n  " +
-        req.body.cellPhone + "\n  " +
-        req.body.make + "\n  " +
-        req.body.model + "\n  " +
-        req.body.website,
-
+        req.body.company + "\n  " +  
+        req.body.cellPhone + "\n  " + 
+        req.body.make + "\n  " + 
+        req.body.model + "\n  " + 
+        req.body.website, 
+        
         { type: 'png' });
       qr_svg.pipe(require('fs').createWriteStream('customerfile.png'));
 
@@ -192,12 +192,12 @@ export default {
           }
           console.log("before vars are set");
           var printArgs = {
-            printer: 'DYMO LabelWriter 450 Turbo',   //name of printer
-            label: 'test.label',                        //path to label filename
+            printer: '\\\\KIOSK\\DYMO KioskPrinter',   //name of printer
+            label: 'test-2.label',                        //path to label filename
             fields: {
               title: req.body._id,
-              phone: req.body.phone,
-              company: req.body.company,
+              phone: req.body.cellPhone,
+              company: req.body.company || '',
               customer: req.body.name,
               make: req.body.make,
               model: req.body.model
@@ -206,20 +206,20 @@ export default {
               photo: fs.readFileSync('customerfile.png')
             }
           };
-
+console.log(printArgs)
           // A print object;
           dymo.print(printArgs, function (err, res) {
-            if (!err) {
-              console.log("Print job created.");
+                    if (!err) {
+                console.log("Print job created.");
             } else {
-              console.log("printer error!")
+                console.log("printer error!")
             }
           });
 
         });
 
       }, 4000);
-      res.send(handleResponse(action, "SuccessFully Printed and Made QR Code"))
+      res.send(handleResponse(action, "Success"))
     }
   }
 }

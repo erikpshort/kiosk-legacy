@@ -84,7 +84,7 @@
     data() {
       return {
         name: '',
-        companyName: null,
+        companyName: '',
         streetAddress: '',
         city: '',
         phoneNumber: this.$root.$data.store.state.activePhone,

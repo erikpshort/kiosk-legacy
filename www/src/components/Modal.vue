@@ -207,35 +207,35 @@
             text() {
                 if (this.selected == "On Bench") {
                     var body = {
-                        to: "208-250-1154",
+                        to: this.modalJob.cellPhone,
                         body: "Your " + this.modalJob.make + " " + this.modalJob.model + " has hit the bench and is now being worked on!"
                     }
                     this.$root.store.actions.sms(body)
                 }
                 else if (this.selected == 'Parts On Order') {
                     var body = {
-                        to: "208-250-1154",
+                        to: this.modalJob.cellPhone,
                         body: "We have ordered parts for your " + this.modalJob.make + " " + this.modalJob.model + " and will let you know when they have been recieved!"
                     }
                     this.$root.store.actions.sms(body)
                 }
                 else if (this.selected == 'Parts Recieved') {
                     var body = {
-                        to: "208-250-1154",
+                        to: this.modalJob.cellPhone,
                         body: "We have recieved the parts for your " + this.modalJob.make + " " + this.modalJob.model + " and will let you know when it has been completed!"
                     }
                     this.$root.store.actions.sms(body)
                 }
                 else if (this.selected == 'Complete') {
                     var body = {
-                        to: "208-250-1154",
+                        to: this.modalJob.cellPhone,
                         body: "Your Job # is: " + this.modalJob.jobNumber + ". Your " + this.modalJob.make + " " + this.modalJob.model + " is complete. Please pickup at Legacy Feed and Fuel at your earliest convenience. Your total is: $" + this.daysPriceCustom
                     }
                     this.$root.store.actions.sms(body)
                 }
                 else if (this.selected == 'Custom') {
                     var body = {
-                        to: "208-250-1154",
+                        to: this.modalJob.cellPhone,
                         body: this.daysPriceCustom
                     }
                     this.$root.store.actions.sms(body)
