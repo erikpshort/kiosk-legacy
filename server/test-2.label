@@ -16,7 +16,7 @@
 			<IsMirrored>False</IsMirrored>
 			<IsVariable>False</IsVariable>
 			<HorizontalAlignment>Center</HorizontalAlignment>
-			<VerticalAlignment>Top</VerticalAlignment>
+			<VerticalAlignment>Middle</VerticalAlignment>
 			<TextFitMode>ShrinkToFit</TextFitMode>
 			<UseFullFontHeight>True</UseFullFontHeight>
 			<Verticalized>False</Verticalized>
@@ -24,13 +24,13 @@
 				<Element>
 					<String>Job Number</String>
 					<Attributes>
-						<Font Family="Arial" Size="26" Bold="True" Italic="False" Underline="False" Strikeout="False" />
+						<Font Family="Arial" Size="72" Bold="True" Italic="False" Underline="False" Strikeout="False" />
 						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
 					</Attributes>
 				</Element>
 			</StyledText>
 		</TextObject>
-		<Bounds X="307" Y="371.014698841555" Width="5070" Height="525" />
+		<Bounds X="1619.77580276844" Y="57.9999999999999" Width="2695.58811325361" Height="1180.47795173767" />
 	</ObjectInfo>
 	<ObjectInfo>
 		<TextObject>
@@ -127,5 +127,57 @@
 			</StyledText>
 		</TextObject>
 		<Bounds X="307" Y="2244.58447265625" Width="2023.84191894531" Height="366.121307373047" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>MODEL</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<HorizontalAlignment>Right</HorizontalAlignment>
+			<VerticalAlignment>Middle</VerticalAlignment>
+			<TextFitMode>ShrinkToFit</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>Model</String>
+					<Attributes>
+						<Font Family="Arial" Size="16" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="2533.10660649912" Y="892.003714608248" Width="3085.47795173767" Height="366.121305340682" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>MAKE</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Middle</VerticalAlignment>
+			<TextFitMode>ShrinkToFit</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>Make</String>
+					<Attributes>
+						<Font Family="Arial" Size="16" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="307" Y="921.341947555433" Width="3233.87869465932" Height="366.121305340682" />
 	</ObjectInfo>
 </DieCutLabel>

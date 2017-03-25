@@ -22,7 +22,8 @@ let defaultErrorHandler = (err, req, res, next) => {
 }
 
 //Default Urls 
-var whitelist = ['http://192.168.0.39:8080', 'http://localhost:8080', 'http://portal.boisecodeworks.com'];
+// var whitelist = ['http://192.168.0.39:8080', 'http://localhost:8080', 'http://portal.boisecodeworks.com'];
+ var whitelist = ['http://192.168.0.91:8080','http://localhost:8080', 'http://192.168.0.91:3000', 'LEGACYSERVER:3000'];
 var corsOptions = {
 	origin: function (origin, callback) {
 		var originIsWhitelisted = whitelist.indexOf(origin) !== -1;

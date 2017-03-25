@@ -15,10 +15,11 @@ var twilio = require('twilio');
 
 var userinput = {
 
-    "_id": "208-111-2222",
+    "job": "208-111-2222",
     "fullName": "john doe",
-    // "email": "dave.limber@gmail.com",
-    // "phone": "2088901309",
+    "customer": "bogus basin",
+    
+"phone": "2088901309",
     // "countryCode": "1",
     // "password": "$2a$10$Y.SbthDxwPXlNhN792I.6emx1.COtwyCRPmhK41rxfLVgiK8bq7GW",
     // "verified": true,
@@ -49,8 +50,11 @@ setTimeout(function () {
             printer: '\\\\KIOSK\\DYMO KioskPrinter',   //name of printer
             label: 'test.label',                        //path to label filename
             fields: {
-                title: userinput.fullName,
-                phone: userinput._id
+                title: userinput.job,
+                phone: userinput.phone,
+                company: userinput.customer,
+                customer: userinput.fullName 
+
             },
             images: {
                 photo: fs.readFileSync('customerfile.png')
