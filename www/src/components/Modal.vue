@@ -229,7 +229,7 @@
                 else if (this.selected == 'Complete') {
                     var body = {
                         to: this.modalJob.cellPhone,
-                        body: "Your Job # is: " + this.modalJob.jobNumber + ". Your " + this.modalJob.make + " " + this.modalJob.model + " is complete. Please pickup at Legacy Feed and Fuel at your earliest convenience. Your total is: $" + this.daysPriceCustom
+                        body: "Your Job # is: " + this.modalJob._id + ". Your " + this.modalJob.make + " " + this.modalJob.model + " is complete. Please pickup at Legacy Feed and Fuel at your earliest convenience. Your total is: $" + this.daysPriceCustom
                     }
                     this.$root.store.actions.sms(body)
                 }
