@@ -57,7 +57,7 @@
 
 </script>
 
-<style>
+<style scoped>
     .modal-mask {
         position: fixed;
         z-index: 9998;
@@ -86,10 +86,6 @@
         font-family: Helvetica, Arial, sans-serif;
     }
     
-    .modal-header h3 {
-        margin-top: 0;
-        color: #42b983;
-    }
     
     .modal-body {
         margin: 20px 0;

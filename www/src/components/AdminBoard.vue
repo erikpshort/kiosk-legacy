@@ -1,21 +1,3 @@
-<!--Todo/Question List-->
-<!--Are we sorting the correct fields with the fourStroke/TwoStroke Methods-->
-<!--We need to change that field that add to working is using to move jobs around page-->
-<!--Prusumabally we can use this field to control where (i.e. in which box a job shows)-->
-
-<!--Need universal sort schema to perform the sorting.-->
-<!--Thre seem to be new types in the store-->
-<!--Relevant Fields: Created, jobStaus, type1, type2, whereAmI (?)-->
-<!--How do we want these relevant fields to be used.-->
-
-<!--Need to tie to actual data in the store.-->
-<!--Is this tied correctly to actual data.-->
-
-<!--Need to make some design decisions on the UI so not so ugly.-->
-<!--Does it make sense to pull the filering functionaly into a method (drier)-->
-
-<!--Need to add to all methods a put back to the DB so this information stays consistent-->
-
 <template>
   <div>
     <modal v-if="showModal"></modal>

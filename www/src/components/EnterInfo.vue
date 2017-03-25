@@ -106,7 +106,7 @@
           company: companyName,
           cellPhone: phoneNumber,
           address: streetAddress,
-          password: "pw123",
+          password: "Measure71/No//",
           city: city,
           state: state,
           zip: zip,
