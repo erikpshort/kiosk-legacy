@@ -6,7 +6,7 @@
 
     <div class="container">
 
-      <form class="col s12" @submit.prevent="returnCompanyInfo(name, companyName, phoneNumber, streetAddress, city, state, zip, email)">
+      <form class="col s12" @submit.prevent="returnCompanyInfo()">
         <div class="row">
           <div class="input-field col s6 offset-s3 offset-s3">
             <input id="name" v-model="name" type="text" placeholder="Name" class="validate" required>
@@ -25,10 +25,10 @@
         <div class="row">
           <div class="input-field col s6 offset-s3">
 
-            <label for="phonenum">Phone Number (format: xxx-xxx-xxxx):</label><br/><br/>
-            <input v-model="phoneNumber" v-if="!phone[0]" id="phonenum" type="tel" class=" validate" placeholder=" xxx-xxx-xxxx" pattern="^\d{3}-\d{3}-\d{4}$"
+            <label for="phone">Phone Number (format: xxx-xxx-xxxx):</label><br/><br/>
+            <input v-model="phoneNumber" v-if="!phone[0]" id="phone" type="tel" class=" validate" placeholder=" xxx-xxx-xxxx" pattern="^\d{3}-\d{3}-\d{4}$"
               required>
-            <input v-model="phoneNumber" v-if="phone[0]" id="phonenum" type="tel" class=" validate" :value="phone" pattern="^\d{3}-\d{3}-\d{4}$"
+            <input v-model="phoneNumber" v-if="phone[0]" id="phone" type="tel" class=" validate" :value="phone" pattern="^\d{3}-\d{3}-\d{4}$"
               required>
 
           </div>
@@ -85,9 +85,9 @@
       return {
         name: '',
         companyName: null,
-        phoneNumber: this.$root.$data.store.state.activePhone,
         streetAddress: '',
         city: '',
+        phoneNumber: this.$root.$data.store.state.activePhone,
         state: '',
         zip: '',
         email: '',
@@ -100,26 +100,21 @@
       }
     },
     methods: {
-      returnCompanyInfo(name, companyName, phoneNumber, streetAddress, city, state, zip, email) {
+      returnCompanyInfo() {
+        this.$root.store.state.activePhone = this.phoneNumber
         var body = {
-          name: name,
-          company: companyName,
-          cellPhone: phoneNumber,
-          address: streetAddress,
+          name: this.name,
+          company: this.companyName,
+          cellPhone: this.phoneNumber,
+          address: this.streetAddress,
           password: "Measure71/No//",
-          city: city,
-          state: state,
-          zip: zip,
-          email: email
+          city: this.city,
+          state: this.state,
+          zip: this.zip,
+          email: this.email
         }
-        var message = {
-          body: "Test message from Legacy Feed and Fuel",
-          to: '+1' + phoneNumber
-        }
-        // console.log(message.to)
         this.$root.$data.store.state.activeCustomer = body
         this.$root.$data.store.actions.register(body)
-        // this.$root.$data.store.actions.sms(message);
         this.$router.push('/ConfirmCompanyInfo')
       }
     },
